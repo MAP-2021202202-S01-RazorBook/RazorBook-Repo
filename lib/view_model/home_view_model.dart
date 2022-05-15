@@ -1,7 +1,7 @@
 import '../models/counter_model.dart';
 
 class HomeViewModel {
-  String title = "Hi Again";
+  String title = "Hi Dude";
   var counter = CounterModel();
 
   getCounter(){
