@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:razor_book/view_model/home_view_model.dart';
-
+import 'barbershop_profile_view.dart';
+import 'widgets/profile_photo_widget.dart';
 class MyApp extends StatelessWidget {
-  const MyApp({ Key? key }) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: BarberShopProfileView(),
     );
   }
 }
 
 class Home extends StatefulWidget {
-  const Home({ Key? key }) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   var data = HomeViewModel();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
