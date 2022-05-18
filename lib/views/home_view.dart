@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:razor_book/view_model/home_view_model.dart';
 import 'barbershop_profile_view.dart';
-
+import 'customer_profile_view.dart';
+import 'customer_edit_profile_view.dart';
+import '';
 import 'barbershop_edit_profile_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BarberShopProfileView(),
+      home: CustomerProfileView(),
     );
   }
 }
