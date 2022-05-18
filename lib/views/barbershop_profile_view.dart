@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:razor_book/views/barbershop_edit_profile_view.dart';
 import 'widgets/profile_photo_widget.dart';
 
 class BarberShopProfileView extends StatefulWidget {
@@ -16,7 +17,7 @@ class _BarberShopProfileViewState extends State<BarberShopProfileView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: BackButton(
+        leading: const BackButton(
           color: Colors.black,
         ),
         elevation: 0,
@@ -27,8 +28,14 @@ class _BarberShopProfileViewState extends State<BarberShopProfileView> {
           // physics: const BouncingScrollPhysics(),
           children: [
             ProfilePhotoWidget(
-              imagePath: "",
-              onClicked: () {},
+              imagePath:
+                  "https://images.unsplash.com/photo-1648737119247-e93f56878edf?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072",
+              onClicked: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const BarbershopEditProfilePage()),
+                );
+              },
               isInEditMode: true,
             ),
             const SizedBox(

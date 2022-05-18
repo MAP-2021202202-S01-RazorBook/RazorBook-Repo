@@ -31,7 +31,9 @@ class _BarbershopEditProfilePageState extends State<BarbershopEditProfilePage> {
           child: Column(
             children: [
               ProfilePhotoWidget(
-                imagePath: "",
+                isInEditMode: true,
+                imagePath:
+                    "https://images.unsplash.com/photo-1648737119247-e93f56878edf?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072",
                 onClicked: () {},
               ),
               const SizedBox(
@@ -95,7 +97,8 @@ class _BarbershopEditProfilePageState extends State<BarbershopEditProfilePage> {
                     shape: const StadiumBorder(),
                     primary: const Color.fromARGB(255, 41, 172, 123),
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                   ),
                 ),
               ),
