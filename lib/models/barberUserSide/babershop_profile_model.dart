@@ -3,9 +3,10 @@ import 'dart:ui';
 class BarberShopProfilePageModel {
   String shopName;
   String shopLocation;
-  String aboutShop;
-  String email;
-  int visitedCustomers;
+  String locationOnMap;
+  int customers;
+  int ranking;
+  int profileViews;
   String contactNumber;
 
   List<int> availableTimes;
@@ -13,13 +14,14 @@ class BarberShopProfilePageModel {
   String shopeImage;
 
   BarberShopProfilePageModel(
+      this.profileViews,
+      this.ranking,
+      this.locationOnMap,
       this.shopName,
       this.shopLocation,
-      this.aboutShop,
-      this.email,
       this.contactNumber,
       this.availableTimes,
       this.services,
-      this.visitedCustomers,
+      this.customers,
       this.shopeImage);
 }

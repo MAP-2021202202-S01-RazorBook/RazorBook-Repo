@@ -3,5 +3,4 @@ import 'views/home_view.dart';
 
 void main() {
   runApp(const MyApp());
-  //comment is here
 }
