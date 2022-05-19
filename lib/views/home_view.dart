@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:razor_book/view_model/home_view_model.dart';
-import 'barbershop_profile_view.dart';
-import 'customer_profile_view.dart';
-import 'customer_edit_profile_view.dart';
-import '';
-import 'barbershop_edit_profile_view.dart';
+import '../view_model/home_view_model.dart';
+import '../views/login_view.dart';
+import '../views/signup_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -12,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CustomerProfileView(),
+      home: const Home(),
     );
   }
 }
@@ -30,23 +27,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(data.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('${data.getCounter()}'),
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      data.inc();
-                    });
-                  },
-                  child: Icon(Icons.add)),
-            ],
-          ),
-        ));
+      appBar: AppBar(title: Text(data.title),),
+      body: Center(
+        child: ElevatedButton(
+          child: Text("Say Goodbye"),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => LoginView())));
+          }
+        ),));
   }
 }

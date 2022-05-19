@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:razor_book/views/barbershop_edit_profile_view.dart';
+import '../views/barbershop_edit_profile_view.dart';
 import 'widgets/profile_photo_widget.dart';
 
 class BarberShopProfileView extends StatefulWidget {

@@ -44,8 +44,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.razor_book"
-        minSdkVersion flutter.minSdkVersion
+        // minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
