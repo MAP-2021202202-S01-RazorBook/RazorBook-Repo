@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Image logoWidget (String imageName){
+Image logoWidget(String imageName) {
   return Image.asset(
     imageName,
     fit: BoxFit.fitWidth,
@@ -33,9 +33,8 @@ TextField inputField(String text, IconData icon, bool isPassword,
           borderRadius: BorderRadius.circular(30.0),
           borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
     ),
-    keyboardType: isPassword
-        ? TextInputType.visiblePassword
-        : TextInputType.emailAddress,
+    keyboardType:
+        isPassword ? TextInputType.visiblePassword : TextInputType.emailAddress,
   );
 }
 
@@ -64,5 +63,16 @@ Container confirmButton(BuildContext context, String title, Function onTap) {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
     ),
+  );
+}
+
+// message snackbar
+SnackBar messageSnackBar(String message, Color bgColor) {
+  return SnackBar(
+    content: Text(
+      message,
+      style: const TextStyle(color: Colors.white),
+    ),
+    backgroundColor: bgColor,
   );
 }
