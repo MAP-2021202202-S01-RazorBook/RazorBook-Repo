@@ -4,9 +4,11 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/views/barbershop_profile_view.dart';
 
 import '../helpers/colors.dart';
@@ -33,10 +35,11 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final String? uid = localStorageServiceProvider.uid;
+    final String? uid =
+        Provider.of<LocalStorageServiceProvider>(context, listen: false).uid;
     // print(showFab);
     return FutureBuilder(
-        future: customerDatabaseManager.getCustomerProfile(uid!),
+        future: customerServiceFirebase.getCustomerProfile(uid!),
         builder: (context, AsyncSnapshot<CustomerProfileModel?> snapshot) {
           if (snapshot.connectionState != ConnectionState.done ||
               snapshot.hasError ||

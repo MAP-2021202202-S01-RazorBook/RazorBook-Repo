@@ -7,6 +7,7 @@ import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/view_model/profile_view_mode.dart';
 import 'package:razor_book/views/root_view.dart';
 
@@ -17,7 +18,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     // _customerProfileModel =
     //     Provider.of<AuthViewModelProvider>(context, listen: true).cusProfile;
-    final String? uid = localStorageServiceProvider.uid;
+    final String? uid = Provider.of<LocalStorageServiceProvider>(context).uid;
     // if (_customerProfileModel == null) {
     //   CustomerDatabaseManager().getCustomerProfile(uid!);
     // }
@@ -33,7 +34,7 @@ class ProfileView extends StatelessWidget {
 
       ///TODO: remove this getCustomerProfile call?
       body: FutureBuilder(
-          future: customerDatabaseManager.getCustomerProfile(uid!),
+          future: customerServiceFirebase.getCustomerProfile(uid!),
           builder: (context, AsyncSnapshot<CustomerProfileModel?> snapshot) {
             if (snapshot.connectionState != ConnectionState.done ||
                 snapshot.hasError) {
@@ -176,7 +177,7 @@ class ProfileView extends StatelessWidget {
                                   gender: customerProfileModel.gender,
                                   docId: customerProfileModel.docId,
                                 );
-                                customerDatabaseManager.updateCustomerProfile(
+                                customerServiceFirebase.updateCustomerProfile(
                                     cust, context);
                               },
                             )
@@ -191,7 +192,10 @@ class ProfileView extends StatelessWidget {
                                           MediaQuery.of(context).size.width,
                                           56)),
                                   onPressed: () {
-                                    ///TODO : handle logout
+                                    AuthenticationServiceFirebase auth =
+                                        locator<
+                                            AuthenticationServiceFirebase>();
+                                    auth.signOut();
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (ctx) => RootView()));

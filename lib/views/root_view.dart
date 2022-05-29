@@ -16,9 +16,9 @@ class RootView extends StatelessWidget {
           future: Future.delayed(
             const Duration(milliseconds: 400),
             () {
-              Provider.of<LocalStorageServiceProvider>(context, listen: false)
-                ..readUID()
-                ..readCusProfile();
+              return Provider.of<LocalStorageServiceProvider>(context,
+                      listen: false)
+                  .uid;
             },
           ),
           builder: (ctx, snapshot) {

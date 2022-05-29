@@ -10,7 +10,7 @@ import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/helpers/helper_widgets.dart';
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
 
-class CustomerDatabaseManager {
+class CustomerServiceFirebase {
   final CollectionReference customerRegisteree =
       FirebaseFirestore.instance.collection('customers');
 

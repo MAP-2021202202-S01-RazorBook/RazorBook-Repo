@@ -4,30 +4,34 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
+import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
 
 class LocalStorageServiceProvider extends ChangeNotifier {
   String? uid;
   CustomerProfileModel? cusProfile;
-
+  SharedPreferencesService get sharePrefs =>
+      locator<SharedPreferencesService>();
   //readUID on appStart
   Future<String?> readUID() async {
-    final String? v = localStorage.read(StorageKeys.uID.name);
+    log("[+] READING UID [+]");
+    final v = await sharePrefs.read(StorageKeys.uID.name);
     if (v != null) {
       uid = v;
 
-      print("uid : $uid");
+      log("uid : $uid");
       notifyListeners();
       return Future.value(v);
+    } else {
+      log("uid : null");
+      return Future.value(null);
     }
-    return null;
   }
 
   saveUID(String uid) {
-    print("save uid callled");
+    log("save uid callled");
     try {
-      localStorage
-          .write(StorageKeys.uID.name, uid)
-          .then((value) => print("saved! to storage $uid"));
+      sharePrefs.save(StorageKeys.uID.name, uid);
+
       this.uid = uid;
       notifyListeners();
     } catch (e) {
@@ -35,9 +39,9 @@ class LocalStorageServiceProvider extends ChangeNotifier {
     }
   }
 
-  readCusProfile() {
+  readCusProfile() async {
     log("[+] GETTING PROFILE FROM READCUST [+]");
-    final String? v = localStorage.read(StorageKeys.cUSTOMERPROFILE.name);
+    final String? v = await sharePrefs.read(StorageKeys.cUSTOMERPROFILE.name);
     if (v != null) {
       cusProfile = CustomerProfileModel.formMap(json.decode(v));
       log("cusProfile : ${cusProfile!.toMap()}");
@@ -45,10 +49,10 @@ class LocalStorageServiceProvider extends ChangeNotifier {
     }
   }
 
-  saveCusProfile(CustomerProfileModel cusProfile) {
+  saveCusProfile(CustomerProfileModel cusProfile) async {
     log("SAVING....CUST PROFILE");
     try {
-      localStorage.write(
+      sharePrefs.save(
           StorageKeys.cUSTOMERPROFILE.name, json.encode(cusProfile.toMap()));
       readCusProfile();
       log("save done!");
@@ -59,7 +63,7 @@ class LocalStorageServiceProvider extends ChangeNotifier {
   }
 
   logout() {
-    localStorage.erase();
+    sharePrefs.clear();
     uid = null;
     cusProfile = null;
   }
