@@ -23,11 +23,10 @@ class RootView extends StatelessWidget {
           ),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print("snapshot data : ${snapshot.data}");
               String? uid = Provider.of<LocalStorageServiceProvider>(context,
                       listen: false)
                   .uid;
-              print("Provider.of<AuthViewModelProvider>(context).uid :$uid");
+
               if (uid != null) {
                 return const HomeView();
               } else {
