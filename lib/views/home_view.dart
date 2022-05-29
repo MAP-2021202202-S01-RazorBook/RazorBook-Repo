@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
+import 'package:razor_book/views/barbershop_profile_view.dart';
 
 import '../helpers/colors.dart';
 
@@ -160,10 +161,8 @@ class _HomeViewState extends State<HomeView> {
                   //   customerProfileModel: customerProfileModel,
                   // ),
                   //profileView
-                  Container(
-                    color: Colors.yellow,
-                  ),
-                  // ProfileView(),
+
+                  ProfileView(),
                 ],
               ),
             ),

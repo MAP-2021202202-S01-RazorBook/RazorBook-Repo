@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
+import 'package:razor_book/view_model/profile_view_mode.dart';
 import 'package:razor_book/views/root_view.dart';
 import 'app/service_locator/service_locator.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // ChangeNotifierProvider(
         //   create: (context) => ShopViewModelProvider(),
         // ),
-        // ChangeNotifierProvider(create: (context) => ProfileViewModelProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModelProvider()),
       ],
       child: const MaterialApp(
         home: RootView(),
