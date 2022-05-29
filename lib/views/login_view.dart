@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/views/root_view.dart';
 import '../app/service_locator/service_locator.dart';
 import '../view_model/login_view_model.dart';
 import '../helpers/helper_widgets.dart';
 import '../views/signup_view.dart';
 import '../views/forgot_password_view.dart';
 // import '../views/home_view.dart';
-import 'barbershop_profile_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
+                gradient: LinearGradient(colors: const [
               Color.fromARGB(0, 219, 201, 201),
               Color.fromARGB(255, 21, 141, 91),
               Color(0x610BE803)
@@ -63,8 +63,7 @@ class _LoginViewState extends State<LoginView> {
                         // FORWARD TO PAGE HERE:
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const BarberShopProfileView()),
+                              builder: (context) => const RootView()),
                         );
                       } catch (e) {
                         String errorMessage = e.toString();
