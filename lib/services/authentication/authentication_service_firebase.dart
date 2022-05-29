@@ -27,7 +27,10 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       );
 
       /// save uid to local Storage
-      localStorageServiceProvider.saveUID(credential.user!.uid);
+      await localStorageServiceProvider.saveUID(credential.user!.uid);
+
+      /// get and save profile
+      await customerServiceFirebase.getCustomerProfile(credential.user!.uid);
 
       // _user = transformData(credential.user);
     } on FirebaseAuthException catch (e) {
@@ -45,7 +48,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
-      localStorageServiceProvider.logout();
+      await localStorageServiceProvider.logout();
       // _user = null;
     } on FirebaseAuthException catch (e) {
       throw Failure(500,

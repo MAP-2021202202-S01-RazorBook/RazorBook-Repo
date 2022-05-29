@@ -1,11 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:razor_book/services/firebase_service/barber_service_firebase/barber_service_firebase.dart';
 import 'package:razor_book/services/firebase_service/customer_service_firebase/customer_service_firebase.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
 
-import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
@@ -35,7 +34,7 @@ Future<void> initializeServiceLocator() async {
 
   // Register Services
 
-  locator.registerLazySingleton<AuthenticationService>(
+  locator.registerLazySingleton<AuthenticationServiceFirebase>(
       () => AuthenticationServiceFirebase());
 
   // Register ViewModels
@@ -43,8 +42,6 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
   locator.registerLazySingleton<ForgotPasswordViewModel>(
       () => ForgotPasswordViewModel());
-  // Register GetStorage
-  locator.registerLazySingleton<GetStorage>(() => GetStorage());
 
   // Local Storage Service Provider
   locator.registerLazySingleton<LocalStorageServiceProvider>(
@@ -60,7 +57,7 @@ Future<void> initializeServiceLocator() async {
       () => SharedPreferencesService());
 }
 
-var localStorage = locator<GetStorage>();
 var localStorageServiceProvider = locator<LocalStorageServiceProvider>();
 var customerServiceFirebase = locator<CustomerServiceFirebase>();
 var barbarFirebaseSerivce = locator<BarbarFirebaseSerivce>();
+var authenticationServiceFirebase = locator<AuthenticationServiceFirebase>();

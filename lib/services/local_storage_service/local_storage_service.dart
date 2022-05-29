@@ -54,7 +54,8 @@ class LocalStorageServiceProvider extends ChangeNotifier {
     try {
       sharePrefs.save(
           StorageKeys.cUSTOMERPROFILE.name, json.encode(cusProfile.toMap()));
-      readCusProfile();
+      this.cusProfile = cusProfile;
+      await readCusProfile();
       log("save done!");
     } catch (e) {
       log("save errro!");
@@ -62,10 +63,11 @@ class LocalStorageServiceProvider extends ChangeNotifier {
     }
   }
 
-  logout() {
-    sharePrefs.clear();
+  logout() async {
     uid = null;
     cusProfile = null;
+
+    await sharePrefs.clear();
   }
 }
 

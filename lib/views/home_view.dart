@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
-
 import 'package:razor_book/views/customer_profile_view.dart';
+
+import 'package:razor_book/views/shop_view.dart';
 
 import '../helpers/colors.dart';
 
@@ -141,9 +142,7 @@ class _HomeViewState extends State<HomeView> {
             ),
 
             ///home//shopview
-            Container(
-              color: Colors.blue,
-            ),
+            ShopView(),
             // ShopView(
             //   customerProfileModel: customerProfileModel,
             // ),

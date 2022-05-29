@@ -5,13 +5,12 @@
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import '../app/service_locator/service_locator.dart';
 import 'base_view_model.dart';
 
 class LoginViewModel extends BaseModel {
-  AuthenticationService get _authService => locator<AuthenticationService>();
+  AuthenticationServiceFirebase get _authService =>
+      locator<AuthenticationServiceFirebase>();
   // User? get user => _authService.user;
 
   Future<void> signIn({required String email, required String password}) async {

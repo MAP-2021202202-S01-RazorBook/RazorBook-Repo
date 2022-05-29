@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -13,6 +16,10 @@ class SharedPreferencesService {
 
   clear() async {
     final pref = await SharedPreferences.getInstance();
-    pref.clear();
+    await pref.remove(StorageKeys.uID.name);
+    await pref.remove(StorageKeys.cUSTOMERPROFILE.name);
+    bool cleared = await pref.clear();
+
+    log("cleard : $cleared");
   }
 }

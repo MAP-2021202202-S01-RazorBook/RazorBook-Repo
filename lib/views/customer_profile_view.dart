@@ -7,7 +7,7 @@ import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
-import 'package:razor_book/view_model/profile_view_mode.dart';
+import 'package:razor_book/view_model/profile_view_model.dart';
 import 'package:razor_book/views/root_view.dart';
 
 class ProfileView extends StatelessWidget {
@@ -19,7 +19,8 @@ class ProfileView extends StatelessWidget {
     //     Provider.of<AuthViewModelProvider>(context, listen: true).cusProfile;
     final String? uid = Provider.of<LocalStorageServiceProvider>(context).uid;
     final CustomerProfileModel? customerProfileModel =
-        Provider.of<LocalStorageServiceProvider>(context).cusProfile;
+        Provider.of<LocalStorageServiceProvider>(context, listen: false)
+            .cusProfile;
     // if (_customerProfileModel == null) {
     //   CustomerDatabaseManager().getCustomerProfile(uid!);
     // }
@@ -32,8 +33,6 @@ class ProfileView extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
-      ///TODO: remove this getCustomerProfile call?
       body: Consumer<ProfileViewModelProvider>(
           builder: (context, ProfileViewModelProvider x, __) {
         if (x.emailController.text.isEmpty) {
@@ -177,13 +176,12 @@ class ProfileView extends StatelessWidget {
                                 primary: Helper.kFABColor,
                                 fixedSize: Size(
                                     MediaQuery.of(context).size.width, 56)),
-                            onPressed: () {
-                              AuthenticationServiceFirebase auth =
-                                  locator<AuthenticationServiceFirebase>();
-                              auth.signOut();
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (ctx) => RootView()));
+                            onPressed: () async {
+                              await authenticationServiceFirebase
+                                  .signOut()
+                                  .then((value) => Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (ctx) => RootView())));
                             },
                             child: Text(
                               'Logout',
