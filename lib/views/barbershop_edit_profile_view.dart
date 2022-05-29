@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'widgets/profile_photo_widget.dart';
 import 'widgets/editable_textfields.dart';
 
@@ -91,7 +88,6 @@ class _BarbershopEditProfilePageState extends State<BarbershopEditProfilePage> {
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  child: const Text("Save"),
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
@@ -100,6 +96,7 @@ class _BarbershopEditProfilePageState extends State<BarbershopEditProfilePage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 12),
                   ),
+                  child: const Text("Save"),
                 ),
               ),
               const SizedBox(

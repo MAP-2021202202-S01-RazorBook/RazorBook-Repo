@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import '../failure.dart';
-import 'authentication_service.dart';
 // import '../../models/user.dart'
 //     as AppUser; // To resolve conflict with firebase 'User' class
 
@@ -25,6 +25,9 @@ class AuthenticationServiceFirebase extends AuthenticationService {
         email: email,
         password: password,
       );
+
+      /// save uid to local Storage
+      localStorageServiceProvider.saveUID(credential.user!.uid);
 
       // _user = transformData(credential.user);
     } on FirebaseAuthException catch (e) {

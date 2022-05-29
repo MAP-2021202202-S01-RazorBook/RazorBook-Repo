@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
@@ -38,4 +40,13 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
   locator.registerLazySingleton<ForgotPasswordViewModel>(
       () => ForgotPasswordViewModel());
+  // Register GetStorage
+  locator.registerLazySingleton<GetStorage>(() => GetStorage());
+
+  // Local Storage Service Provider
+  locator.registerLazySingleton<LocalStorageServiceProvider>(
+      () => LocalStorageServiceProvider());
 }
+
+var localStorage = locator<GetStorage>();
+var localStorageServiceProvider = locator<LocalStorageServiceProvider>();
