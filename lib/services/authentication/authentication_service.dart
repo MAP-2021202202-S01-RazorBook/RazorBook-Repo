@@ -12,6 +12,8 @@ abstract class AuthenticationService
   // AppUser.User? get user => null;
 
   Future<void> signIn({required String email, required String password});
+  Future<void> customerSignup({required String email, required String password, required String name, required String phone, required String address});
+  Future<void> barbershopSignup({required String email, required String password, required String name, required String phone, required String address, required String openTime, required String closeTime, required String description});
   Future<void> signOut();
   Future<void> recoverPassword({required String email});
 }

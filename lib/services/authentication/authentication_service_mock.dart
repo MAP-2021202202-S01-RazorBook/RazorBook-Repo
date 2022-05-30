@@ -45,4 +45,11 @@ class AuthenticationServiceMock extends AuthenticationService {
 
   @override
   Future<void> recoverPassword({required String email}) async {}
+
+  @override
+  Future<void> barbershopSignup({required String email, required String password, required String name, required String phone, required String address, required String openTime, required String closeTime, required String description}) async {}
+
+  @override
+  Future<void> customerSignup({required String email, required String password, required String name, required String phone, required String address}) async {}
+
 }

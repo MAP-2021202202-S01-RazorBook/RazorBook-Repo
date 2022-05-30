@@ -6,6 +6,8 @@ import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
 import '../../view_model/forgot_password_view_model.dart';
 import '../../view_model/login_view_model.dart';
+import '../../view_model/barber_registration_view_model.dart';
+import '../../view_model/customer_registration_view_model.dart';
 export '../../../services/services.dart';
 
 // create locator using getIt
@@ -38,4 +40,10 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
   locator.registerLazySingleton<ForgotPasswordViewModel>(
       () => ForgotPasswordViewModel());
+      
+  locator.registerLazySingleton<BarbershopSignUpViewModel>(
+      () => BarbershopSignUpViewModel());
+
+  locator.registerLazySingleton<CustomerSignUpViewModel>(
+      () => CustomerSignUpViewModel());      
 }
