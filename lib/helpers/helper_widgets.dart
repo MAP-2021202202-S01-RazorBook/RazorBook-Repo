@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Image logoWidget(String imageName) {
   return Image.asset(
@@ -75,4 +76,39 @@ SnackBar messageSnackBar(String message, Color bgColor) {
     ),
     backgroundColor: bgColor,
   );
+}
+
+
+TextField pickTime(String text,TextEditingController timeinput, BuildContext context) {
+return TextField(
+                controller: timeinput, //editing controller of this TextField
+                decoration: InputDecoration( 
+                   icon: Icon(Icons.timer), //icon of text field
+                   labelText: text, //label text of field
+                ),
+                readOnly: true,  //set it true, so that user will not able to edit text
+                onTap: () async {
+                  TimeOfDay? pickedTime =  await showTimePicker(
+                          initialTime: TimeOfDay.now(),
+                          context: context,
+                      );
+                  
+                  if(pickedTime != null ){
+                      print(pickedTime.format(context));   //output 10:51 PM
+                      DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+                      //converting to DateTime so that we can further format on different pattern.
+                      print(parsedTime); //output 1970-01-01 22:53:00.000
+                      String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
+                      print(formattedTime); //output 14:59:00
+                      //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+                     // setState(() {
+                        timeinput.text = formattedTime; //set the value of text field. 
+                     // });
+                  }else{
+                      print("Time is not selected");
+                  }
+                },
+             );
+             
 }

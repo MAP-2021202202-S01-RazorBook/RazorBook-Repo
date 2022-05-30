@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:razor_book/views/signup_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../failure.dart';
 import 'authentication_service.dart';
@@ -9,6 +12,7 @@ import 'authentication_service.dart';
 
 class AuthenticationServiceFirebase extends AuthenticationService {
   FirebaseAuth get _auth => FirebaseAuth.instance;
+  CollectionReference get _registeree => FirebaseFirestore.instance.collection('users');
   // AppUser.User? _user;
 
   // @override
@@ -55,6 +59,75 @@ class AuthenticationServiceFirebase extends AuthenticationService {
     }
   }
 
+    @override
+  Future<void> barbershopSignup({required String email, required String password, required String name, required String phone, required String address, required String openTime, required String closeTime, required String description}) async {
+    
+    try {
+    await _auth
+        .createUserWithEmailAndPassword(
+            email: email, password: password)
+        .then((value) {
+      if(value!=null && value.user != null){
+        //  userCollection.doc(value.user.uid).set({
+          _registeree.add({
+        'u_id': value.user?.uid,    
+        'email': email,
+        'name': name,
+        'phone': phone,
+        'user_type': 'barber',
+        'address': address,
+        'open_time': openTime,
+        'close_time': closeTime,
+        'description': description,
+        'bookings': [],
+        'services': [],
+        'rating': [],
+        'location': [
+          {'lat': 0.0, 'lng': 0.0}
+        ],
+        'image': "",
+        'open_days': [],
+        'slot_length': 0.5,
+      });
+
+      }else{
+        throw Error();
+       }
+      
+    });
+  } catch (err) {
+    print(err.toString);
+  }
+  }
+
+      @override
+  Future<void> customerSignup({required String email, required String password, required String name, required String phone, required String address}) async {
+    
+    try {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        if (value != null && value.user != null) {
+          //  userCollection.doc(value.user.uid).set({
+          _registeree.add({
+            'u_id': value.user?.uid,
+            'email': email,
+            'name': name,
+            'phone': phone,
+            'user_type': 'customer',
+            'address': address,
+            'bookings': [],
+            'image': "",
+          });
+        } else {
+          throw Error();
+        }
+      });
+    } catch (err) {
+      print(err.toString);
+    }
+  }
+
   // @override
   // Stream<User?>? get stream => _auth.authStateChanges();
 
@@ -74,4 +147,5 @@ class AuthenticationServiceFirebase extends AuthenticationService {
   Future<void> recoverPassword({required String email}) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
 }

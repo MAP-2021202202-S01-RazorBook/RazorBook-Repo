@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../view_model/barber_registeration_view_model.dart';
+import '../view_model/barber_registration_view_model.dart';
 import '../views/login_view.dart';
 import '../views/home_view.dart';
 import '../helpers/helper_widgets.dart';
 import '../view_model/customer_registration_view_model.dart';
+import 'package:provider/provider.dart';
+import '../app/service_locator/service_locator.dart';
 
 String? _dropdownValue = "barber";
 
@@ -115,13 +117,18 @@ class BarberSignupView extends StatefulWidget {
 class _BarberSignupViewState extends State<BarberSignupView> {
   TextEditingController shopNameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
-  TextEditingController locationOnMapController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController openTimeController = TextEditingController();
+  TextEditingController closeTimeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return ChangeNotifierProvider<BarbershopSignUpViewModel>(
+      create: (_) => locator<BarbershopSignUpViewModel>(),
+      child: Consumer<BarbershopSignUpViewModel>(
+        builder: (context, model, child) => Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -142,22 +149,22 @@ class _BarberSignupViewState extends State<BarberSignupView> {
                   height: 20,
                 ),
                 inputField(
-                    "Shop Name", Icons.mail_outline, false, shopNameController),
+                    "Shop Name", Icons.store, false, shopNameController),
                 SizedBox(
                   height: 20,
                 ),
-                inputField("Contact Number", Icons.person_outline, false,
+                inputField("Contact Number", Icons.call, false,
                     contactController),
                 SizedBox(
                   height: 20,
                 ),
                 inputField(
-                    "Location", Icons.mail_outline, false, locationController),
+                    "Address", Icons.place, false, addressController),
                 SizedBox(
                   height: 20,
                 ),
-                inputField("Location on Map", Icons.mail_outline, false,
-                    locationOnMapController),
+                inputField(
+                    "Description", Icons.info, false, descriptionController),    
                 SizedBox(
                   height: 20,
                 ),
@@ -168,17 +175,27 @@ class _BarberSignupViewState extends State<BarberSignupView> {
                 inputField("Enter your Password", Icons.lock_outline, true,
                     passwordController),
                 SizedBox(
+                  height: 20,
+                ),
+                pickTime("Shop open time",openTimeController, context),
+                SizedBox(
+                  height: 20,
+                ),
+                pickTime("Shop close time",closeTimeController, context),                                    
+                SizedBox(
                   height: 30,
                 ),
                 confirmButton(context, "Sign Up", () async {
                   try {
-                    await barberInfo(
-                        shopNameController.text,
-                        contactController.text,
-                        locationController.text,
-                        locationOnMapController.text,
-                        emailController.text,
-                        passwordController.text);
+                    await model.barbershopSignup(
+                        name: shopNameController.text,
+                        phone: contactController.text,
+                        address: addressController.text,
+                        openTime: openTimeController.text,
+                        closeTime: closeTimeController.text,
+                        description: descriptionController.text,
+                        email: emailController.text,
+                        password: passwordController.text);
                   } catch (e) {
                     String errorMessage = e.toString();
                     // setState(() {});
@@ -198,7 +215,9 @@ class _BarberSignupViewState extends State<BarberSignupView> {
           ),
         ),
       ),
-    );
+    ),
+      ),
+      );
   }
 
   Row login() {
@@ -231,14 +250,16 @@ class CustomerSignupView extends StatefulWidget {
 
 class _CustomerSignupViewState extends State<CustomerSignupView> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider<CustomerSignUpViewModel>(
+      create: (_) => locator<CustomerSignUpViewModel>(),
+      child: Consumer<CustomerSignUpViewModel>(
+        builder: (context, model, child) => Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -263,17 +284,13 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
                 SizedBox(
                   height: 20,
                 ),
-                inputField("Age", Icons.person_outline, false, ageController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField(
-                    "Gender", Icons.person_outline, false, genderController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Contact Number", Icons.mail_outline, false,
+                inputField("Contact Number", Icons.call, false,
                     contactController),
+                SizedBox(
+                  height: 20,
+                ),
+                inputField("Address", Icons.place, false,
+                    addressController),    
                 SizedBox(
                   height: 20,
                 ),
@@ -288,13 +305,12 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
                 ),
                 confirmButton(context, "Sign Up", () async {
                   try {
-                    await customerInfo(
-                        nameController.text,
-                        ageController.text,
-                        genderController.text,
-                        contactController.text,
-                        emailController.text,
-                        passwordController.text);
+                    await model.customerSignup(
+                        name: nameController.text,
+                        phone: contactController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        address: addressController.text);
                   } catch (e) {
                     String errorMessage = e.toString();
                     // setState(() {});
@@ -312,6 +328,8 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
             ),
           ),
         ),
+      ),
+    ),
       ),
     );
   }
