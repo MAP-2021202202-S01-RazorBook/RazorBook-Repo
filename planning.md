@@ -1,32 +1,18 @@
 User: 
-    id: fetched from firebase auth
+    u_id (pk): fetched from firebase auth
     email: fetched from firebase auth
     password: fetched from firebase auth
     userType: "customer" or "barber" (assigned at signup)
-
-
-Customer:
-    id: random string by firebase
-    u_id(FK): the corresponding id in the user table
-    bookings: [b_id, b_id, b_id]
+    bookings: [b_id, b_id, b_id]                -> array of FK which reference booking.docId
     name: string
     phone: string
     address: string
-    image: string
-    
-
-Barbershop: 
-    id: random string by firebase
-    u_id(FK): the corresponding id in the user table
     sevices: [s_id, s_id, s_id],
     bookings: [b_id, b_id, b_id]
     rating: {
         score: float / 5
         count: int
     }
-    name: string
-    phone: string
-    address: string
     location: {
         lat: float
         lng: float
@@ -40,9 +26,8 @@ Barbershop:
 
 
 Booking:
-    id: random string by firebase 
-    c_id(FK): the corresponding id in the customer table
-    sh_id(FK): the corresponding id in the barber table
+    c_id(FK): the corresponding id in the customer table    -> references u_id
+    sh_id(FK): the corresponding id in the barber table     -> references u_id
     date: string
     time: string
     is_cancelled: boolean
@@ -52,8 +37,7 @@ Booking:
     is_completed: boolean
 
 Service: 
-    id: random string by firebase
-    sh_id(FK): the corresponding id in the barber table
+    sh_id(FK): the corresponding id in the barber table     -> references u_id      
     name: string
     price: string
     description: string
