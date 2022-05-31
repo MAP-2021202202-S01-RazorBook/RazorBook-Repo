@@ -18,6 +18,26 @@ class User {
   String? start_time;
   String? close_time;
 
+// defauly constructor, won't be used really
+  User({
+    required this.u_id,
+    required this.email,
+    required this.user_type,
+    this.name,
+    this.address,
+    this.location,
+    this.phone,
+    this.image,
+    this.description,
+    this.bookings,
+    this.services,
+    this.rating,
+    this.open_days,
+    this.slot_length,
+    this.start_time,
+    this.close_time,
+  });
+
   // Barber constructor
   User.barber({
     required this.u_id,

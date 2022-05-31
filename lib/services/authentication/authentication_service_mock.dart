@@ -6,18 +6,16 @@ import '../failure.dart';
 class AuthenticationServiceMock extends AuthenticationService {
   final _mockAuthUsers = <User?>[
     User(
-      username: 'mockuser1@gmail.com',
-      password: 'pwd123',
+      user_type: 'barber',
       email: 'mockuser1@gmail.com',
       name: 'Mock User 1',
-      uid: '0',
+      u_id: '0',
     ),
     User(
-      username: 'mock2@gmail.com',
-      password: 'pwd123',
+      user_type: 'customer',
       email: 'mock2@gmail.com',
       name: 'Mock User 2',
-      uid: '1',
+      u_id: '1',
     ),
   ];
 
@@ -29,7 +27,7 @@ class AuthenticationServiceMock extends AuthenticationService {
   @override
   Future<void> signIn({required String email, required String password}) async {
     _user = _mockAuthUsers.firstWhere(
-        (user) => (email == user?.username) && (password == user?.password),
+        (user) => (email == user?.email) && (password == user?.u_id),
         orElse: () => null);
     if (_user == null) {
       throw Failure(411,
