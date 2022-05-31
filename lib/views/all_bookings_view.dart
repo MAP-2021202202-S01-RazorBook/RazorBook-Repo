@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../app/service_locator/service_locator.dart';
+import '../view_model/bookings_view_model.dart';
 
 class ViewBookings extends StatefulWidget {
   const ViewBookings({Key? key}) : super(key: key);
@@ -9,107 +13,70 @@ class ViewBookings extends StatefulWidget {
 
 class _ViewBookingsState extends State<ViewBookings> {
 
-  var bookings = [
-    {
-      ""
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    locator<BookingsViewModel>().getBookings();
+    return ChangeNotifierProvider<BookingsViewModel>(
+      create: (_) => locator<BookingsViewModel>(),
+      child: Consumer<BookingsViewModel>(
+        builder: (context, model, child) => 
+        Scaffold(
       appBar: AppBar(
         title: Text("Bookings"),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 38, 100, 40),
       ),
-      body: ListView(
-        children: <Widget>[
-          // start lits
-          InkWell(
-            child: Container(
-              height: 100, width:100,
-              child: Card(
-                child: Row(children: <Widget>[
-                       Expanded(child: Container(height: 90, child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: <Widget>[
-                         Text("That Barber", textAlign: TextAlign.center),
-                         Row(children: <Widget>[
-                            Text(
-                              "Price:",
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              " very good lah",
-                              textAlign: TextAlign.left,
-                            )
-                          ]),
-                          Row(children: <Widget>[
-                            Text(
-                              "Date:",
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              " very good lah",
-                              textAlign: TextAlign.left,
-                            )
-                          ]),
-                          Row(children: <Widget>[
-                            Text(
-                              "Time:",
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              " very good lah",
-                              textAlign: TextAlign.left,
-                            )
-                          ]),
-                          Row(children: <Widget>[
-                            Text(
-                              "Confirmed:",
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              " I guess?",
-                              textAlign: TextAlign.right,
-                            )
-                          ]),
-                          
-                       ],)),),
-                ],),
-              ),
-            ),
-          onTap: () {
-              AlertDialog alert = AlertDialog(
-                title: Text('Cancel Booking?'),
-                content: const Text(
-                    'By clicking "Confirm" you are canceling the selected booking.'),
-                actions: [
-                  FlatButton(
-                    textColor: Color(0xFF6200EE),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('DISMISS'),
-                  ),
-                  FlatButton(
-                    textColor: Color.fromARGB(255, 234, 10, 10),
-                    onPressed: () {},
-                    child: const Text('CONFIRM'),
-                  ),
-                ],
-              );
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return alert;
-          });}
-          )
-          
-            // end list
-        ]
+      body: ListView.builder(
+        itemCount: model.bookingsList?.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text("Booking Time: ${model.bookingsList![index].time}"),
+            subtitle: Text("Booking Daae: ${model.bookingsList![index].date}"),
+            trailing: Text("${model.bookingsList![index].total_price}RM"),
+            tileColor: model.bookingsList![index].is_cancelled ? Color.fromARGB(255, 255, 152, 152) : null,
+            enabled: true,
+            onTap: () {
+            if (model.bookingsList![index].is_cancelled) return;
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Booking Details"),
+                  content: Text("Confirm Cancel Booking?"),
+                  actions: <Widget>[
+
+                    FlatButton(
+                      child: Text("Dismiss"),
+                      textColor: Colors.grey,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    FlatButton(
+                      textColor: Colors.red,
+                      child: Text("Confirm"),
+                      onPressed: () {
+                        try{model.cancelBooking(model.bookingsList![index].id);
+                        Navigator.of(context).pop();}
+                        catch(e){print(e.toString());}
+                      },
+                      
+                    )
+                  ],
+                );
+              },
+            );
+            }
+          );
+        }
+  
       ),
+    
+      )
+      )
     );
+
+
   }
 }

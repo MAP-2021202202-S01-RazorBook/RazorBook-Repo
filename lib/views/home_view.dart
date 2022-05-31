@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:razor_book/app/service_locator/service_locator.dart';
+import '../services/booking/booking_service.dart';
 import '../view_model/home_view_model.dart';
 import '../views/login_view.dart';
 import '../views/all_bookings_view.dart'; //tbd
 import '../views/signup_view.dart';
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -32,7 +36,7 @@ class _HomeState extends State<Home> {
       body: Center(
         child: ElevatedButton(
           child: Text("Say Goodbye"),
-          onPressed: () {
+          onPressed: () async {
             Navigator.push(context, MaterialPageRoute(builder: ((context) => ViewBookings())));
           }
         ),));
