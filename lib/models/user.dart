@@ -92,14 +92,19 @@ class User {
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
-        location: data['location'],
+        location: Map.from(data['location']),
         phone: data['phone'],
         image: data['image'],
         description: data['description'],
-        bookings: data['bookings'],
-        services: data['services'],
-        rating: data['rating'],
-        open_days: data['open_days'],
+        bookings: data['bookings'] is Iterable
+            ? List.from(data['bookings'])
+            : data['bookings'],
+        services: data['services'] is Iterable
+            ? List.from(data['services'])
+            : data['services'],
+        rating: Map.from(data['rating']),
+        open_days:
+            data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
         start_time: data['start_time'],
         close_time: data['close_time'],
@@ -111,10 +116,12 @@ class User {
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
-        location: data['location'],
+        location: Map.from(data['location']),
         phone: data['phone'],
         image: data['image'],
-        bookings: data['bookings'],
+        bookings: data['bookings'] is Iterable
+            ? List.from(data['bookings'])
+            : data['bookings'],
       );
     }
   }
