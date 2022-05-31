@@ -26,14 +26,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(data.title),),
-      body: Center(
-        child: ElevatedButton(
-          child: Text("Say Goodbye"),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: ((context) => LoginView())));
-          }
-        ),));
+    //deleting the say goodbye page
+    return Scaffold(body: LoginView());
   }
 }
