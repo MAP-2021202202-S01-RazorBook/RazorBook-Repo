@@ -5,20 +5,18 @@ import '../failure.dart';
 
 class AuthenticationServiceMock extends AuthenticationService {
   final _mockAuthUsers = <User?>[
-    // User(
-    //   username: 'mockuser1@gmail.com',
-    //   password: 'pwd123',
-    //   email: 'mockuser1@gmail.com',
-    //   name: 'Mock User 1',
-    //   uid: '0',
-    // ),
-    // User(
-    //   username: 'mock2@gmail.com',
-    //   password: 'pwd123',
-    //   email: 'mock2@gmail.com',
-    //   name: 'Mock User 2',
-    //   uid: '1',
-    // ),
+    User(
+      user_type: 'barber',
+      email: 'mockuser1@gmail.com',
+      name: 'Mock User 1',
+      u_id: '0',
+    ),
+    User(
+      user_type: 'customer',
+      email: 'mock2@gmail.com',
+      name: 'Mock User 2',
+      u_id: '1',
+    ),
   ];
 
   User? _user;
@@ -28,9 +26,9 @@ class AuthenticationServiceMock extends AuthenticationService {
 
   @override
   Future<void> signIn({required String email, required String password}) async {
-    // _user = _mockAuthUsers.firstWhere(
-    //     (user) => (email == user?.username) && (password == user?.password),
-    //     orElse: () => null);
+    _user = _mockAuthUsers.firstWhere(
+        (user) => (email == user?.email) && (password == user?.u_id),
+        orElse: () => null);
     if (_user == null) {
       throw Failure(411,
           message: 'Invalid username or password!',

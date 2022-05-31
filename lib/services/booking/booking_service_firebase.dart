@@ -1,4 +1,5 @@
-import '../../models/booking.dart';
+import '../../services/booking/booking_service.dart';
+
 
 abstract class BookingService
 {
