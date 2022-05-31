@@ -2,8 +2,11 @@ import 'package:get_it/get_it.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
+import '../../services/booking/booking_service.dart';
+import '../../services/booking/booking_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
+import '../../view_model/bookings_view_model.dart';
 import '../../view_model/forgot_password_view_model.dart';
 import '../../view_model/login_view_model.dart';
 import '../../view_model/barber_registration_view_model.dart';
@@ -35,6 +38,9 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceFirebase());
 
+  locator.registerLazySingleton<BookingService>(
+      () => BookingServiceFirebase());    
+
   // Register ViewModels
 
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
@@ -46,4 +52,6 @@ Future<void> initializeServiceLocator() async {
 
   locator.registerLazySingleton<CustomerSignUpViewModel>(
       () => CustomerSignUpViewModel());      
+  
+  locator.registerLazySingleton<BookingsViewModel>(() => BookingsViewModel());
 }
