@@ -1,114 +1,92 @@
 import 'dart:ffi';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
-  // String c_id;
-  // String b_id;
-  // Double price;
+class Booking {
+  String? id;
+  String? c_id;
+  String? b_id;
+  double? total_price;
+  String? date;
+  String? time;
+  bool is_cancelled = false;
+  bool? is_completed;
+  bool? is_paid;
+  List<dynamic>? services;
 
+// default constructor
+  Booking({
+    this.id,
+    this.c_id,
+    this.b_id,
+    this.total_price,
+    this.date,
+    this.time,
+    this.is_cancelled = false,
+    this.is_completed,
+    this.is_paid,
+    this.services,
+  });
 
-  // // Barber constructor
-  // User.barber({
-  //   //required this.u_id,
-  //   required this.email,
-  //   required this.user_type,
-  //   this.name,
-  //   this.address,
-  //   this.location,
-  //   this.phone,
-  //   this.image,
-  //   this.description,
-  //   this.bookings,
-  //   this.services,
-  //   this.rating,
-  //   this.open_days,
-  //   this.slot_length,
-  //   this.start_time,
-  //   this.close_time,
-  // });
+// booking from firestore
+// you pass in the data from firestore snapshot
+// e.g.
+// final docRef = db.collection("users").doc("1111111111");
+// docRef.get().then(
+//   (DocumentSnapshot doc) {
+//     final data = doc.data() as Map<String, dynamic>;
+//     final user = User.fromFirestore(data);
+//     // ...
+//   },
+//   onError: (e) => print("Error getting document: $e"),
+// );
 
-  // // Customer constructor
-  // User.customer({
-  //   required this.u_id,
-  //   required this.email,
-  //   required this.user_type,
-  //   this.name,
-  //   this.address,
-  //   this.location,
-  //   this.phone,
-  //   this.image,
-  //   this.bookings,
-  // });
+  // from json
+  factory Booking.fromJson(Map<String, dynamic>? json) {
+    return Booking(
+      id: json!['id'] as String,
+      c_id: json['c_id'] as String,
+      b_id: json['b_id'] as String,
+      total_price: json['total_price'] as double,
+      date: json['date'] as String,
+      time: json['time'] as String,
+      is_cancelled: json['is_cancelled'] as bool,
+      is_completed: json['is_completed'] as bool,
+      is_paid: json['is_paid'] as bool,
+      services: json['services'] as List<dynamic>,
+    );
+  }
 
-  // // Object to firebase document
-  // Map<String, dynamic> barberToJSON() {
-  //   return {
-  //     'u_id': u_id,
-  //     'email': email,
-  //     'name': name,
-  //     'user_type': user_type,
-  //     'address': address,
-  //     'location': location,
-  //     'phone': phone,
-  //     'image': image,
-  //     'description': description,
-  //     'bookings': bookings,
-  //     'services': services,
-  //     'rating': rating,
-  //     'open_days': open_days,
-  //     'slot_length': slot_length,
-  //     'start_time': start_time,
-  //     'close_time': close_time,
-  //   };
-  // }
+// from firebase snapshot
+  factory Booking.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    final id = doc.id;
+    print("thi is my: "+id);
 
-  // // Document to object
-  // User.fromJson(Map<String, dynamic> firebaseDoc)
-  //     : this.barber(
-  //         u_id: firebaseDoc['u_id'],
-  //         email: firebaseDoc['email'],
-  //         name: firebaseDoc['name'],
-  //         user_type: firebaseDoc['user_type'],
-  //         address: firebaseDoc['address'],
-  //         location: firebaseDoc['location'],
-  //         phone: firebaseDoc['phone'],
-  //         image: firebaseDoc['image'],
-  //         description: firebaseDoc['description'],
-  //         bookings: firebaseDoc['bookings'],
-  //         services: firebaseDoc['services'],
-  //         rating: firebaseDoc['rating'],
-  //         open_days: firebaseDoc['open_days'],
-  //         slot_length: firebaseDoc['slot_length'],
-  //         start_time: firebaseDoc['start_time'],
-  //         close_time: firebaseDoc['close_time'],
-  //       );
+    return Booking(
+      id: id,
+      c_id: data['c_id'] as String?,
+      b_id: data['b_id'] as String?,
+      total_price: data['total_price'] as double?,
+      date: data['date'] as String?,
+      time: data['time'] as String?,
+      is_cancelled: data['is_cancelled'] as bool,
+      is_completed: data['is_completed'] as bool?,
+      is_paid: data['is_paid'] as bool?,
+      services: data['services'] as List<dynamic>?,
+    );
+  }
 
-  // // Object to firebase document
-  // Map<String, dynamic> customerToJSON() {
-  //   return {
-  //     'u_id': u_id,
-  //     'email': email,
-  //     'name': name,
-  //     'user_type': user_type,
-  //     'address': address,
-  //     'location': location,
-  //     'phone': phone,
-  //     'image': image,
-  //     'bookings': bookings
-  //   };
-  // }
-
-  // // Document to object
-  // User.customerFromJSON(Map<String, dynamic> firebaseDoc)
-  //     : this.customer(
-  //         u_id: firebaseDoc['u_id'],
-  //         email: firebaseDoc['email'],
-  //         name: firebaseDoc['name'],
-  //         user_type: firebaseDoc['user_type'],
-  //         address: firebaseDoc['address'],
-  //         location: firebaseDoc['location'],
-  //         phone: firebaseDoc['phone'],
-  //         image: firebaseDoc['image'],
-  //         // decode the bookings
-  //         bookings: List<String>.from(firebaseDoc['bookings']),
-  //       );
+  // to json
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        "c_id": c_id,
+        "b_id": b_id,
+        "total_price": total_price,
+        "date": date,
+        "time": time,
+        "is_cancelled": is_cancelled,
+        "is_completed": is_completed,
+        "is_paid": is_paid,
+        "services": services,
+      };
 }
