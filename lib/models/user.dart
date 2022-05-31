@@ -3,7 +3,7 @@ import 'dart:ffi';
 class User {
   String u_id;
   String email;
-  String user_type;
+  String? user_type;
   String? name;
   String? address;
   Map<String, dynamic>? location;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../helpers/colors.dart';
 
 import 'chome_page/customer_shops_home_page.dart';
+import 'customer_profile_screen.dart';
 
 class CustomerMainPageNav extends StatefulWidget {
   const CustomerMainPageNav({Key? key}) : super(key: key);
@@ -136,10 +137,10 @@ class _HomeViewState extends State<CustomerMainPageNav> {
               color: Colors.red,
             ),
             ShopView(),
-            //  ProfileView(),
-            Container(
-              color: Colors.red,
-            ),
+            ProfileView(),
+            // Container(
+            //   color: Colors.red,
+            // ),
           ],
         ),
       ),
