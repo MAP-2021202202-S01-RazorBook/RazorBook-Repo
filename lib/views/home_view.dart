@@ -4,7 +4,11 @@ import '../app/service_locator/service_locator.dart';
 import '../view_model/customer_profile_view_model.dart';
 import '../view_model/home_view_model.dart';
 import '../views/login_view.dart';
+import '../views/all_bookings_view.dart'; //tbd
 import '../views/signup_view.dart';
+import 'all_services_view.dart';
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -35,7 +39,28 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //deleting the say goodbye page
-    return Scaffold(body: LoginView());
+    return Scaffold(
+      appBar: AppBar(title: Text(data.title),),
+      body: Center(
+        child: Column(children: [
+        ElevatedButton(
+          child: Text("Login"),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => LoginView())));
+          }),
+                  ElevatedButton(
+          child: Text("Bookings"),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => ViewBookings())));
+          }
+        ),
+                ElevatedButton(
+          child: Text("Barber Services"),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => ViewServices())));
+          }),
+        ])
+        
+        ));
   }
 }
