@@ -24,13 +24,17 @@ class CustomerProfileViewModel extends BaseModel {
   }
 
   User _user = User(u_id: "", email: "", user_type: "");
+
+
   User get user => _user;
+  
   ProfileUploadState _profileUploadState = ProfileUploadState.none;
   ProfileUploadState get profileUploadState => _profileUploadState;
   set profileUploadState(ProfileUploadState value) {
     _profileUploadState = value;
     notifyListeners();
   }
+
 
 // will be called once the page is created to fetch the data for the user object
   Future<void> getCustomerDetails(String id) async {

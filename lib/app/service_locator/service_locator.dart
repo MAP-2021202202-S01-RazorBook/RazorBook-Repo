@@ -74,3 +74,4 @@ Future<void> initializeServiceLocator() async {
       () => CustomerProfileViewModel());      
 
 }
+

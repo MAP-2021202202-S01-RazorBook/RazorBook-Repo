@@ -22,6 +22,7 @@ class CustomerServiceFirebase extends CustomerService {
       final Map<String, dynamic> data =
           value.docs[0].data() as Map<String, dynamic>;
       log(data.toString());
+      //need to fix the issue here since it return a document not an object
       return User.fromFirestore(data);
     } on FirebaseException catch (e) {
       throw Failure(100,
