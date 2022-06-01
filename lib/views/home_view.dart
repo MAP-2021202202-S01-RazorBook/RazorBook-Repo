@@ -5,6 +5,7 @@ import '../view_model/home_view_model.dart';
 import '../views/login_view.dart';
 import '../views/all_bookings_view.dart'; //tbd
 import '../views/signup_view.dart';
+import 'all_services_view.dart';
 
 
 
@@ -34,11 +35,25 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: Text(data.title),),
       body: Center(
-        child: ElevatedButton(
-          child: Text("Say Goodbye"),
+        child: Column(children: [
+        ElevatedButton(
+          child: Text("Login"),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => LoginView())));
+          }),
+                  ElevatedButton(
+          child: Text("Bookings"),
           onPressed: () async {
             Navigator.push(context, MaterialPageRoute(builder: ((context) => ViewBookings())));
           }
-        ),));
+        ),
+                ElevatedButton(
+          child: Text("Barber Services"),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => ViewServices())));
+          }),
+        ])
+        
+        ));
   }
 }

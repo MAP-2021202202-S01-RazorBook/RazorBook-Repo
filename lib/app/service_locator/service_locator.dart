@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
+import '../../services/barber_services/barber_services_service.dart';
+import '../../services/barber_services/barber_services_service_firebase.dart';
 import '../../services/booking/booking_service.dart';
 import '../../services/booking/booking_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
@@ -11,6 +13,7 @@ import '../../view_model/forgot_password_view_model.dart';
 import '../../view_model/login_view_model.dart';
 import '../../view_model/barber_registration_view_model.dart';
 import '../../view_model/customer_registration_view_model.dart';
+import '../../view_model/services_view_model.dart';
 export '../../../services/services.dart';
 
 // create locator using getIt
@@ -39,7 +42,10 @@ Future<void> initializeServiceLocator() async {
       () => AuthenticationServiceFirebase());
 
   locator.registerLazySingleton<BookingService>(
-      () => BookingServiceFirebase());    
+      () => BookingServiceFirebase());
+      
+  locator.registerLazySingleton<BarberServicesService>(
+      () => BarberServicesServiceFirebase());           
 
   // Register ViewModels
 
@@ -54,4 +60,6 @@ Future<void> initializeServiceLocator() async {
       () => CustomerSignUpViewModel());      
   
   locator.registerLazySingleton<BookingsViewModel>(() => BookingsViewModel());
+
+  locator.registerLazySingleton<ServicesViewModel>(() => ServicesViewModel());
 }
