@@ -1,4 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:razor_book/services/customer/customer_service.dart';
+import 'package:razor_book/services/customer/customer_service_firebase.dart';
+import 'package:razor_book/view_model/customer_profile_view_model.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
@@ -41,11 +44,16 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceFirebase());
 
+
   locator.registerLazySingleton<BookingService>(
       () => BookingServiceFirebase());
       
   locator.registerLazySingleton<BarberServicesService>(
       () => BarberServicesServiceFirebase());           
+
+    locator.registerLazySingleton<CustomerService>(
+      () => CustomerServiceFirebase());
+
 
   // Register ViewModels
 
@@ -62,4 +70,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<BookingsViewModel>(() => BookingsViewModel());
 
   locator.registerLazySingleton<ServicesViewModel>(() => ServicesViewModel());
+  locator.registerLazySingleton<CustomerProfileViewModel>(
+      () => CustomerProfileViewModel());      
+
 }

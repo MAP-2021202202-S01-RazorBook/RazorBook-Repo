@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:razor_book/app/service_locator/service_locator.dart';
-import '../services/booking/booking_service.dart';
+import 'package:provider/provider.dart';
+import '../app/service_locator/service_locator.dart';
+import '../view_model/customer_profile_view_model.dart';
 import '../view_model/home_view_model.dart';
 import '../views/login_view.dart';
 import '../views/all_bookings_view.dart'; //tbd
@@ -14,8 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const Home(),
+    return  MultiProvider(
+      providers: [
+
+        ChangeNotifierProvider(create: (_) => locator<CustomerProfileViewModel>()),
+      ],
+      child: MaterialApp(
+        home: const Home(),
+      ),
     );
   }
 }

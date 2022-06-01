@@ -9,6 +9,7 @@ import '../views/signup_view.dart';
 import '../views/forgot_password_view.dart';
 // import '../views/home_view.dart';
 import 'barbershop_profile_view.dart';
+import 'customer_screens/customer_main_page_nav.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -64,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const BarberShopProfileView()),
+                                  const CustomerMainPageNav()),
                         );
                       } catch (e) {
                         String errorMessage = e.toString();
