@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../helpers/colors.dart';
 
+import '../all_bookings_view.dart';
 import 'chome_page/customer_shops_home_page.dart';
 import 'customer_profile_screen.dart';
 
@@ -133,9 +134,7 @@ class _HomeViewState extends State<CustomerMainPageNav> {
         child: PageView(
           controller: _pageController,
           children: [
-            Container(
-              color: Colors.red,
-            ),
+            ViewBookings(),
             ShopView(),
             ProfileView(),
             // Container(
