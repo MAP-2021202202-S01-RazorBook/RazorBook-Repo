@@ -200,8 +200,14 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedColumn = columnIndex;
-                              selectedRow = rowIndex;
+                              if (selectedColumn == null &&
+                                  selectedRow == null) {
+                                selectedColumn = columnIndex;
+                                selectedRow = rowIndex;
+                              } else {
+                                selectedColumn = null;
+                                selectedRow = null;
+                              }
                             });
                           },
                           child: Container(
@@ -212,7 +218,7 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
                               color: selectedColumn == columnIndex &&
                                       selectedRow == rowIndex
                                   ? Helper.kFABColor
-                                  : Color.fromARGB(97, 240, 240, 240),
+                                  : Colors.white,
                               border: Border.all(
                                 width: 2,
                                 color: selectedColumn == columnIndex &&
