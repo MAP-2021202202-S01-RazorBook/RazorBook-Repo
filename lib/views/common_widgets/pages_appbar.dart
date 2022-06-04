@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 AppBar appBar(
     {required Text bartitle,
     required VoidCallback onPressedFunction,
-    required Icon appBarRightIcon}) {
+    required Icon appBarRightIcon,
+    Widget? leadingW}) {
   return AppBar(
     title: bartitle,
     actions: [
@@ -11,5 +12,6 @@ AppBar appBar(
     ],
     elevation: 0,
     backgroundColor: Colors.transparent,
+    leading: leadingW,
   );
 }
