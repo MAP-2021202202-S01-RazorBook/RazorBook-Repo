@@ -3,19 +3,21 @@ import 'package:razor_book/models/user.dart';
 
 //this abstract class is used by two user-type sides to return the shops details.
 
+// TESTED:
+// 1- getBarbershopDetailsForCustomer
+// 2- getBarbershopDetailsForBarber
+// 3- getBarbershopsList
 abstract class BarbershopService {
   //in the implementation we would override it and return a local instance in the implemention
-  User? get barbershopProfileForBarber => null;
-  List<dynamic>? get barbershopForCustomer => null;
-  List<dynamic>? get allBarbers => null;
+  Map<String, dynamic>? get barbershopProfileForBarber => null;
+  Map<String, dynamic>? get barbershopForCustomer => null;
+  List<Map<String, dynamic>?>? get allBarbers => null;
   //return all shops once the customer loads the main page +also include the search
-  List<dynamic>? get barbershopsList => null;
+  List<Map<String, dynamic>?>? get barbershopsList => null;
 
   //Future<void> rateShopExperience(String? c_id, String? b_id, int? rate);
 
   //DONE: get barbers list
-
-
 
   //Future<void> getAllBarbershops(String? search);
   Future<void> getBarbershopDetailsForBarber(String uId);
@@ -25,7 +27,7 @@ abstract class BarbershopService {
 
   //including updating list of working days
   //also includes the latitude and the longitude of the store location
-  Future<void> updateBarbershopDetails(String id, String name, double slot_length, String description, String open_time, String close_time, String phone, String address, var open_days);
+  Future<void> updateBarbershopDetails(User updatedBarberShop);
   //Future<void> _storeBarbershopProfileImage();
 
   //the function return type need to be defined later after installing the package

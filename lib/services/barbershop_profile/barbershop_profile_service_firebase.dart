@@ -11,66 +11,34 @@ import 'dart:developer';
 import 'dart:io';
 
 class BarbershopServiceFirebase extends BarbershopService {
-  CollectionReference get _user =>
+  CollectionReference get _usersCollection =>
       FirebaseFirestore.instance.collection('users');
 
   String uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
 
-  List<dynamic> _barbershopDetailsForCustomer = [];
-  List<dynamic> _barbershopDetailsForBarber = [];
-  List<dynamic> _barbershopsList = [];
+  Map<String, dynamic>? _barbershopDetailsForCustomer;
+  Map<String, dynamic>? _barbershopDetailsForBarber;
+  final List<Map<String, dynamic>?> _barbershopsList = [];
 
   @override
-  List<dynamic> get barbershopDetailsForCustomer => _barbershopDetailsForCustomer;
+  Map<String, dynamic>? get barbershopForCustomer =>
+      _barbershopDetailsForCustomer;
   @override
-  List<dynamic> get barbershopDetailsForBarber => _barbershopDetailsForBarber;
+  Map<String, dynamic>? get barbershopProfileForBarber =>
+      _barbershopDetailsForBarber;
   @override
-  List<dynamic> get barbershopsList => _barbershopsList;
+  List<Map<String, dynamic>?>? get barbershopsList => _barbershopsList;
 
   @override
-  Future<void> getBarbershopDetailsForBarber(String uuId) async {
+  Future<void> getBarbershopDetailsForBarber(String uId) async {
     try {
       QuerySnapshot value =
-          await _user.where('u_id', isEqualTo: uId).get();
+          await _usersCollection.where('u_id', isEqualTo: uId).get();
 
-      
-      // final Map<String, dynamic> data =
-           //value.docs[0].id;
-
-      //_barbershopDetailsForBarber = value.docs[0].data() as List<dynamic>;
-
-
-      print(value.docs.length);
-
-    } on FirebaseException catch (e) {
-      throw Failure(100,
-          message: e.toString(),
-          location:
-              'CounterServiceFireStore.getCustomerDetails() on FirebaseException');
-    } catch (e) {
-      throw Failure(101,
-          message: e.toString(),
-          location:
-              'CounterServiceFireStore.getCustomerDetails() on other exception');
-    }
-  }
-
-    Future<void> getBarbershopDetailsForCustomer(String uuId) async {
-    try {
-      QuerySnapshot value =
-          await _user.where('u_id', isEqualTo: uId).get();
-      
-      // final Map<String, dynamic> data =
-           //value.docs[0].id;
-      
-      _barbershopDetailsForCustomer.add(value.docs[0].get("name"));
-      _barbershopDetailsForCustomer.add(value.docs[0].get("u_id"));
-      _barbershopDetailsForCustomer.add(value.docs[0].get("address"));
-
-      //User customer = value.docs.map((value) => User.fromFirestore(value)) as User;
-      //for testing, approved
-      //print(value.docs.length);
-
+      if (value.docs.isNotEmpty) {
+        _barbershopDetailsForBarber =
+            (value.docs.first.data() as Map<String, dynamic>);
+      }
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),
@@ -85,29 +53,36 @@ class BarbershopServiceFirebase extends BarbershopService {
   }
 
   @override
-  Future<void> updateBarbershopDetails(String id, String name, double slot_length, String description, String open_time, String close_time, String phone, String address, var open_days) async {
+  Future<void> getBarbershopDetailsForCustomer(String uId) async {
     try {
-      String dId = 'UYEgMC6G36VJBntvn99r'; //document id
-      //final value = await _registeree.where("u_id", isEqualTo: uId);
-      //print(value);
+      QuerySnapshot value =
+          await _usersCollection.where('u_id', isEqualTo: uId).get();
 
-      await _user.doc(dId).update({
-        //dummy data for testing, approved
-        "name": "Testee",
-        "phone": "055055055",
-        "slot_length": 1.0,
-        "description": "lorem ipsum",
-        "open_time": "12:12",
-        "close_time": "21:21:",
-        "address": "123",
-        "open_days": ["Sunday", "Monday", "Tuesday"]
-      }).then((value) {
-        //log("saving profile ${user.customerToFirestore()}");
-        // ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar("Profile Updated"));
-      }).onError((error, stackTrace) {
-        // ScaffoldMessenger.of(ctx)
-        //     .showSnackBar(mySnackBar(error.toString(), error: true));
-      });
+      if (value.docs.isNotEmpty) {
+        _barbershopDetailsForCustomer =
+            value.docs[0].data() as Map<String, dynamic>;
+      }
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'CounterServiceFireStore.getCustomerDetails() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'CounterServiceFireStore.getCustomerDetails() on other exception');
+    }
+  }
+
+  @override
+  Future<void> updateBarbershopDetails(
+    User updatedBarberShop,
+  ) async {
+    try {
+      String dId = updatedBarberShop.docId ?? 'UYEgMC6G36VJBntvn99r';
+
+      await _usersCollection.doc(dId).update(updatedBarberShop.toJson());
     } on SocketException catch (e) {
       // ScaffoldMessenger.of(ctx)
       //     .showSnackBar(mySnackBar(e.toString(), error: true));
@@ -120,22 +95,18 @@ class BarbershopServiceFirebase extends BarbershopService {
       throw Exception(e);
     }
   }
-  
+
   @override
   Future<void> getBarbershopsList() async {
-       try {
+    try {
       QuerySnapshot value =
-          await _user.where('user_type', isEqualTo: 'barber').get();
-      
-      // final Map<String, dynamic> data =
-           //value.docs[0].id;
-      for(int i = 0; i < value.docs.length; i++) {
-      _barbershopsList.add({value.docs[i].get("name"), value.docs[i].get("u_id"), value.docs[i].get("address")});
-      }
-      //User customer = value.docs.map((value) => User.fromFirestore(value)) as User;
-      //for testing, approved
-      //print(value.docs.length);
+          await _usersCollection.where('user_type', isEqualTo: 'barber').get();
 
+      // final Map<String, dynamic> data =
+      //value.docs[0].id;
+      for (int i = 0; i < value.docs.length; i++) {
+        _barbershopsList.add(value.docs[i].data() as Map<String, dynamic>);
+      }
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

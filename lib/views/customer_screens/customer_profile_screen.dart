@@ -50,13 +50,12 @@ class ProfileView extends StatelessWidget {
         //     )),
         body: Consumer<CustomerProfileViewModel>(
             builder: (context, viewModel, child) {
-              
           //   viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
 
           // log("${viewModel.user.address} + here is the real value ${viewModel.user.name}");
 
           if (viewModel.emailController.text.isEmpty) {
-            viewModel.emailController.text = viewModel.user.email;
+            viewModel.emailController.text = viewModel.user?.email ?? "";
             viewModel.nameController.text = "";
             viewModel.phoneController.text = "";
             viewModel.addressController.text = "";
@@ -135,7 +134,7 @@ class ProfileView extends StatelessWidget {
                     controller: viewModel.emailController,
                     editMode: !viewModel.editMode,
                     hintText: "Email",
-                    initValue: viewModel.user.email,
+                    initValue: viewModel.user?.email ?? "",
                     onChange: (v) => print,
                   ),
                   SizedBox(

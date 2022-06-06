@@ -18,7 +18,7 @@ class User {
   String? start_time;
   String? open_time;
   String? close_time;
-
+  String? docId;
 // defauly constructor, only used upon login or something
   User({
     required this.u_id,
@@ -150,6 +150,28 @@ class User {
       'phone': phone,
       'image': image,
       'bookings': bookings,
+    };
+  }
+
+  // USER to json
+  Map<String, dynamic> toJson() {
+    return {
+      'u_id': u_id,
+      'email': email,
+      'user_type': user_type,
+      'name': name,
+      'address': address,
+      'location': location,
+      'phone': phone,
+      'image': image,
+      'description': description,
+      'bookings': bookings,
+      'services': services,
+      'rating': rating,
+      'open_days': open_days,
+      'slot_length': slot_length,
+      'start_time': start_time,
+      'close_time': close_time,
     };
   }
 }
