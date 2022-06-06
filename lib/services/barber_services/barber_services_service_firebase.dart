@@ -26,23 +26,11 @@ class BarberServicesServiceFirebase extends BarberServicesService {
       debugPrint("gets");
       print("gets");
       //log("gets");
-      final doc = await _services
-          .where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
-          .get();
+      final doc = await _services.where("sh_id", isEqualTo: userID).get();
 
       List<Service> services =
           doc.docs.map((doc) => Service.fromFirestore(doc)).toList();
       _servicesList = services;
-
-      debugPrint("getssssss");
-      print("getssssssss");
-      //log("getsssssssssss");
-      debugPrint("servicessList: ${_servicesList}");
-      //return Future <List<Booking>>(null);
-      //return Booking.fromFirestore(doc.getDocument());
-      //double temp =12.12 as double;
-      //return Booking(cID: "12", bID: "12", totalPrice: temp);
-
     } catch (Exc) {
       print(Exc);
       rethrow;
@@ -50,71 +38,64 @@ class BarberServicesServiceFirebase extends BarberServicesService {
   }
 
   @override
-  Future<void> addService({String? userID, String? name, String? description, double? price}) async {
+  Future<void> addService({required Service service}) async {
     // TODO: implement addService
-        try {
-      debugPrint("gets");
+    try {
       print("gets");
-
-      String mockShopId='eRiujAfrWASWbosQGToSO1wcmNz1';
-      //log("gets");
-      // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
-      // .get();
-
-      _services.add({
-        "name": "Testee",
-        "description": "Testee",
-        "price": 13.5,
-        "sh_id": mockShopId,
-        "is_deleted": false
-      });
-
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+      await _services.add(service.toJson());
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.addService() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.addService() on other exception');
     }
-    
   }
 
-    @override
+  @override
   Future<void> deleteService({String? serviceID}) async {
     // TODO: implement delete Service
-        try {
-
-      String mockServiceId= 'SWWt4m8kEbkteJou65zj';
+    try {
+      String mockServiceId = 'SWWt4m8kEbkteJou65zj';
       // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
       // .get();
-      _services.doc(mockServiceId).update({
-        'is_deleted' : true
-      });
-
-      debugPrint("gets");
-      print("gets");
-
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+      await _services
+          .doc(serviceID ?? mockServiceId)
+          .update({'is_deleted': true});
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.deleteService() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.deleteService() on other exception');
     }
-    
   }
 
-      @override
-  Future<void> editService({String? serviceID, String? name, String? description, double? price}) async {
-    // TODO: implement editService
-        try {
-      String mockServiceId='SWWt4m8kEbkteJou65zj';
-      await _services.doc(mockServiceId).update({
-        //dummy data for testing, approved
-        "name": "Testee",
-        "description": "dont but please",
-        "price": 499.7
-      });
-
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+  @override
+  Future<void> editService(
+      {required String serviceID, required Service updatedService}) async {
+    try {
+      String mockServiceId = 'SWWt4m8kEbkteJou65zj';
+      await _services.doc(serviceID).update(updatedService.toJson());
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.editService() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BarberServicesServiceFirebase.editService() on other exception');
     }
-    
   }
 
   //  @override

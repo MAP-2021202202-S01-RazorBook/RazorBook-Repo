@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Service {
   String? id;
-  String? shID;
-  double? price;
-  String? name;
+  String sh_id;
+  double price;
+  String name;
   String? description;
 
 // default constructor
   Service({
     this.id,
-    this.shID,
-    this.price,
-    this.name,
+    required this.sh_id,
+    required this.price,
+    required this.name,
     this.description,
   });
 
@@ -33,7 +33,7 @@ class Service {
   factory Service.fromJson(Map<String, dynamic>? json) {
     return Service(
         id: json!['id'] as String,
-        shID: json['sh_id'] as String,
+        sh_id: json['sh_id'] as String,
         price: json['price'] as double,
         name: json['name'] as String,
         description: json['description'] as String);
@@ -47,17 +47,16 @@ class Service {
 
     return Service(
       id: id,
-      shID: data['sh_id'] as String?,
-      price: data['price'] as double?,
-      name: data['name'] as String?,
+      sh_id: data['sh_id'] as String,
+      price: data['price'] as double,
+      name: data['name'] as String,
       description: data['description'] as String?,
     );
   }
 
   // to json
   Map<String, dynamic> toJson() => {
-        'id': id,
-        "sh_id": shID,
+        "sh_id": sh_id,
         "price": price,
         "name": name,
         "description": description,
