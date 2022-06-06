@@ -17,7 +17,7 @@ class ViewBookings extends StatefulWidget {
 
 /*                                  
     the logic here is as follow : 
-    we have three states 
+    we have four states 
     1: is ongoing 
       card  color is white, condition to make it is : is_cancelled=false + is_completed= false
       options: is to cancel it, condition should be : is_completed= false + is_cancelled= false

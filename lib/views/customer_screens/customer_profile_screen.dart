@@ -4,15 +4,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:razor_book/app/service_locator/service_locator.dart';
+
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
-import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
 
 import '../../view_model/customer_profile_view_model.dart';
-import '../common_widgets/editable_textfields.dart';
+
 import '../common_widgets/info_form_textfield.dart';
-import '../common_widgets/pages_appbar.dart';
+
 import '../common_widgets/save_cancel_buttons_.dart';
 
 class ProfileView extends StatelessWidget {

@@ -15,9 +15,12 @@ class BookingsSlotsList extends StatefulWidget {
 }
 
 class _BookingsSlotsListState extends State<BookingsSlotsList> {
+  //those two variables are used to identify the object place.
+  //since we have a columns and rows
   int? selectedRow;
   int? selectedColumn;
 
+  //should be replaced with the once fetched from the database.
   List<String> days = [
     "Sunday",
     "Monday",
@@ -48,7 +51,9 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
   //this function will return list of slots,
   //later on the view model there should be comparsion between this generated slots
   //and the slots that have been booked to the applcation delete them and not include them.
-  // as well as not including the slots from the open time to current time
+  // as well as not including the slots from the open time to current time -but this one is difficult to implement-
+  //the logic is already  built -it's the commented part- but hard to use it only for one object
+  //since it's a function called in a loop
 
   List<String> generateBookingSlots(
       {required String openTime,
@@ -92,6 +97,8 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
     // }
 
     //to add the slot to the bookings slots array
+    //note for the logic : if the slot length is 1.0, then if we have any situation like
+    // 19:43, it will not calculate the minutes
     if (slotLength == 0.5) {
       for (int i = 0; i < hours * 2; i++) {
         tempTime = tempTime.add(Duration(minutes: 30));
@@ -115,7 +122,8 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
   @override
   Widget build(BuildContext context) {
     //this variable should be deleted later once it's connected to viewModel
-    var tem = getDateOfWorkingDays();
+    //will return dateOf the weeks
+    var dateOfCalender = getDateOfWorkingDays();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,6 +166,7 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
             itemCount: days.length,
             scrollDirection: Axis.vertical,
             itemBuilder: ((context, columnIndex) {
+              //this is where we generate the slots.
               var slots = generateBookingSlots(
                   closeTime: "16:30", openTime: "14:00", slotLength: 0.5);
               return Column(
@@ -180,7 +189,7 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
                         height: 5,
                       ),
                       Text(
-                        "${tem[columnIndex]}",
+                        "${dateOfCalender[columnIndex]}",
                         style: const TextStyle(
                           fontFamily: "MetropolisExtra",
                           fontSize: 16,
@@ -200,6 +209,9 @@ class _BookingsSlotsListState extends State<BookingsSlotsList> {
                       itemBuilder: ((context, rowIndex) {
                         return GestureDetector(
                           onTap: () {
+                            // here is the logic where we identify the place of the selected slot.
+                            //column index is the day
+                            //row index is the number of the booking slot
                             setState(() {
                               if (selectedColumn == null &&
                                   selectedRow == null) {

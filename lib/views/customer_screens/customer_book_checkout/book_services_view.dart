@@ -14,6 +14,13 @@ class BookServices extends StatefulWidget {
 }
 
 class _BookServicesState extends State<BookServices> {
+
+  //this generated list is used as an example just change it with the once fetched
+  //from the ViewModel and edit the places where it was used.
+  //be aware that in the viewModel we must add the "isSelected" as it's cruial  
+  //to select mutliple items
+  // "isSelect" is only stored here in the app it has no datafield in the firebase.
+  
   final List<Map> services = List.generate(
       20,
       (index) => {

@@ -119,7 +119,7 @@ class _ViewServicesState extends State<ViewServices> {
                       //it execute the work
                       onSelected: (String value) {
                         if (value == 'edit') {
-                          //to view the same current data in the textfieds
+                          //to view the same current data that we are holding in our controller in the textfieds
                           setState(() {
                             _serviceNameTextFieldController.text =
                                 model.servicesList![index].name!;
@@ -136,7 +136,7 @@ class _ViewServicesState extends State<ViewServices> {
                             title: 'Add A new Service',
                             passedMethod: () {
                               //pass your methods here
-                              // for the mean while I'm adding a new element in the array
+                              // for the mean while I'm editing the current element in the array
                               //and this is only will be showed in the view
                               //also it's missing the id
                               model.servicesList![index].name =

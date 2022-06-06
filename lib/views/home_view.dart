@@ -7,8 +7,8 @@ import '../views/login_view.dart';
 import '../views/all_bookings_view.dart'; //tbd
 import '../views/signup_view.dart';
 import 'all_services_view.dart';
+import 'barbershop_screens/barbershop_main_page_nav.dart';
 import 'customer_screens/customer_book_checkout/book_now_screen.dart';
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -76,6 +76,15 @@ class _HomeState extends State<Home> {
                         builder: ((context) => BookNow(
                               barbershop_id: "just random id",
                             ))));
+              },
+            ),
+            ElevatedButton(
+              child: Text("barbershop Profile"),
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => BarberMainPageNav())));
               },
             ),
           ],

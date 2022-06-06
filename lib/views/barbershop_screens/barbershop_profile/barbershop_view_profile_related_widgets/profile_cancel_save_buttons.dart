@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../../../helpers/colors.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:razor_book/app/service_locator/service_locator.dart';
-import 'package:razor_book/helpers/assets.dart';
-import 'package:razor_book/helpers/colors.dart';
-import 'package:razor_book/models/customerUserSide/customer_profile_model.dart';
-
-class SaveCancelButtons extends StatelessWidget {
+class ProfileEditViewCancelSaveButtons extends StatelessWidget {
   final Function onCanclePressed;
   final Function onSavePressed;
-  const SaveCancelButtons(
+  const ProfileEditViewCancelSaveButtons(
       {Key? key, required this.onCanclePressed, required this.onSavePressed})
       : super(key: key);
 
@@ -23,18 +17,18 @@ class SaveCancelButtons extends StatelessWidget {
         children: [
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   primary: Helper.kFABColor,
                   fixedSize: Size(MediaQuery.of(context).size.width * 0.4, 56)),
               onPressed: () {
                 onCanclePressed();
               },
-              child: Text(
-                'Cancle',
+              child: const Text(
+                'Cancel',
                 style: TextStyle(
                   fontFamily: 'Metropolis',
                   fontSize: 16,
-                  color: const Color(0xffffffff),
+                  color: Color(0xffffffff),
                   fontWeight: FontWeight.w700,
                 ),
                 textAlign: TextAlign.center,
@@ -42,19 +36,19 @@ class SaveCancelButtons extends StatelessWidget {
               )),
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   primary: Colors.red,
                   fixedSize: Size(MediaQuery.of(context).size.width * 0.4, 56)),
               onPressed: () {
                 onSavePressed();
-              
+                // CustomerDatabaseManager().updateProfile();
               },
-              child: Text(
+              child: const Text(
                 'Save',
                 style: TextStyle(
                   fontFamily: 'Metropolis',
                   fontSize: 16,
-                  color: const Color(0xffffffff),
+                  color: Color(0xffffffff),
                   fontWeight: FontWeight.w700,
                 ),
                 textAlign: TextAlign.center,
