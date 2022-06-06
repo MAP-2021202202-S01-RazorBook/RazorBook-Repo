@@ -22,8 +22,8 @@ class ViewBookings extends StatefulWidget {
       card  color is white, condition to make it is : is_cancelled=false + is_completed= false
       options: is to cancel it, condition should be : is_completed= false + is_cancelled= false
     2: is cancelled
-      card color is : red , condition is cancelled
-      opitons : try to click on it , will result in an alert message , condition : is_cancelled = true
+      card color is : red , condition : is_cancelled == true + is_completed = false
+      opitons : try to click on it , will result in an alert message , condition :is_cancelled == true + is_completed = false
     3: is completed but no review
       card color yellow, condition : is_completed = true && cancelled == false
       options: add review, condition: is_completed = true && cancelled == false 
