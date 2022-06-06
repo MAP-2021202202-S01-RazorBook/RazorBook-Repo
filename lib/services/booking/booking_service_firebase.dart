@@ -9,109 +9,85 @@ import '../failure.dart';
 import 'dart:developer';
 
 class BookingServiceFirebase extends BookingService {
-  final CollectionReference _bookings =
+  final CollectionReference _bookingsCollection =
       FirebaseFirestore.instance.collection('bookings');
-  final CollectionReference _services =
+  final CollectionReference _servicesCollection =
       FirebaseFirestore.instance.collection('services');
-  final CollectionReference _user =
+  final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  // .withConverter<Booking>(
-  //   fromFirestore: (data, document) => Booking.fromJson(data.data()),
-  //   toFirestore: (booking) => booking.toJson()
-  // )
-  //.collection("bookings").where("c_id", "==", "eRiujAfrWASWbosQGToSO1wcmNz1")
-  List<Booking> _bookingsList = [];
-  List<dynamic> _slotsList = [];
+  List<Booking>? _customerBookingsList = [];
+  List<Booking>? _barberBookingsList = [];
 
   @override
-  List<Booking> get bookingsList => _bookingsList;
+  List<Booking>? get customerBookingsList => _customerBookingsList;
+  @override
+  List<Booking>? get barberBookingsList => _barberBookingsList;
+
+  List<dynamic>? _slotsList;
 
   @override
-  List<dynamic> get slotsList => _slotsList;
+  List<dynamic>? get slotsList => _slotsList;
 
   @override
   Future<void> getCustomerBookings({required String userID}) async {
     try {
-      debugPrint("getBookings");
-      print("getBookings");
-      log("getBookings");
-      print("userID: $userID");
-      final doc = await _bookings.where("c_id", isEqualTo: userID).get();
+      final doc =
+          await _bookingsCollection.where("c_id", isEqualTo: userID).get();
 
       List<Booking> bookings =
           doc.docs.map((doc) => Booking.fromFirestore(doc)).toList();
-      _bookingsList = bookings;
-
-      // this should be then converted from JSON to User object,
-      // and stored in bookingShopsList
-
-      _bookingsList.forEach((element) {
-        print(_user.where("u_id", isEqualTo: element.b_id).get());
-      });
-
-      debugPrint("getBookings");
-      print("getBookings");
-      log("getBookings");
-      debugPrint("bookingsList: ${_bookingsList}");
-      //return Future <List<Booking>>(null);
-      //return Booking.fromFirestore(doc.getDocument());
-      //Double temp =12.12 as Double;
-      //return Booking(cID: "12", bID: "12", totalPrice: temp);
-
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+      _customerBookingsList = bookings;
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getCustomerBookings() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getCustomerBookings() on other exception');
     }
   }
 
   @override
   Future<void> getBarberBookings({required String userID}) async {
     try {
-      debugPrint("getBookings");
-      print("getBookings");
-      log("getBookings");
-      final doc = await _bookings
-          .where("b_id", isEqualTo: "yKUgyp8lpYXOmaDxon1r1CKeVCL2")
-          .get();
+      final doc =
+          await _bookingsCollection.where("b_id", isEqualTo: userID).get();
 
       List<Booking> bookings =
           doc.docs.map((doc) => Booking.fromFirestore(doc)).toList();
-      _bookingsList = bookings;
-
-      // this should be then converted from JSON to User object,
-      // and stored in bookingCustomersList
-      _bookingsList.forEach((element) {
-        print(_user.where("u_id", isEqualTo: element.c_id).get());
-      });
-
-      debugPrint("getBookings");
-      print("getBookings");
-      log("getBookings");
-      debugPrint("bookingsList: ${_bookingsList}");
-      //return Future <List<Booking>>(null);
-      //return Booking.fromFirestore(doc.getDocument());
-      //double temp =12.12 as double;
-      //return Booking(cID: "12", bID: "12", totalPrice: temp);
-
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+      _barberBookingsList = bookings;
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getBarberBookings() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getBarberBookings() on other exception');
     }
   }
 
   @override
   Future<void> cancelBooking({String? bookingID}) async {
     try {
-      debugPrint("cancelBooking ${bookingID}");
-      print("cancelBooking, bookingID: $bookingID");
-      log("cancelBooking ${bookingID}");
-
       // update the document with the booking id to cancelled equal to true
-      await _bookings.doc(bookingID).update({"is_cancelled": true});
-    } catch (Exc) {
-      print(Exc);
-      rethrow;
+      await _bookingsCollection.doc(bookingID).update({"is_cancelled": true});
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getBarberBookings() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.getBarberBookings() on other exception');
     }
   }
 
@@ -120,10 +96,10 @@ class BookingServiceFirebase extends BookingService {
     //final CollectionReference  _open_time = FirebaseFirestore.instance.collection('user/open_time');
 
     try {
-      final val = await _user
+      final val = await _usersCollection
           .where("u_id", isEqualTo: "MNyJ0Jiq7jZDGI3W6qMvGJBKadK2")
           .get();
-      print("ohio");
+
       //String substring(int startIndex, [int endIndex]);
       String openTime = val.docs[0].get('open_time').substring(0, 5) as String;
       String closeTime =
@@ -131,19 +107,13 @@ class BookingServiceFirebase extends BookingService {
       double slotLength = val.docs[0].get('slot_length') as double;
       List<dynamic> openDays = val.docs[0].get('open_days').toList();
 
-      print(openTime);
-      print(closeTime);
-      print(slotLength);
-      print(openDays);
-
       List<String> slots = getSlots(openTime, closeTime, slotLength);
 
       for (var i = 0; i < openDays.length; i++) {
-        _slotsList.add({openDays[i], slots});
+        _slotsList?.add({openDays[i], slots});
       }
 
-      print("hI");
-      print(slotsList);
+      _slotsList = slots;
     } catch (Exc) {
       print(Exc);
       rethrow;
@@ -151,25 +121,11 @@ class BookingServiceFirebase extends BookingService {
   }
 
   @override
-  Future<void> makeBooking(
-      {String? c_id, String? b_id, String? time, String? date}) async {
+  Future<void> makeBooking(Booking newBooking) async {
     try {
       // update the document with the booking id to cancelled equal to true
 
-      await _bookings.add({
-        'c_id': 'eRiujAfrWASWbosQGToSO1wcmNz1',
-        'b_id': 'MNyJ0Jiq7jZDGI3W6qMvGJBKadK2',
-        'services': [
-          {'SWWt4m8kEbkteJou65zj '},
-          {'qpwlREB0QcFG67a2czCt'}
-        ],
-        'time': '18:30',
-        'date': '18:18:2022',
-        'is_cancelled': false,
-        'is_completed': false,
-        'is_paid': false,
-        'price': 12.12
-      });
+      await _bookingsCollection.add(newBooking.toJson());
     } catch (Exc) {
       print(Exc);
       rethrow;

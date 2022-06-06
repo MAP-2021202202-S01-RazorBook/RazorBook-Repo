@@ -17,7 +17,7 @@ class BookingsViewModel extends BaseModel {
     print('I am at the view model');
     setBusy(true);
     await _bookingsService.generateSlots(bID: '1');
-    bookings = _bookingsService.bookingsList;
+    bookings = _bookingsService.customerBookingsList;
     setBusy(false);
   }
 
