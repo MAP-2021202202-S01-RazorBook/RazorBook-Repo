@@ -14,16 +14,32 @@ class CustomerServiceFirebase extends CustomerService {
   CollectionReference get _registeree =>
       FirebaseFirestore.instance.collection('users');
 
+  // User customer = User.customer(u_id: "", user_type: "Customer");
+  // User get customerDetailsForCustomer => customer;
+  //User? get customerDetailsForBarber => null;
+
+
+  List<dynamic> _customerDetailsForCustomer = [];
+
   @override
-  Future<User> getCustomerDetails(String uId) async {
+  List<dynamic> get customerDetailsForCustomer => _customerDetailsForCustomer;
+
+  String uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
+
+  @override
+  Future<void> getCustomerDetailsForCustomer(String uuId) async {
     try {
       QuerySnapshot value =
           await _registeree.where('u_id', isEqualTo: uId).get();
-      final Map<String, dynamic> data =
-          value.docs[0].data() as Map<String, dynamic>;
-      log(data.toString());
-      //need to fix the issue here since it return a document not an object
-      return User.fromFirestore(data);
+      
+      // final Map<String, dynamic> data =
+      //     value.docs[0].data() as Map<String, dynamic>;
+
+      //User customer = value.docs.map((value) => User.fromFirestore(value)) as User;
+
+      //for testing, approved
+      print(value.docs.length);
+
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),
@@ -40,8 +56,20 @@ class CustomerServiceFirebase extends CustomerService {
   @override
   Future<void> updateCustomerDetails(User user, ctx) async {
     try {
-      await _registeree.doc(user.u_id).update(user.toFirestore()).then((value) {
-        log("saving profile ${user.toFirestore()}");
+      CollectionReference _registeree =
+          FirebaseFirestore.instance.collection('users');
+      String dId = '0DEPzMAgJji5MoIjvoGY'; //document id
+      //final value = await _registeree.where("u_id", isEqualTo: uId);
+
+      //print(value);
+
+      await _registeree.doc(dId).update({
+        //dummy data for testing, approved
+        "name": "Testee",
+        "phone": "055055055",
+        "address": "123 Skudai"
+      }).then((value) {
+        //log("saving profile ${user.customerToFirestore()}");
         ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar("Profile Updated"));
       }).onError((error, stackTrace) {
         ScaffoldMessenger.of(ctx)
@@ -57,6 +85,37 @@ class CustomerServiceFirebase extends CustomerService {
           .showSnackBar(mySnackBar(e.toString(), error: true));
 
       throw Exception(e);
+    }
+  }
+  
+  @override
+  Future<void> getCustomerDetailsForBarber(String uId) async{
+  try {
+      QuerySnapshot value =
+          await _registeree.where('u_id', isEqualTo: uId).get();
+      
+      // final Map<String, dynamic> data =
+           //value.docs[0].id;
+      
+      _customerDetailsForCustomer.add(value.docs[0].get("name"));
+      _customerDetailsForCustomer.add(value.docs[0].get("u_id"));
+      _customerDetailsForCustomer.add(value.docs[0].get("address"));
+      _customerDetailsForCustomer.add(value.docs[0].get("phone"));
+
+      //User customer = value.docs.map((value) => User.fromFirestore(value)) as User;
+      //for testing, approved
+      //print(value.docs.length);
+
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'CounterServiceFireStore.getCustomerDetails() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'CounterServiceFireStore.getCustomerDetails() on other exception');
     }
   }
 }
