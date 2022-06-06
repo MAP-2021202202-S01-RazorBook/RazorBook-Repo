@@ -15,13 +15,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MultiProvider(
+    return MultiProvider(
       providers: [
+        // auth service
+        Provider<AuthenticationService>(
+          create: (_) => locator<AuthenticationService>(),
+        ),
 
-        ChangeNotifierProvider(create: (_) => locator<CustomerProfileViewModel>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<CustomerProfileViewModel>()),
       ],
-      child: MaterialApp(
-        home: const Home(),
+      child: const MaterialApp(
+        home: Home(),
+        onGenerateRoute: router.generateRoute,
+        initialRoute: '/',
       ),
     );
   }

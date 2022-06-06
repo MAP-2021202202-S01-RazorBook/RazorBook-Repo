@@ -9,14 +9,14 @@ import '../app/service_locator/service_locator.dart';
 
 String? _dropdownValue = "barber";
 
-class typeList extends StatefulWidget {
-  const typeList({Key? key}) : super(key: key);
+class SignupView extends StatefulWidget {
+  const SignupView({Key? key}) : super(key: key);
 
   @override
-  State<typeList> createState() => _typeListState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _typeListState extends State<typeList> {
+class _SignupViewState extends State<SignupView> {
   @override
   Widget build(BuildContext context) {
     void dropdownCallback(String? selectedValue) {
@@ -80,7 +80,7 @@ class _TypeViewState extends State<TypeView> {
                 SizedBox(
                   height: 20,
                 ),
-                typeList(),
+                SignupView(),
                 SizedBox(
                   height: 30,
                 ),
@@ -125,99 +125,101 @@ class _BarberSignupViewState extends State<BarberSignupView> {
   TextEditingController closeTimeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-      return ChangeNotifierProvider<BarbershopSignUpViewModel>(
+    return ChangeNotifierProvider<BarbershopSignUpViewModel>(
       create: (_) => locator<BarbershopSignUpViewModel>(),
       child: Consumer<BarbershopSignUpViewModel>(
         builder: (context, model, child) => Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color.fromARGB(0, 219, 201, 201),
-          Color.fromARGB(255, 21, 141, 91),
-          Color(0x610BE803)
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.06, 20, 0),
-            child: Column(
-              children: <Widget>[
-                logoWidget("assets/images/logo.png"),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField(
-                    "Shop Name", Icons.store, false, shopNameController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Contact Number", Icons.call, false,
-                    contactController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField(
-                    "Address", Icons.place, false, addressController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField(
-                    "Description", Icons.info, false, descriptionController),    
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Email", Icons.mail_outline, false, emailController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Enter your Password", Icons.lock_outline, true,
-                    passwordController),
-                SizedBox(
-                  height: 20,
-                ),
-                pickTime("Shop open time",openTimeController, context),
-                SizedBox(
-                  height: 20,
-                ),
-                pickTime("Shop close time",closeTimeController, context),                                    
-                SizedBox(
-                  height: 30,
-                ),
-                confirmButton(context, "Sign Up", () async {
-                  try {
-                    await model.barbershopSignup(
-                        name: shopNameController.text,
-                        phone: contactController.text,
-                        address: addressController.text,
-                        openTime: openTimeController.text,
-                        closeTime: closeTimeController.text,
-                        description: descriptionController.text,
-                        email: emailController.text,
-                        password: passwordController.text);
-                  } catch (e) {
-                    String errorMessage = e.toString();
-                    // setState(() {});
-                    var snackBar = messageSnackBar(errorMessage, Colors.red);
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Color.fromARGB(0, 219, 201, 201),
+              Color.fromARGB(255, 21, 141, 91),
+              Color(0x610BE803)
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    20, MediaQuery.of(context).size.height * 0.06, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    logoWidget("assets/images/logo.png"),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Shop Name", Icons.store, false, shopNameController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Contact Number", Icons.call, false, contactController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Address", Icons.place, false, addressController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField("Description", Icons.info, false,
+                        descriptionController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Email", Icons.mail_outline, false, emailController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField("Enter your Password", Icons.lock_outline, true,
+                        passwordController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    pickTime("Shop open time", openTimeController, context),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    pickTime("Shop close time", closeTimeController, context),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    confirmButton(context, "Sign Up", () async {
+                      try {
+                        await model.barbershopSignup(
+                            name: shopNameController.text,
+                            phone: contactController.text,
+                            address: addressController.text,
+                            openTime: openTimeController.text,
+                            closeTime: closeTimeController.text,
+                            description: descriptionController.text,
+                            email: emailController.text,
+                            password: passwordController.text);
+                      } catch (e) {
+                        String errorMessage = e.toString();
+                        // setState(() {});
+                        var snackBar =
+                            messageSnackBar(errorMessage, Colors.red);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
 
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Home()));
-                }),
-                login(),
-                SizedBox(
-                  height: 30,
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    }),
+                    login(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-      ),
-      );
+    );
   }
 
   Row login() {
@@ -260,76 +262,78 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
       create: (_) => locator<CustomerSignUpViewModel>(),
       child: Consumer<CustomerSignUpViewModel>(
         builder: (context, model, child) => Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color.fromARGB(0, 219, 201, 201),
-          Color.fromARGB(255, 21, 141, 91),
-          Color(0x610BE803)
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.06, 20, 0),
-            child: Column(
-              children: <Widget>[
-                logoWidget("assets/images/logo.png"),
-                SizedBox(
-                  height: 20,
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Color.fromARGB(0, 219, 201, 201),
+              Color.fromARGB(255, 21, 141, 91),
+              Color(0x610BE803)
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    20, MediaQuery.of(context).size.height * 0.06, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    logoWidget("assets/images/logo.png"),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField("Full Name", Icons.person_outline, false,
+                        nameController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Contact Number", Icons.call, false, contactController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Address", Icons.place, false, addressController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField(
+                        "Email", Icons.mail_outline, false, emailController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    inputField("Enter your Password", Icons.lock_outline, true,
+                        passwordController),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    confirmButton(context, "Sign Up", () async {
+                      try {
+                        await model.customerSignup(
+                            name: nameController.text,
+                            phone: contactController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            address: addressController.text);
+                      } catch (e) {
+                        String errorMessage = e.toString();
+                        // setState(() {});
+                        var snackBar =
+                            messageSnackBar(errorMessage, Colors.red);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    }),
+                    login(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
                 ),
-                inputField(
-                    "Full Name", Icons.person_outline, false, nameController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Contact Number", Icons.call, false,
-                    contactController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Address", Icons.place, false,
-                    addressController),    
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Email", Icons.mail_outline, false, emailController),
-                SizedBox(
-                  height: 20,
-                ),
-                inputField("Enter your Password", Icons.lock_outline, true,
-                    passwordController),
-                SizedBox(
-                  height: 30,
-                ),
-                confirmButton(context, "Sign Up", () async {
-                  try {
-                    await model.customerSignup(
-                        name: nameController.text,
-                        phone: contactController.text,
-                        email: emailController.text,
-                        password: passwordController.text,
-                        address: addressController.text);
-                  } catch (e) {
-                    String errorMessage = e.toString();
-                    // setState(() {});
-                    var snackBar = messageSnackBar(errorMessage, Colors.red);
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Home()));
-                }),
-                login(),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
-    ),
       ),
     );
   }

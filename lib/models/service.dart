@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Service {
@@ -33,19 +32,18 @@ class Service {
   // from json
   factory Service.fromJson(Map<String, dynamic>? json) {
     return Service(
-      id: json!['id'] as String,
-      shID: json['sh_id'] as String,
-      price: json['price'] as double,
-      name: json['name'] as String,
-      description: json['description'] as String
-    );
+        id: json!['id'] as String,
+        shID: json['sh_id'] as String,
+        price: json['price'] as double,
+        name: json['name'] as String,
+        description: json['description'] as String);
   }
 
 // from firebase snapshot
   factory Service.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     final id = doc.id;
-    print("thi is my: "+id);
+    print("thi is my: " + id);
 
     return Service(
       id: id,

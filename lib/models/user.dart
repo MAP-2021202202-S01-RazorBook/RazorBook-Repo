@@ -1,41 +1,26 @@
-import 'dart:ffi';
-
 class User {
   String u_id;
   String email;
-  String user_type;
+  String? user_type;
   String? name;
   String? address;
   Map<String, dynamic>? location;
   String? phone;
   String? image;
   String? description;
-  List<String>? bookings;
-  List<String>? services;
+  List<dynamic>? bookings;
+  List<dynamic>? services;
   Map<String, dynamic>? rating;
-  List<String>? open_days;
-  Double? slot_length;
+  List<dynamic>? open_days;
+  double? slot_length;
   String? start_time;
+  String? open_time;
   String? close_time;
 
-// defauly constructor, won't be used really
+// defauly constructor, only used upon login or something
   User({
     required this.u_id,
     required this.email,
-    required this.user_type,
-    this.name,
-    this.address,
-    this.location,
-    this.phone,
-    this.image,
-    this.description,
-    this.bookings,
-    this.services,
-    this.rating,
-    this.open_days,
-    this.slot_length,
-    this.start_time,
-    this.close_time,
   });
 
   // Barber constructor
@@ -55,6 +40,7 @@ class User {
     this.open_days,
     this.slot_length,
     this.start_time,
+    this.open_time,
     this.close_time,
   });
 
@@ -107,6 +93,7 @@ class User {
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
         start_time: data['start_time'],
+        open_time: data['open_time'],
         close_time: data['close_time'],
       );
     } else {
