@@ -24,10 +24,38 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _phoneTextFiledController = TextEditingController();
   final _slotLengthTextFiledController = TextEditingController();
 
+  //keep this list no need to delete it, it's used to display list of days to select from
+  // final List<String> workingDaysToSelect = [
+  //   "Sunday",
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thrusday",
+  //   "Friday",
+  //   "Saturday"
+  // ];
+  final List<Map> workingDaysToSelect = [
+    {'day': 'Sunday', 'isSelected': false},
+    {'day': 'Monday', 'isSelected': false},
+    {'day': 'Tuesday', 'isSelected': false},
+    {'day': 'Wednesday', 'isSelected': false},
+    {'day': 'Thrusday', 'isSelected': false},
+    {'day': 'Friday', 'isSelected': false},
+    {'day': 'Saturday', 'isSelected': false},
+  ];
+  //this list must be in the user model that will be submitted to the firebase,
+  // so what ever he selects from the chips , it's stored here.
+  //it will be submitted onSavePressed button at the end.
+  //also when connecting it to viewModel list which contains working days
+  //all varabiles used in the Scrollbar listView will be replaced with if
+  //for instance model.workingday.add("");
+  //check comment in the listview line -178-
+  final List<String> barberShopWorkingDays = [];
+
   @override
   Widget build(BuildContext context) {
     /* Notes */
-    // in the hintText for a better UX you may pass it's values by the viewModl
+    // in the hintText for a better UX you may pass its values by the viewModel
     //those values can be the real values of the model we have
 
     return Scaffold(
@@ -116,13 +144,60 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                     controller: _slotLengthTextFiledController,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 20,
+                  ),
+                  const ProfileEditViewTextFieldTitle(
+                      label: "Edit Working Days"),
+                  const SizedBox(
+                    height: 14,
                   ),
 
-                  const SizedBox(
-                    height: 40,
+                  // Only one scroll position can be attached to the
+                  // PrimaryScrollController if using Scrollbars. Providing a
+                  // unique scroll controller to this scroll view prevents it
+                  // from attaching to the PrimaryScrollController.
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 52.0),
+                    child: Container(
+                      width: double.maxFinite,
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: workingDaysToSelect.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FilterChip(
+                                selected: workingDaysToSelect[index]
+                                    ['isSelected'],
+                                label: Text(workingDaysToSelect[index]['day']),
+                                onSelected: (bool value) {
+                                  setState(() {
+                                    if (value) {
+                                      workingDaysToSelect[index]['isSelected'] =
+                                          true;
+                                      //note: here where you should replace it
+                                      //with the once in the viewModel
+                                      barberShopWorkingDays.add(
+                                          workingDaysToSelect[index]['day']);
+                                    } else {
+                                      workingDaysToSelect[index]['isSelected'] =
+                                          false;
+                                      //note: here where you should replace it
+                                      //with the once in the viewModel
+                                      barberShopWorkingDays.remove(
+                                          workingDaysToSelect[index]['day']);
+                                    }
+                                  });
+                                },
+                                selectedColor:
+                                    Color.fromARGB(255, 100, 144, 221),
+                                backgroundColor: Helper.kFABColor,
+                              ),
+                            );
+                          }),
+                    ),
                   ),
-                  // const ProfileViewOpenTime(),
 
                   const SizedBox(height: 18),
                   const BarbershopViewListOfServices(
@@ -142,9 +217,15 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                       Navigator.of(context).pop();
                     },
                     onSavePressed: () {
-                      
                       //here will be the part we you add the services and updated the
                       //data in the ViewModel
+
+                      
+                      //here is the list where should be sent to the database.
+                      //if you wanna use the one i defined here [barberShopWorkingDays]
+                      //just pass it to the service method that receive list of strings which updates
+                      //workingDay-if there is-, or call the  service method responseilbe for that
+                      print(barberShopWorkingDays);
                     },
                   ),
                 ],
