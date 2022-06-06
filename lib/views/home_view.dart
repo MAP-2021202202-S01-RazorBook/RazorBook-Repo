@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/router-constants.dart';
 import '../app/service_locator/service_locator.dart';
+import '../view_model/bookings_view_model.dart';
 import '../view_model/customer_profile_view_model.dart';
 import '../view_model/home_view_model.dart';
 import '../views/login_view.dart';
 import '../views/all_bookings_view.dart'; //tbd
 import '../router.dart' as router;
 import 'all_services_view.dart';
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -25,6 +24,8 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider(
             create: (_) => locator<CustomerProfileViewModel>()),
+
+        ChangeNotifierProvider(create: (_) => locator<BookingsViewModel>()),
       ],
       child: const MaterialApp(
         home: Home(),
