@@ -50,9 +50,71 @@ class BarberServicesServiceFirebase extends BarberServicesService {
   }
 
   @override
-  Future<void> addlService({String? bookingID}) {
-    // TODO: implement addlService
-    throw UnimplementedError();
+  Future<void> addService({String? userID, String? name, String? description, double? price}) async {
+    // TODO: implement addService
+        try {
+      debugPrint("gets");
+      print("gets");
+
+      String mockShopId='eRiujAfrWASWbosQGToSO1wcmNz1';
+      //log("gets");
+      // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
+      // .get();
+
+      _services.add({
+        "name": "Testee",
+        "description": "Testee",
+        "price": 13.5,
+        "sh_id": mockShopId,
+        "is_deleted": false
+      });
+
+    } catch (Exc) {
+      print(Exc);
+      rethrow;
+    }
+    
+  }
+
+    @override
+  Future<void> deleteService({String? serviceID}) async {
+    // TODO: implement delete Service
+        try {
+
+      String mockServiceId= 'SWWt4m8kEbkteJou65zj';
+      // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
+      // .get();
+      _services.doc(mockServiceId).update({
+        'is_deleted' : true
+      });
+
+      debugPrint("gets");
+      print("gets");
+
+    } catch (Exc) {
+      print(Exc);
+      rethrow;
+    }
+    
+  }
+
+      @override
+  Future<void> editService({String? serviceID, String? name, String? description, double? price}) async {
+    // TODO: implement editService
+        try {
+      String mockServiceId='SWWt4m8kEbkteJou65zj';
+      await _services.doc(mockServiceId).update({
+        //dummy data for testing, approved
+        "name": "Testee",
+        "description": "dont but please",
+        "price": 499.7
+      });
+
+    } catch (Exc) {
+      print(Exc);
+      rethrow;
+    }
+    
   }
 
   //  @override

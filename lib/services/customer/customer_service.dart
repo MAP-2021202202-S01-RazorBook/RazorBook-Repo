@@ -8,9 +8,12 @@ import '../../models/user.dart';
 //also includes the part where customer can update his profile details.
 abstract class CustomerService {
   User? get customerDetailsForBarber => null;
-  User? get customerDetailsForCustomer => null;
+  List<dynamic>? get customerDetailsForCustomer => null;
 
 //need to change it to void which results in changing the viewmodels as well
-  Future<User> getCustomerDetails(String uId);
+  Future<void> getCustomerDetailsForCustomer(String uId);
+  Future<void> getCustomerDetailsForBarber(String uId);
   Future<void> updateCustomerDetails(User user, ctx);
+
+  //TODO: get customer details for each user 
 }

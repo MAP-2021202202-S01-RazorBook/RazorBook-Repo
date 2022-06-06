@@ -16,15 +16,11 @@ class ServicesViewModel extends BaseModel {
   Future getServices() async {
     print('I am at sssss the view model');
     setBusy(true);
-    await _barberServicesService.getServices(userID: _currentUser?.u_id ?? "");
-    services = _barberServicesService.servicesList;
+    await _barberServicesService.deleteService(serviceID: '1');
+    //services = _barberServicesService.servicesList;
     setBusy(false);
     dispose();
   }
-
-  // Future cancelBooking(String? bookingID) async {
-  //     setBusy(true);
-  //     print('I am cancelling at the view model');
 
   //     await _bookingsService.cancelBooking(bookingID: bookingID);
   //     await _bookingsService.getBookings(userID: '1');

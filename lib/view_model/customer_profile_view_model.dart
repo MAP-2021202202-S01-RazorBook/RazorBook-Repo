@@ -23,9 +23,9 @@ class CustomerProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
-  User _user = User(u_id: "", email: "");
+  User? _user = User(u_id: "", email: "");
 
-  User get user => _user;
+  User? get user => _user;
 
   ProfileUploadState _profileUploadState = ProfileUploadState.none;
   ProfileUploadState get profileUploadState => _profileUploadState;
@@ -38,7 +38,12 @@ class CustomerProfileViewModel extends BaseModel {
   Future<void> getCustomerDetails(String id) async {
     setBusy(true);
     try {
-      _user = await _customerService.getCustomerDetails(id);
+      //_user = await _customerService.getCustomerDetails(id);
+      print("Customer details VM");
+      setBusy(true);
+      // await _customerService.getCustomerDetailsForCustomer(id);
+      // _user = _customerService.customerDetailsForCustomer;
+
     } on FirebaseException catch (e) {
       // throw Failures.cannotWrite;
       throw Failure(200,

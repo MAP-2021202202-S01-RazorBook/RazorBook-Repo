@@ -16,9 +16,7 @@ class BookingsViewModel extends BaseModel {
   Future getBookings() async {
     print('I am at the view model');
     setBusy(true);
-    await _bookingsService.getBookings(
-        userID: _currentUser?.u_id ?? "",
-        userType: _currentUser?.user_type ?? "");
+    await _bookingsService.generateSlots(bID: '1');
     bookings = _bookingsService.bookingsList;
     setBusy(false);
   }
@@ -28,7 +26,7 @@ class BookingsViewModel extends BaseModel {
     print('I am cancelling at the view model');
 
     await _bookingsService.cancelBooking(bookingID: bookingID);
-    // await _bookingsService.getBookings(userID: '1');
+    await _bookingsService.getCustomerBookings(userID: '1');
     setBusy(false);
   }
 }
