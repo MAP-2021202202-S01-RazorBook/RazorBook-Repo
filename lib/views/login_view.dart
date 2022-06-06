@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/router-constants.dart';
 import '../app/service_locator/service_locator.dart';
 import '../view_model/login_view_model.dart';
 import '../helpers/helper_widgets.dart';
@@ -77,10 +78,7 @@ class _LoginViewState extends State<LoginView> {
                     }),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordView()));
+                        Navigator.pushNamed(context, ForgotPasswordRoute);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -115,8 +113,7 @@ class _LoginViewState extends State<LoginView> {
             style: TextStyle(color: Colors.white)),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => TypeView()));
+            Navigator.pushNamed(context, SignupViewRoute);
           },
           child: const Text(
             " Sign Up",

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app/service_locator/service_locator.dart';
+import '../router-constants.dart';
 import '../views/login_view.dart';
 import '../helpers/helper_widgets.dart';
 import '../view_model/forgot_password_view_model.dart';
@@ -52,10 +53,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       () async {
                         try {
                           await model.forgotPassword(emailController.text);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginView()));
+                          Navigator.pushNamed(context, LoginViewRoute);
                           const snackBar = SnackBar(
                             backgroundColor: Colors.green,
                             content: Text(' Email sent successfully'),
@@ -72,10 +70,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginView()));
+                        Navigator.pushNamed(context, LoginViewRoute);
                       },
                       child: const Text(
                         "Back to Login",

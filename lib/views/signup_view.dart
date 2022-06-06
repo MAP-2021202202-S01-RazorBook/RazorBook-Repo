@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:razor_book/router-constants.dart';
 import '../view_model/barber_registration_view_model.dart';
 import '../views/login_view.dart';
 import '../views/home_view.dart';
@@ -9,14 +10,14 @@ import '../app/service_locator/service_locator.dart';
 
 String? _dropdownValue = "barber";
 
-class SignupView extends StatefulWidget {
-  const SignupView({Key? key}) : super(key: key);
+class UserTypeDropdown extends StatefulWidget {
+  const UserTypeDropdown({Key? key}) : super(key: key);
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  State<UserTypeDropdown> createState() => _UserTypeDropdownState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _UserTypeDropdownState extends State<UserTypeDropdown> {
   @override
   Widget build(BuildContext context) {
     void dropdownCallback(String? selectedValue) {
@@ -46,14 +47,14 @@ class _SignupViewState extends State<SignupView> {
   }
 }
 
-class TypeView extends StatefulWidget {
-  const TypeView({Key? key}) : super(key: key);
+class SignupView extends StatefulWidget {
+  const SignupView({Key? key}) : super(key: key);
 
   @override
-  State<TypeView> createState() => _TypeViewState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _TypeViewState extends State<TypeView> {
+class _SignupViewState extends State<SignupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,21 +81,15 @@ class _TypeViewState extends State<TypeView> {
                 SizedBox(
                   height: 20,
                 ),
-                SignupView(),
+                UserTypeDropdown(),
                 SizedBox(
                   height: 30,
                 ),
                 confirmButton(context, "Continue", () {
                   if (_dropdownValue == "barber") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BarberSignupView()));
+                    Navigator.pushNamed(context, BarberSignupViewRoute);
                   } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CustomerSignupView()));
+                    Navigator.pushNamed(context, CustomerSignupViewRoute);
                   }
                 }),
                 //login(),
@@ -230,8 +225,7 @@ class _BarberSignupViewState extends State<BarberSignupView> {
             style: TextStyle(color: Colors.white)),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginView()));
+            Navigator.pushNamed(context, LoginViewRoute);
           },
           child: const Text(
             " Login",
@@ -346,8 +340,7 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
             style: TextStyle(color: Colors.white)),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginView()));
+            Navigator.pushNamed(context, LoginViewRoute);
           },
           child: const Text(
             " Login",
