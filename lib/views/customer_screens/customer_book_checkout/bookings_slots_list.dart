@@ -7,8 +7,9 @@ import '../../../helpers/colors.dart';
 import 'package:intl/intl.dart';
 
 class BookingsSlotsList extends StatefulWidget {
-  const BookingsSlotsList({Key? key}) : super(key: key);
-
+  const BookingsSlotsList({Key? key, required this.barbershop_id})
+      : super(key: key);
+  final String barbershop_id;
   @override
   State<BookingsSlotsList> createState() => _BookingsSlotsListState();
 }

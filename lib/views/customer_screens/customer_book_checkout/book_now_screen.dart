@@ -7,7 +7,9 @@ import 'book_services_view.dart';
 import 'bookings_slots_list.dart';
 
 class BookNow extends StatefulWidget {
-  const BookNow({Key? key}) : super(key: key);
+  const BookNow({Key? key, required this.barbershop_id}) : super(key: key);
+
+  final String barbershop_id;
 
   @override
   State<BookNow> createState() => _BookNowState();
@@ -17,32 +19,32 @@ class _BookNowState extends State<BookNow> {
   final List<String> titles = ["Bookings", "Services", "Checkout"];
   int _curStep = 2;
 
-  AppBar appbarWidget() {
-    return appBar(
-      bartitle: const Text(
-        "Book Now ",
-        style: TextStyle(
-          fontFamily: "MetropolisExtra",
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Helper.kTitleTextColor,
-        ),
-      ),
-      onPressedFunction: () {},
-      appBarRightIcon: const Icon(
-        Icons.shopping_cart,
-        color: Helper.kTitleTextColor,
-      ),
-      leadingW: const BackButton(
-        color: Helper.kTitleTextColor,
-      ),
-    );
-  }
+  // AppBar appbarWidget() {
+  //   return
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appbarWidget(),
+        appBar: appBar(
+          bartitle: const Text(
+            "Book Now ",
+            style: TextStyle(
+              fontFamily: "MetropolisExtra",
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Helper.kTitleTextColor,
+            ),
+          ),
+          onPressedFunctionForRightAction: () {},
+          appBarRightIcon: const Icon(
+            Icons.shopping_cart,
+            color: Helper.kTitleTextColor,
+          ),
+          leadingW: const BackButton(
+            color: Helper.kTitleTextColor,
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
@@ -63,10 +65,44 @@ class _BookNowState extends State<BookNow> {
                     });
                   },
                   children: <Widget>[
-                    BookingsSlotsList(),
-                    BookServices(),
+                    BookingsSlotsList(barbershop_id: widget.barbershop_id),
+                    BookServices(barbershop_id: widget.barbershop_id),
+                    //this one will be deleted later in the last sprints
                     Container(
-                      color: Colors.amber,
+                      child: Center(
+                        child: SizedBox(
+                            height: 80,
+                            width: 180,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Confirm Booking Now"),
+                                      content: const Text(
+                                          "are you sure you want to confirm your booking?"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.red,
+                                          ),
+                                          child: const Text("Confirm"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text(
+                                "Confirm Booking",
+                                style: TextStyle(fontSize: 19),
+                              ),
+                            )),
+                      ),
                     ),
                   ],
                 ),

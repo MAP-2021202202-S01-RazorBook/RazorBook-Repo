@@ -6,8 +6,9 @@ import '../../../helpers/colors.dart';
 import 'package:intl/intl.dart';
 
 class BookServices extends StatefulWidget {
-  const BookServices({Key? key}) : super(key: key);
+  const BookServices({Key? key, required this.barbershop_id}) : super(key: key);
 
+  final String barbershop_id;
   @override
   State<BookServices> createState() => _BookServicesState();
 }
@@ -83,29 +84,30 @@ class _BookServicesState extends State<BookServices> {
                     itemCount: services.length,
                     itemBuilder: ((contwxt, index) {
                       return Card(
-                          key: ValueKey(services[index]['name']),
-                          margin: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: services[index]['isSelected'] == true
-                              ? Helper.kFABColor
-                              : Colors.white,
-                          child: ListTile(
-                            onTap: () {
-                              setState(() {
-                                if (services[index]['isSelected'] == true) {
-                                  services[index]['isSelected'] = false;
-                                  totalPrice -= services[index]['price'];
-                                } else {
-                                  services[index]['isSelected'] = true;
-                                  totalPrice += services[index]['price'];
-                                }
-                              });
-                            },
-                            title: Text(services[index]['name']),
-                            subtitle: Text(services[index]['description']),
-                            trailing: Text(services[index]['price'].toString()),
-                          ));
+                        key: ValueKey(services[index]['name']),
+                        margin: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: services[index]['isSelected'] == true
+                            ? Helper.kFABColor
+                            : Colors.white,
+                        child: ListTile(
+                          onTap: () {
+                            setState(() {
+                              if (services[index]['isSelected'] == true) {
+                                services[index]['isSelected'] = false;
+                                totalPrice -= services[index]['price'];
+                              } else {
+                                services[index]['isSelected'] = true;
+                                totalPrice += services[index]['price'];
+                              }
+                            });
+                          },
+                          title: Text(services[index]['name']),
+                          subtitle: Text(services[index]['description']),
+                          trailing: Text(services[index]['price'].toString()),
+                        ),
+                      );
                     })),
               )
             ],

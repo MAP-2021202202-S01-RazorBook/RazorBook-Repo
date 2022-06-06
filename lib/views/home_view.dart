@@ -9,6 +9,7 @@ import '../views/signup_view.dart';
 import 'all_services_view.dart';
 import 'customer_screens/customer_book_checkout/book_now_screen.dart';
 
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -69,8 +70,12 @@ class _HomeState extends State<Home> {
             ElevatedButton(
               child: Text("Book Now"),
               onPressed: () async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => BookNow())));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => BookNow(
+                              barbershop_id: "just random id",
+                            ))));
               },
             ),
           ],
