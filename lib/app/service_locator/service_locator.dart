@@ -7,6 +7,8 @@ import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
 import '../../services/barber_services/barber_services_service.dart';
 import '../../services/barber_services/barber_services_service_firebase.dart';
+import '../../services/barbershop_profile/barbershop_profile_service.dart';
+import '../../services/barbershop_profile/barbershop_profile_service_firebase.dart';
 import '../../services/booking/booking_service.dart';
 import '../../services/booking/booking_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
@@ -44,15 +46,16 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceFirebase());
 
+  locator.registerLazySingleton<BookingService>(() => BookingServiceFirebase());
 
-  locator.registerLazySingleton<BookingService>(
-      () => BookingServiceFirebase());
-      
   locator.registerLazySingleton<BarberServicesService>(
-      () => BarberServicesServiceFirebase());           
+      () => BarberServicesServiceFirebase());
 
-    locator.registerLazySingleton<CustomerService>(
-      () => CustomerServiceFirebase());
+  locator
+      .registerLazySingleton<CustomerService>(() => CustomerServiceFirebase());
+
+  locator.registerLazySingleton<BarbershopService>(
+      () => BarbershopServiceFirebase());
 
 
   // Register ViewModels
