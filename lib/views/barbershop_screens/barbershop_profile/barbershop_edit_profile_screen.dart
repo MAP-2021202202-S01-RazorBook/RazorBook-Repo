@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../helpers/colors.dart';
+import '../../../helpers/helper_widgets.dart';
 import '../../common_widgets/pages_appbar.dart';
 import '../../common_widgets/profile_edit_custome_textfield.dart';
 import '../../common_widgets/profile_view_avatar.dart';
@@ -24,16 +25,9 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _phoneTextFiledController = TextEditingController();
   final _slotLengthTextFiledController = TextEditingController();
 
-  //keep this list no need to delete it, it's used to display list of days to select from
-  // final List<String> workingDaysToSelect = [
-  //   "Sunday",
-  //   "Monday",
-  //   "Tuesday",
-  //   "Wednesday",
-  //   "Thrusday",
-  //   "Friday",
-  //   "Saturday"
-  // ];
+  final _openTimeTextFiledController = TextEditingController();
+  final _closeTimeTextFiledController = TextEditingController();
+
   final List<Map> workingDaysToSelect = [
     {'day': 'Sunday', 'isSelected': false},
     {'day': 'Monday', 'isSelected': false},
@@ -49,7 +43,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   //also when connecting it to viewModel list which contains working days
   //all varabiles used in the Scrollbar listView will be replaced with if
   //for instance model.workingday.add("");
-  //check comment in the listview line -178-
+  //check comment in the listview line -196-
   final List<String> barberShopWorkingDays = [];
 
   @override
@@ -57,6 +51,8 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
     /* Notes */
     // in the hintText for a better UX you may pass its values by the viewModel
     //those values can be the real values of the model we have
+    //e.g: insteadof hintText: "Hamzeh Wahed Bajbouj",
+    /// can be : model.userModel.name
 
     return Scaffold(
       appBar: appBar(
@@ -144,6 +140,32 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                     controller: _slotLengthTextFiledController,
                   ),
                   const SizedBox(
+                    height: 8,
+                  ),
+
+                  const ProfileEditViewTextFieldTitle(label: "Open Time"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: pickTimeInBarberShopProfile(
+                        context: context,
+                        hintText: "Edit open Time",
+                        timeInputController: _openTimeTextFiledController),
+                  ),
+
+                  const SizedBox(
+                    height: 8,
+                  ),
+
+                  const ProfileEditViewTextFieldTitle(label: "Close Time"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: pickTimeInBarberShopProfile(
+                        context: context,
+                        hintText: "Edit close Time",
+                        timeInputController: _closeTimeTextFiledController),
+                  ),
+
+                  const SizedBox(
                     height: 20,
                   ),
                   const ProfileEditViewTextFieldTitle(
@@ -152,10 +174,6 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                     height: 14,
                   ),
 
-                  // Only one scroll position can be attached to the
-                  // PrimaryScrollController if using Scrollbars. Providing a
-                  // unique scroll controller to this scroll view prevents it
-                  // from attaching to the PrimaryScrollController.
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 52.0),
                     child: Container(
@@ -204,6 +222,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                     title: "Services",
                   ),
                   const SizedBox(height: 40),
+
                   ProfileEditViewCancelSaveButtons(
                     onCanclePressed: () {
                       // clear all the data that has been stored
@@ -214,18 +233,23 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                       _emailTextFiledController.clear();
                       _phoneTextFiledController.clear();
                       _slotLengthTextFiledController.clear();
+                      _openTimeTextFiledController.clear();
+                      _closeTimeTextFiledController.clear();
                       Navigator.of(context).pop();
                     },
                     onSavePressed: () {
                       //here will be the part we you add the services and updated the
                       //data in the ViewModel
+                      //the data are fetched from here -TextFiledController -
+                      //e.g.:_openTimeTextFiledController.text
 
-                      
                       //here is the list where should be sent to the database.
                       //if you wanna use the one i defined here [barberShopWorkingDays]
                       //just pass it to the service method that receive list of strings which updates
                       //workingDay-if there is-, or call the  service method responseilbe for that
                       print(barberShopWorkingDays);
+                      print(_openTimeTextFiledController.text);
+                      print(_closeTimeTextFiledController.text);
                     },
                   ),
                 ],

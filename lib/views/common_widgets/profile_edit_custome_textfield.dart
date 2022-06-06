@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import '../../helpers/colors.dart';
@@ -23,6 +25,7 @@ class ProfileEditViewTextField extends StatelessWidget {
           child: SizedBox(
             height: 48,
             child: TextFormField(
+
               keyboardType: inputType,
               onChanged: (value) {
                 controller.text = value;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'colors.dart';
+
 Image logoWidget(String imageName) {
   return Image.asset(
     imageName,
@@ -78,10 +80,10 @@ SnackBar messageSnackBar(String message, Color bgColor) {
   );
 }
 
-TextField pickTime(
-    String text, TextEditingController timeinput, BuildContext context) {
+TextField pickTime(String text, TextEditingController timeInputController,
+    BuildContext context) {
   return TextField(
-    controller: timeinput, //editing controller of this TextField
+    controller: timeInputController, //editing controller of this TextField
     decoration: InputDecoration(
       icon: Icon(Icons.timer), //icon of text field
       labelText: text, //label text of field
@@ -104,7 +106,7 @@ TextField pickTime(
         //DateFormat() is from intl package, you can format the time on any pattern you need.
 
         // setState(() {
-        timeinput.text = formattedTime; //set the value of text field.
+        timeInputController.text = formattedTime; //set the value of text field.
         // });
       } else {
         print("Time is not selected");
@@ -117,4 +119,62 @@ SnackBar mySnackBar(String message, {bool error = false}) {
   return SnackBar(
       content: Text(message),
       backgroundColor: error ? Colors.red : Colors.green);
+}
+
+// this textfield is only used in the barbershopProfile
+
+TextField pickTimeInBarberShopProfile(
+    {required String hintText,
+    required TextEditingController timeInputController,
+    required BuildContext context}) {
+  return TextField(
+    controller: timeInputController, //editing controller of this TextField
+
+    textAlign: TextAlign.start,
+    cursorColor: Colors.black,
+    style: const TextStyle(
+      fontFamily: 'Metropolis',
+      fontSize: 14,
+      color: Color(0xff4a4b4d),
+      fontWeight: FontWeight.w500,
+    ),
+    decoration: InputDecoration(
+      hintText: hintText,
+      contentPadding: const EdgeInsets.only(left: 30),
+      hintStyle: const TextStyle(color: Colors.black),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+      fillColor: Helper.kTextFieldColor,
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: const BorderSide(
+          color: Colors.transparent,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+      ),
+    ),
+
+    readOnly: true, //set it true, so that user will not able to edit text
+    onTap: () async {
+      TimeOfDay? pickedTime = await showTimePicker(
+        initialTime: TimeOfDay.now(),
+        context: context,
+      );
+
+      if (pickedTime != null) {
+        DateTime parsedTime =
+            DateFormat.jm().parse(pickedTime.format(context).toString());
+        //converting to DateTime so that we can further format on different pattern.
+        String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
+
+        //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+        // setState(() {
+        timeInputController.text = formattedTime; //set the value of text field.
+        // });
+      }
+    },
+  );
 }
