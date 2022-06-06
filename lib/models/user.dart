@@ -1,8 +1,9 @@
 import 'dart:ffi';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String u_id;
-  String email;
+  String? email;
   String user_type;
   String? name;
   String? address;
@@ -21,7 +22,7 @@ class User {
 // defauly constructor, won't be used really
   User({
     required this.u_id,
-    required this.email,
+    this.email,
     required this.user_type,
     this.name,
     this.address,
@@ -41,7 +42,7 @@ class User {
   // Barber constructor
   User.barber({
     required this.u_id,
-    required this.email,
+    this.email,
     required this.user_type,
     this.name,
     this.address,
@@ -61,7 +62,7 @@ class User {
   // Customer constructor
   User.customer({
     required this.u_id,
-    required this.email,
+    this.email,
     required this.user_type,
     this.name,
     this.address,
@@ -84,7 +85,11 @@ class User {
 //   onError: (e) => print("Error getting document: $e"),
 // );
 
-  factory User.fromFirestore(Map<String, dynamic> data) {
+  factory User.fromFirestore(DocumentSnapshot doc) {
+
+    final data = doc.data() as Map<String, dynamic>;
+    final id = doc.id;
+
     if (data['user_type'] == 'barber') {
       return User.barber(
         u_id: data['u_id'],
@@ -111,13 +116,13 @@ class User {
       );
     } else {
       return User.customer(
-        u_id: data['u_id'],
-        email: data['email'],
-        user_type: data['user_type'],
-        name: data['name'],
-        address: data['address'],
+        u_id: data['u_id'] as String,
+        email: data['email'] as String,
+        user_type: data['user_type'] as String,
+        name: data['name'] as String,
+        address: data['address'] as String,
         location: Map.from(data['location']),
-        phone: data['phone'],
+        phone: data['phone'] as String,
         image: data['image'],
         bookings: data['bookings'] is Iterable
             ? List.from(data['bookings'])
@@ -127,7 +132,7 @@ class User {
   }
 
   // user to firestore
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> barberToFirestore() {
     return {
       'u_id': u_id,
       'email': email,
@@ -145,6 +150,19 @@ class User {
       'slot_length': slot_length,
       'start_time': start_time,
       'close_time': close_time,
+    };
+  }
+
+    Map<String, dynamic> customerToFirestore() {
+    return {
+      'u_id': u_id,
+      'email': email,
+      'user_type': user_type,
+      'name': name,
+      'address': address,
+      'phone': phone,
+      'image': image,
+      'bookings': bookings,
     };
   }
 }

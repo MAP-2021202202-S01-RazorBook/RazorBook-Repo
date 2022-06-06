@@ -16,8 +16,8 @@ class ServicesViewModel extends BaseModel {
     Future getServices() async {
         print('I am at sssss the view model');
         setBusy(true);
-        await _barberServicesService.getServices(userID: '1');
-        services = _barberServicesService.servicesList;
+        await _barberServicesService.deleteService(serviceID: '1');
+        //services = _barberServicesService.servicesList;
         setBusy(false);
         dispose();
     }
