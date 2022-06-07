@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:razor_book/models/service.dart';
+// import 'package:razor_book/models/service.dart';
 import 'package:razor_book/router-constants.dart';
-import 'package:razor_book/services/barbershop_profile/barbershop_profile_service.dart';
+// import 'package:razor_book/services/barbershop_profile/barbershop_profile_service.dart';
 import 'package:razor_book/services/booking/booking_service.dart';
-import 'package:razor_book/services/customer/customer_service.dart';
-import 'package:razor_book/views/barbershop_profile_view.dart';
+// import 'package:razor_book/services/customer/customer_service.dart';
 import '../app/service_locator/service_locator.dart';
-import '../services/barber_services/barber_services_service.dart';
+// import '../services/barber_services/barber_services_service.dart';
 import '../view_model/bookings_view_model.dart';
 import '../view_model/customer_profile_view_model.dart';
 import '../view_model/home_view_model.dart';
-import '../views/login_view.dart';
-import '../views/all_bookings_view.dart'; //tbd
+// import '../views/login_view.dart';
+// import '../views/all_bookings_view.dart'; //tbd
 import '../router.dart' as router;
-import 'all_services_view.dart';
+// import 'all_services_view.dart';
+import 'barbershop_screens/barbershop_main_page_nav.dart';
+import 'customer_screens/customer_book_checkout/book_now_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -75,6 +76,26 @@ class _HomeState extends State<Home> {
               onPressed: () async {
                 Navigator.pushNamed(context, BarberServicesRoute);
               }),
+          ElevatedButton(
+            child: const Text("Book Now"),
+            onPressed: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const BookNow(
+                            barbershop_id: "just random id",
+                          ))));
+            },
+          ),
+          ElevatedButton(
+            child: const Text("barbershop Profile"),
+            onPressed: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const BarberMainPageNav())));
+            },
+          ),
           ElevatedButton(
               child: const Text("testing services"),
               onPressed: () async {

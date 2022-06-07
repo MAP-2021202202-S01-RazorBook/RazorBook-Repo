@@ -16,7 +16,7 @@ class ShopView extends StatelessWidget {
     return Scaffold(
       appBar: appBar(
         bartitle: const Text(
-          "any name ",
+          "Search Barbershops ",
           style: TextStyle(
             fontFamily: "MetropolisExtra",
             fontSize: 20,
@@ -24,7 +24,7 @@ class ShopView extends StatelessWidget {
             color: Helper.kTitleTextColor,
           ),
         ),
-        onPressedFunction: () {},
+        onPressedFunctionForRightAction: () {},
         appBarRightIcon: const Icon(
           Icons.shopping_cart,
           color: Helper.kTitleTextColor,
@@ -56,14 +56,13 @@ class ShopView extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 32.0),
                 child: ListView(
-                  children: [
-                    const SizedBox(
+                  children: const [
+                     SizedBox(
                       height: 16,
                     ),
                     // ignore: prefer_const_constructors
                     ShopList(),
-
-                    const SizedBox(
+                     SizedBox(
                       height: 32,
                     ),
                   ],

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:razor_book/helpers/assets.dart';
@@ -6,12 +5,15 @@ import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/barberUserSide/babershop_profile_model.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_item.dart';
 
-
 class ShopList extends StatelessWidget {
   const ShopList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //this list will be replaced
+    //with the one fetched from firebase
+    //this one should be replaced with the User Model we have
+    // we should change its type from BarberShopProfilePageModel to User
     List<BarberShopProfilePageModel> bbrList = [
       BarberShopProfilePageModel(
           shopName: "Mr Macho Studio barbershop",

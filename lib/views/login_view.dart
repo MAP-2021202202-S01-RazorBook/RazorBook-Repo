@@ -9,7 +9,7 @@ import '../helpers/helper_widgets.dart';
 import '../views/signup_view.dart';
 import '../views/forgot_password_view.dart';
 // import '../views/home_view.dart';
-import 'barbershop_profile_view.dart';
+
 import 'customer_screens/customer_main_page_nav.dart';
 
 class LoginView extends StatefulWidget {
@@ -63,10 +63,14 @@ class _LoginViewState extends State<LoginView> {
                             email: emailController.text,
                             password: passwordController.text);
                         // FORWARD TO PAGE HERE:
+
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>
                                   const CustomerMainPageNav()),
+
+                          //or direct him to here if he is barbershop
+                          // BarberMainPageNav()
                         );
                       } catch (e) {
                         String errorMessage = e.toString();
