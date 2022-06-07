@@ -4,8 +4,12 @@ import 'package:razor_book/views/all_services_view.dart';
 
 class BarbershopViewListOfServices extends StatefulWidget {
   final bool readOnly;
+  final List<String> services;
   const BarbershopViewListOfServices(
-      {Key? key, required this.title, this.readOnly = false})
+      {Key? key,
+      required this.title,
+      this.readOnly = false,
+      required this.services})
       : super(key: key);
   final String title;
 
@@ -17,7 +21,7 @@ class BarbershopViewListOfServices extends StatefulWidget {
 class _BarbershopViewListOfServicesState
     extends State<BarbershopViewListOfServices> {
   //those date will be changed with the data coming from viewModel
-  List<String> data = ["Western Cut", "K-POP Cut", "Classic Cut"];
+  // List<String> data = ["Western Cut", "K-POP Cut", "Classic Cut"];
 
   @override
   void initState() {
@@ -63,7 +67,7 @@ class _BarbershopViewListOfServicesState
                   child: ListView.builder(
 
                       //replace data array with fetched one
-                      itemCount: data.length,
+                      itemCount: widget.services.length,
                       itemBuilder: (ctx, idx) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -74,7 +78,7 @@ class _BarbershopViewListOfServicesState
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
                                 child: Text(
-                                  data[idx],
+                                  widget.services[idx],
                                   style: kProfileInfoText14,
                                 ),
                               ),

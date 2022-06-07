@@ -59,7 +59,7 @@ class Booking {
   factory Booking.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     final id = doc.id;
-    print("thi is my: " + id);
+    // print("thi is my: " + id);
 
     return Booking(
       id: id,

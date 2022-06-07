@@ -7,7 +7,7 @@ import 'package:razor_book/helpers/colors.dart';
 class ViewWorkingDaysByChips extends StatelessWidget {
   const ViewWorkingDaysByChips({Key? key, required this.workingDays})
       : super(key: key);
-  final List<String> workingDays;
+  final List<dynamic> workingDays;
   @override
   Widget build(BuildContext context) {
     return Padding(

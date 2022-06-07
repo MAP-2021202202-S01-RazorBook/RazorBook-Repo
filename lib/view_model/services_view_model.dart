@@ -1,5 +1,6 @@
 import '../app/service_locator/service_locator.dart';
 import '../models/service.dart';
+import '../models/user.dart';
 import '../services/barber_services/barber_services_service.dart';
 import 'base_view_model.dart';
 
@@ -12,16 +13,30 @@ class ServicesViewModel extends BaseModel {
   }
 
   final _currentUser = locator<AuthenticationService>().currentUser;
+  User? get currentUser {
+    return _currentUser;
+  }
 
   Future getServices() async {
     print('I am at sssss the view model');
-    setBusy(true);
-    await _barberServicesService.deleteService(serviceID: '1');
-    //services = _barberServicesService.servicesList;
-    setBusy(false);
-    dispose();
+    try {
+      // setBusy(true);
+      await _barberServicesService.getServices(
+          userID: _currentUser?.u_id ?? '');
+      services = _barberServicesService.servicesList;
+      // setBusy(false);
+    } catch (e) {
+      // print("Wtf is happening");
+      print(e);
+    }
   }
 
+  Future addService({required Service service}) async {
+    setBusy(true);
+
+    await _barberServicesService.addService(service: service);
+    // print('I am adding at the view model');
+  }
   //     await _bookingsService.cancelBooking(bookingID: bookingID);
   //     await _bookingsService.getBookings(userID: '1');
   //     setBusy(false);

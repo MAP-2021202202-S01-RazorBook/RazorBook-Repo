@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 import '../../helpers/colors.dart';
@@ -25,13 +23,11 @@ class ProfileEditViewTextField extends StatelessWidget {
           child: SizedBox(
             height: 48,
             child: TextFormField(
-
               keyboardType: inputType,
-              onChanged: (value) {
-                controller.text = value;
-              },
+              onChanged: (value) {},
               controller: controller,
               textAlign: TextAlign.start,
+              textDirection: TextDirection.ltr,
               cursorColor: Colors.black,
               style: const TextStyle(
                 fontFamily: 'Metropolis',
@@ -41,7 +37,7 @@ class ProfileEditViewTextField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 30),
-                hintStyle: const TextStyle(color: Colors.black),
+                hintStyle: const TextStyle(color: Colors.blueGrey),
                 hintText: hintText,
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),

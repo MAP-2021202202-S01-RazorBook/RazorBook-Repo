@@ -8,3 +8,6 @@ const String BarberServicesRoute = 'barberServices';
 const String CustomerBookingsRoute = 'customerBookings';
 const String CustomerServicesRoute = 'customerServices';
 const String ForgotPasswordRoute = 'forgotPassword';
+const String BarberMainNavRoute = 'barberMainNav';
+const String CustomerMainNavRoute = 'customerMainNav';
+const String BarberProfileRoute = 'barberProfile';

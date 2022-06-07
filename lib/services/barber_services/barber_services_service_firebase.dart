@@ -31,6 +31,7 @@ class BarberServicesServiceFirebase extends BarberServicesService {
       List<Service> services =
           doc.docs.map((doc) => Service.fromFirestore(doc)).toList();
       _servicesList = services;
+      print(_servicesList.length);
     } catch (Exc) {
       print(Exc);
       rethrow;
@@ -39,9 +40,8 @@ class BarberServicesServiceFirebase extends BarberServicesService {
 
   @override
   Future<void> addService({required Service service}) async {
-    // TODO: implement addService
     try {
-      print("gets");
+      // print("gets");
       await _services.add(service.toJson());
     } on FirebaseException catch (e) {
       throw Failure(100,

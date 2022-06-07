@@ -15,7 +15,6 @@ class User {
   Map<String, dynamic>? rating;
   List<dynamic>? open_days;
   double? slot_length;
-  String? start_time;
   String? open_time;
   String? close_time;
   String? docId;
@@ -41,7 +40,6 @@ class User {
     this.rating,
     this.open_days,
     this.slot_length,
-    this.start_time,
     this.open_time,
     this.close_time,
   });
@@ -97,7 +95,6 @@ class User {
         open_days:
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
-        start_time: data['start_time'],
         open_time: data['open_time'],
         close_time: data['close_time'],
       );
@@ -118,6 +115,47 @@ class User {
     }
   }
 
+  factory User.fromJson(Map<String, dynamic> data) {
+    if (data['user_type'] == 'barber') {
+      return User.barber(
+        u_id: data['u_id'],
+        email: data['email'],
+        user_type: data['user_type'],
+        name: data['name'],
+        address: data['address'],
+        location: data['location'] == null ? null : Map.from(data['location']),
+        phone: data['phone'],
+        image: data['image'],
+        description: data['description'],
+        bookings: data['bookings'] is Iterable
+            ? List.from(data['bookings'])
+            : data['bookings'],
+        services: data['services'] is Iterable
+            ? List.from(data['services'])
+            : data['services'],
+        rating: data['rating'] == null ? null : Map.from(data['rating']),
+        open_days:
+            data['open_days'] is Iterable ? List.from(data['open_days']) : null,
+        slot_length: data['slot_length'],
+        open_time: data['open_time'],
+        close_time: data['close_time'],
+      );
+    } else {
+      return User.customer(
+        u_id: data['u_id'] as String,
+        email: data['email'] as String,
+        user_type: data['user_type'] ?? 'customer',
+        name: data['name'] ?? '',
+        address: data['address'] ?? '',
+        location: data['location'] == null ? null : Map.from(data['location']),
+        phone: data['phone'] ?? "",
+        image: data['image'] ?? "",
+        bookings: data['bookings'] is Iterable
+            ? List.from(data['bookings'])
+            : data['bookings'],
+      );
+    }
+  }
   // user to firestore
   Map<String, dynamic> barberToFirestore() {
     return {
@@ -135,7 +173,6 @@ class User {
       'rating': rating,
       'open_days': open_days,
       'slot_length': slot_length,
-      'start_time': start_time,
       'close_time': close_time,
     };
   }
@@ -170,7 +207,7 @@ class User {
       'rating': rating,
       'open_days': open_days,
       'slot_length': slot_length,
-      'start_time': start_time,
+      'open_time': open_time,
       'close_time': close_time,
     };
   }

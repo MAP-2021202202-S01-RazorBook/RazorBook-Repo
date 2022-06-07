@@ -56,10 +56,8 @@ class BookingServiceFirebase extends BookingService {
     try {
       final doc =
           await _bookingsCollection.where("b_id", isEqualTo: userID).get();
-
-      List<Booking> bookings =
+      _barberBookingsList =
           doc.docs.map((doc) => Booking.fromFirestore(doc)).toList();
-      _barberBookingsList = bookings;
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

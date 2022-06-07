@@ -7,6 +7,7 @@ import 'package:razor_book/services/booking/booking_service.dart';
 // import 'package:razor_book/services/customer/customer_service.dart';
 import '../app/service_locator/service_locator.dart';
 // import '../services/barber_services/barber_services_service.dart';
+import '../view_model/barber_profile_view_model.dart';
 import '../view_model/bookings_view_model.dart';
 import '../view_model/customer_profile_view_model.dart';
 import '../view_model/home_view_model.dart';
@@ -14,6 +15,8 @@ import '../view_model/home_view_model.dart';
 // import '../views/all_bookings_view.dart'; //tbd
 import '../router.dart' as router;
 // import 'all_services_view.dart';
+import '../view_model/login_view_model.dart';
+import '../view_model/services_view_model.dart';
 import 'barbershop_screens/barbershop_main_page_nav.dart';
 import 'customer_screens/customer_book_checkout/book_now_screen.dart';
 
@@ -32,12 +35,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => locator<CustomerProfileViewModel>()),
 
+        ChangeNotifierProvider(
+            create: (_) => locator<BarberProfileViewModel>()),
+
         ChangeNotifierProvider(create: (_) => locator<BookingsViewModel>()),
+        ChangeNotifierProvider(create: (_) => locator<ServicesViewModel>()),
+        ChangeNotifierProvider(create: (_) => locator<LoginViewModel>()),
       ],
       child: const MaterialApp(
         home: Home(),
         onGenerateRoute: router.generateRoute,
-        initialRoute: '/',
+        initialRoute: LoginViewRoute,
       ),
     );
   }

@@ -143,7 +143,6 @@ class _HomeViewState extends State<BarberMainPageNav> {
 
             ViewBookings(),
             BarbershopProfileView(),
-
           ],
         ),
       ),

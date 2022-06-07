@@ -38,7 +38,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
         email: email,
         password: password,
       );
-      _currentUser = transformData(credential.user);
+      await getUser(credential.user?.uid ?? '');
       print("in sign in method" + _currentUser.toString());
     } on FirebaseAuthException catch (e) {
       throw Failure(400,
@@ -152,51 +152,51 @@ class AuthenticationServiceFirebase extends AuthenticationService {
     print("transformData running");
     if (firebaseUserData == null) return null;
 
-    //  with the uId, we can query the user doc where u_id = uid from users collection
-    //  and then transform it to a user object
-    _usersCollection
-        .where('u_id', isEqualTo: firebaseUserData.uid)
-        .get()
-        .then((value) {
-      var userDoc;
-      if (value.docs[0].exists) {
-        userDoc = value.docs[0].data() as Map<String, dynamic>;
-        print("userDoc is " + userDoc.toString());
-      } else {
-        return null;
-      }
-      if (userDoc?["user_type"] == 'barber') {
-        return AppUser.User.barber(
-          u_id: userDoc?['u_id'],
-          email: userDoc?['email'],
-          user_type: userDoc?['user_type'],
-          name: userDoc?['name'],
-          phone: userDoc?['phone'],
-          address: userDoc?['address'],
-          open_days: userDoc?['open_time'],
-          slot_length: userDoc?['slot_length'],
-          description: userDoc?['description'],
-          open_time: userDoc?['open_time'],
-          close_time: userDoc?['close_time'],
-          bookings: userDoc?['bookings'],
-          services: userDoc?['services'],
-          rating: userDoc?['rating'],
-          location: userDoc?['location'],
-          image: userDoc?['image'],
-        );
-      } else if (userDoc?["user_type"] == 'customer') {
-        return AppUser.User.customer(
-          u_id: userDoc?['u_id'],
-          email: userDoc?['email'],
-          user_type: userDoc?['user_type'],
-          name: userDoc?['name'],
-          phone: userDoc?['phone'],
-          address: userDoc?['address'],
-          bookings: userDoc?['bookings'],
-          image: userDoc?['image'],
-        );
-      }
-    });
+    // //  with the uId, we can query the user doc where u_id = uid from users collection
+    // //  and then transform it to a user object
+    // _usersCollection
+    //     .where('u_id', isEqualTo: firebaseUserData.uid)
+    //     .get()
+    //     .then((value) {
+    //   var userDoc;
+    //   if (value.docs[0].exists) {
+    //     userDoc = value.docs[0].data() as Map<String, dynamic>;
+    //     print("userDoc is " + userDoc.toString());
+    //   } else {
+    //     return null;
+    //   }
+    //   if (userDoc?["user_type"] == 'barber') {
+    //     return AppUser.User.barber(
+    //       u_id: userDoc?['u_id'],
+    //       email: userDoc?['email'],
+    //       user_type: userDoc?['user_type'],
+    //       name: userDoc?['name'],
+    //       phone: userDoc?['phone'],
+    //       address: userDoc?['address'],
+    //       open_days: userDoc?['open_time'],
+    //       slot_length: userDoc?['slot_length'],
+    //       description: userDoc?['description'],
+    //       open_time: userDoc?['open_time'],
+    //       close_time: userDoc?['close_time'],
+    //       bookings: userDoc?['bookings'],
+    //       services: userDoc?['services'],
+    //       rating: userDoc?['rating'],
+    //       location: userDoc?['location'],
+    //       image: userDoc?['image'],
+    //     );
+    //   } else if (userDoc?["user_type"] == 'customer') {
+    //     return AppUser.User.customer(
+    //       u_id: userDoc?['u_id'],
+    //       email: userDoc?['email'],
+    //       user_type: userDoc?['user_type'],
+    //       name: userDoc?['name'],
+    //       phone: userDoc?['phone'],
+    //       address: userDoc?['address'],
+    //       bookings: userDoc?['bookings'],
+    //       image: userDoc?['image'],
+    //     );
+    //   }
+    // });
 
     return AppUser.User(
       u_id: firebaseUserData.uid,
@@ -207,5 +207,19 @@ class AuthenticationServiceFirebase extends AuthenticationService {
   @override
   Future<void> recoverPassword({required String email}) async {
     await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  @override
+  Future<void> getUser(String uid) async {
+    var userDoc = await _usersCollection.where('u_id', isEqualTo: uid).get();
+    Map<String, dynamic>? user;
+    if (userDoc.docs[0].exists) {
+      user = userDoc.docs[0].data() as Map<String, dynamic>;
+      // print("userDoc is " + user.toString());
+      _currentUser = AppUser.User.fromJson(user);
+    } else {
+      user = null;
+      _currentUser = null;
+    }
   }
 }

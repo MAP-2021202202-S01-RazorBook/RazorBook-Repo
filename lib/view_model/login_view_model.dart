@@ -9,10 +9,12 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../app/service_locator/service_locator.dart';
+import '../models/user.dart';
 import 'base_view_model.dart';
 
 class LoginViewModel extends BaseModel {
   AuthenticationService get _authService => locator<AuthenticationService>();
+  User? get currentUser => _authService.currentUser;
   // User? get user => _authService.user;
   // final doc = FirebaseFirestore.instance.collection("").where();
   Future<void> signIn({required String email, required String password}) async {

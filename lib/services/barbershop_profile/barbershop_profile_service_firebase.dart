@@ -80,9 +80,17 @@ class BarbershopServiceFirebase extends BarbershopService {
     User updatedBarberShop,
   ) async {
     try {
-      String dId = updatedBarberShop.docId ?? 'UYEgMC6G36VJBntvn99r';
+      // String dId = updatedBarberShop.docId ?? 'UYEgMC6G36VJBntvn99r';
 
-      await _usersCollection.doc(dId).update(updatedBarberShop.toJson());
+      // update document whose u_id is equal to updatedBarberShop u_id
+
+      final doc = await _usersCollection
+          .where("u_id", isEqualTo: updatedBarberShop.u_id)
+          .get();
+
+      final docId = doc.docs[0].id;
+
+      await _usersCollection.doc(docId).update(updatedBarberShop.toJson());
     } on SocketException catch (e) {
       // ScaffoldMessenger.of(ctx)
       //     .showSnackBar(mySnackBar(e.toString(), error: true));

@@ -20,6 +20,7 @@ abstract class AuthenticationService
   AppUser.User? get currentUser => null;
 
   AppUser.User? transformData(firebaseUserData);
+  Future<void> getUser(String uid);
   Future<void> signIn({required String email, required String password});
   Future<void> customerSignup(
       {required String email,

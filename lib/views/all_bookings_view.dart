@@ -47,7 +47,10 @@ class _ViewBookingsState extends State<ViewBookings> {
 
     // this is connecting to the view model which is provided globally through a multi-provider
     BookingsViewModel model = context.watch<BookingsViewModel>();
-    model.getBookings();
+
+    // // run the get bookings method in the view model
+    // model.getBookings();
+
     return Scaffold(
       appBar: appBar(
           bartitle: const Text(
@@ -61,202 +64,226 @@ class _ViewBookingsState extends State<ViewBookings> {
           ),
           onPressedFunctionForRightAction: () {},
           appBarRightIcon: Icon(null)),
-      body: ListView.builder(
-          itemCount: model.bookingsList?.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.all(10),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              color: model.bookingsList![index].is_cancelled == false &&
-                      model.bookingsList![index].is_completed == false
-                  ? Colors.white
-                  : model.bookingsList![index].is_cancelled == true &&
-                          model.bookingsList![index].is_completed == false
-                      ? Color.fromARGB(255, 255, 152, 152)
-                      : model.bookingsList![index].is_cancelled == false &&
-                              model.bookingsList![index].is_completed == true
-                          ? Colors.amberAccent[200]
-                          : Helper.kFABColor,
-              child: ListTile(
-                //these are the icons on the leading of the card to indicate the stauts of the booking
-                //*DON'T MAKE THEM const OTHERWISE THERE WILL BE RENDERING ERROR
-
-                leading: model.bookingsList![index].is_cancelled == false &&
-                        model.bookingsList![index].is_completed == false
-                    ? Icon(
-                        size: 40,
-                        Icons.calendar_month,
-                        color: Helper.kFABColor,
-                      )
-                    : model.bookingsList![index].is_cancelled == true &&
+      body: FutureBuilder(
+          future: model.getBookings(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text("Error"),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: model.bookingsList?.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    color: model.bookingsList![index].is_cancelled == false &&
                             model.bookingsList![index].is_completed == false
-                        ? Icon(
-                            size: 40,
-                            Icons.free_cancellation,
-                            color: Colors.white,
-                          )
-                        : model.bookingsList![index].is_cancelled == false &&
-                                model.bookingsList![index].is_completed == true
-                            ? Icon(
-                                size: 40,
-                                Icons.rate_review,
-                                color: Colors.white,
-                              )
-                            : Icon(
-                                size: 40,
-                                Icons.done,
-                                color: Colors.white,
-                              ),
-                title: Text("Booking Time: ${model.bookingsList![index].time}"),
-                subtitle:
-                    Text("Booking Date: ${model.bookingsList![index].date}"),
-                trailing: Text("${model.bookingsList![index].total_price}RM"),
-                enabled: true,
-                onTap: () {
-                  //inside the the if conditions you must edit the
-                  //boolean variables after he/she clicks on the alert button
+                        ? Colors.white
+                        : model.bookingsList![index].is_cancelled == true &&
+                                model.bookingsList![index].is_completed == false
+                            ? Color.fromARGB(255, 255, 152, 152)
+                            : model.bookingsList![index].is_cancelled ==
+                                        false &&
+                                    model.bookingsList![index].is_completed ==
+                                        true
+                                ? Colors.amberAccent[200]
+                                : Helper.kFABColor,
+                    child: ListTile(
+                      //these are the icons on the leading of the card to indicate the stauts of the booking
+                      //*DON'T MAKE THEM const OTHERWISE THERE WILL BE RENDERING ERROR
 
-                  if (model.bookingsList![index].is_cancelled == true &&
-                      model.bookingsList![index].is_completed == false) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Booking was Cancelled"),
-                          content:
-                              const Text("You had cancelled your booking."),
-                          actions: <Widget>[
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.grey,
-                              ),
-                              onPressed: () {
-                                //no need to edit any boolean variabiles here
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("Dismiss"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-
-                  if (model.bookingsList![index].is_cancelled != true &&
-                      model.bookingsList![index].is_completed != true) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Cancel Booking"),
-                          content: const Text(
-                              "are you sure you want to cancel your ongoing booking?"),
-                          actions: <Widget>[
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.grey,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("Dismiss"),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.red,
-                              ),
-                              child: const Text("Confirm"),
-                              onPressed: () {
-                                try {
-                                  //change the vairables here since it's already rated and completed so the variables should
-                                  //be ------- is_completed = false && is_canceled=true------------------
-                                  //this will prevent the user from re-cancelling it again and it will show the
-                                  //alert message in line 118
-
-                                  model.cancelBooking(
-                                      model.bookingsList![index].id);
-                                  Navigator.of(context).pop();
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              },
+                      leading: model.bookingsList![index].is_cancelled ==
+                                  false &&
+                              model.bookingsList![index].is_completed == false
+                          ? Icon(
+                              size: 40,
+                              Icons.calendar_month,
+                              color: Helper.kFABColor,
                             )
-                          ],
-                        );
-                      },
-                    );
-                  }
-                  //here it there should be another condition -condition inside condition- to differniate between customer and barbershop sides
-                  //if he is a customer= ture then activate this condition
-                  //e.g. : if user.['user-type'] == customer {then condition in line 196 is here}
-                  if (model.bookingsList![index].is_completed == true &&
-                      model.bookingsList![index].is_cancelled != true) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible:
-                          true, // set to false if you want to force a rating
-                      builder: (BuildContext context) {
-                        return RatingDialog(
-                          title: const Text(
-                            'Rate you Experience',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          initialRating: 1,
-                          message: const Text(
-                            'Rate about your Experince with this order',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                          submitButtonText: 'Submit',
-                          onSubmitted: (response) {
-                            //call the add rate function here
-                            //response.rating to access the stars
-                            //to access the comments response.comment
+                          : model.bookingsList![index].is_cancelled == true &&
+                                  model.bookingsList![index].is_completed ==
+                                      false
+                              ? Icon(
+                                  size: 40,
+                                  Icons.free_cancellation,
+                                  color: Colors.white,
+                                )
+                              : model.bookingsList![index].is_cancelled ==
+                                          false &&
+                                      model.bookingsList![index].is_completed ==
+                                          true
+                                  ? Icon(
+                                      size: 40,
+                                      Icons.rate_review,
+                                      color: Colors.white,
+                                    )
+                                  : Icon(
+                                      size: 40,
+                                      Icons.done,
+                                      color: Colors.white,
+                                    ),
+                      title: Text(
+                          "Booking Time: ${model.bookingsList![index].time}"),
+                      subtitle: Text(
+                          "Booking Date: ${model.bookingsList![index].date}"),
+                      trailing:
+                          Text("${model.bookingsList![index].total_price}RM"),
+                      enabled: true,
+                      onTap: () {
+                        //inside the the if conditions you must edit the
+                        //boolean variables after he/she clicks on the alert button
 
-                            //change the vairables here since it's already rated and completed so the variables should
-                            //be ------- is_completed = true && is_canceled=true------------------
-                            //this will prevent the user from re-rating the shop
-                          },
-                        );
-                      },
-                    );
-                  }
+                        if (model.bookingsList![index].is_cancelled == true &&
+                            model.bookingsList![index].is_completed == false) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Booking was Cancelled"),
+                                content: const Text(
+                                    "You had cancelled your booking."),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      //no need to edit any boolean variabiles here
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Dismiss"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
 
-                  if (model.bookingsList![index].is_completed == true &&
-                      model.bookingsList![index].is_cancelled == true) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible:
-                          true, // set to false if you want to force a rating
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Order is Completed"),
-                          content: const Text(
-                              "this mesage means that you attended the barbershop and got haircut"),
-                          actions: <Widget>[
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.grey,
-                              ),
-                              onPressed: () {
-                                //no need to edit any boolean variabiles here
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("Dismiss"),
-                            ),
-                          ],
-                        );
+                        if (model.bookingsList![index].is_cancelled != true &&
+                            model.bookingsList![index].is_completed != true) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Cancel Booking"),
+                                content: const Text(
+                                    "are you sure you want to cancel your ongoing booking?"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Dismiss"),
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.red,
+                                    ),
+                                    child: const Text("Confirm"),
+                                    onPressed: () {
+                                      try {
+                                        //change the vairables here since it's already rated and completed so the variables should
+                                        //be ------- is_completed = false && is_canceled=true------------------
+                                        //this will prevent the user from re-cancelling it again and it will show the
+                                        //alert message in line 118
+
+                                        model.cancelBooking(
+                                            model.bookingsList![index].id);
+                                        Navigator.of(context).pop();
+                                      } catch (e) {
+                                        print(e.toString());
+                                      }
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                        //here it there should be another condition -condition inside condition- to differniate between customer and barbershop sides
+                        //if he is a customer= ture then activate this condition
+                        //e.g. : if user.['user-type'] == customer {then condition in line 196 is here}
+                        if (model.currentUser?.user_type == "customer" &&
+                            model.bookingsList![index].is_completed == true &&
+                            model.bookingsList![index].is_cancelled != true) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible:
+                                true, // set to false if you want to force a rating
+                            builder: (BuildContext context) {
+                              return RatingDialog(
+                                title: const Text(
+                                  'Rate you Experience',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                initialRating: 1,
+                                message: const Text(
+                                  'Rate about your Experince with this order',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                                submitButtonText: 'Submit',
+                                onSubmitted: (response) {
+                                  //call the add rate function here
+                                  //response.rating to access the stars
+                                  //to access the comments response.comment
+
+                                  //change the vairables here since it's already rated and completed so the variables should
+                                  //be ------- is_completed = true && is_canceled=true------------------
+                                  //this will prevent the user from re-rating the shop
+                                },
+                              );
+                            },
+                          );
+                        }
+
+                        if (model.bookingsList![index].is_completed == true &&
+                            model.bookingsList![index].is_cancelled == true) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible:
+                                true, // set to false if you want to force a rating
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Order is Completed"),
+                                content: const Text(
+                                    "this mesage means that you attended the barbershop and got haircut"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      //no need to edit any boolean variabiles here
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Dismiss"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
-                    );
-                  }
+                    ),
+                  );
                 },
-              ),
-            );
+              );
+            }
           }),
     );
   }
