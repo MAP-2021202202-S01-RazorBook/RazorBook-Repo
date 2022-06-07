@@ -79,8 +79,9 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
               Column(
                 children: [
                   // const ProfileViewAppBar(editMode: true),
-                  const ProfileViewAvator(
+                   ProfileViewAvator(
                     editMode: true,
+                    onTapMethod: (){},
                   ),
                   const SizedBox(
                     height: 32,

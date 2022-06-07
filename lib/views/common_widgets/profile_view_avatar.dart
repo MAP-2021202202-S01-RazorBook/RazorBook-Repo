@@ -7,7 +7,10 @@ import '../barbershop_screens/barbershop_profile/barbershop_edit_profile_screen.
 
 class ProfileViewAvator extends StatelessWidget {
   final bool editMode;
-  const ProfileViewAvator({Key? key, required this.editMode}) : super(key: key);
+  final VoidCallback onTapMethod;
+  const ProfileViewAvator(
+      {Key? key, required this.editMode, required this.onTapMethod})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +32,7 @@ class ProfileViewAvator extends StatelessWidget {
               child: InkWell(
                   customBorder: const CircleBorder(),
                   //to add edit page later
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BarbershopEditProfile()));
-
-                    //go to edit page
-                  },
+                  onTap: onTapMethod,
                   child: Container(
                     padding: const EdgeInsets.all(2),
                     decoration: const BoxDecoration(

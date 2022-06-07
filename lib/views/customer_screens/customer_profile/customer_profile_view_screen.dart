@@ -8,13 +8,11 @@ import 'package:razor_book/views/common_widgets/pages_appbar.dart';
 import 'package:razor_book/views/common_widgets/profile_text_view_custome_widget.dart';
 import 'package:razor_book/views/common_widgets/profile_view_avatar.dart';
 
-import 'barbershop_edit_profile_screen.dart';
-import 'barbershop_view_profile_related_widgets/barbershop_services_display_view.dart';
-import 'barbershop_view_profile_related_widgets/view_address_customer_widget.dart';
-import 'barbershop_view_profile_related_widgets/view_chips_of_working_days.dart';
+import '../../barbershop_screens/barbershop_profile/barbershop_edit_profile_screen.dart';
+import 'customer_profile_edit_screen.dart';
 
-class BarbershopProfileView extends StatelessWidget {
-  const BarbershopProfileView({Key? key}) : super(key: key);
+class CustomerProfileView extends StatelessWidget {
+  const CustomerProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class BarbershopProfileView extends StatelessWidget {
                     editMode: false,
                     onTapMethod: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const BarbershopEditProfile()));
+                          builder: (context) => const CustomerEditProfile()));
                     },
                   ),
                   const SizedBox(height: 40),
@@ -61,53 +59,26 @@ class BarbershopProfileView extends StatelessWidget {
                   const SizedBox(height: 40),
                   // pass from the viewModel in the userDate
                   const ProfileViewInfoText(
-                    label: "Shop Email",
+                    label: "Email",
                     userDate: "amithasan7866@email.com",
                   ),
 
                   const SizedBox(height: 40),
                   // pass from the viewModel in the userDate
                   const ProfileViewInfoText(
-                    label: "Shop Contact No",
+                    label: "Phone Number",
                     userDate: "+601162325010",
                   ),
-                  const SizedBox(height: 40),
                   // pass from the viewModel in the userDart
-                  //only pass the written address
-                  ProfileViewBarbershopAddress(
-                    barberShopWrittenAddress:
-                        "just random address here to test on screen",
-                    openLocationOnMap: () {},
-                  ),
                   const SizedBox(height: 40),
+                  const ProfileViewInfoText(
+                    // pass from the viewModel in the userDart
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      //pass time from viewModel throught userDate
-                      const ProfileViewInfoText(
-                        label: "Open Time",
-                        userDate: "03:30 AM",
-                      ),
-                      //pass time from viewModel throught userDate
-                      const ProfileViewInfoText(
-                        label: "Close Time",
-                        userDate: "15:23 PM",
-                      ),
-                    ],
+                    label: "Adress",
+                    userDate: "Melana Apartment - Skudai",
                   ),
-                  //pass array of working day here
-                  ViewWorkingDaysByChips(
-                    workingDays: ["Sunday", "Moday", "Tuesday", "Wednesday"],
-                  ),
-                  const SizedBox(height: 20),
-                  //if you want to pass the array of service just add a constructor to this class
-                  //or connect the viewModel With it
-                  const BarbershopViewListOfServices(
-                    title: "Services",
-                    readOnly: true,
-                  ),
-                  const SizedBox(height: 30),
+
+                  const SizedBox(height: 40),
 
                   // here will pass a function to logout from the current user
                   LogoutCustomButton(logoutFromAppCallBack: () {}),

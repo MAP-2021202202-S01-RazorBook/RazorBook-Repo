@@ -6,6 +6,7 @@ import '../../helpers/colors.dart';
 
 import '../all_bookings_view.dart';
 import 'chome_page/customer_shops_home_page.dart';
+import 'customer_profile/customer_profile_view_screen.dart';
 import 'customer_profile_screen.dart';
 
 class CustomerMainPageNav extends StatefulWidget {
@@ -136,7 +137,7 @@ class _HomeViewState extends State<CustomerMainPageNav> {
           children: [
             ViewBookings(),
             ShopView(),
-            ProfileView(),
+            CustomerProfileView(),
             // Container(
             //   color: Colors.red,
             // ),
