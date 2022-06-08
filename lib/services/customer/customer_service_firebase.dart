@@ -1,6 +1,5 @@
 import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/services/customer/customer_service.dart';
-import 'package:razor_book/views/signup_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:razor_book/models/user.dart';
@@ -23,7 +22,7 @@ class CustomerServiceFirebase extends CustomerService {
 
   final currentUserId = locator<AuthenticationService>().currentUser?.u_id;
 
-  String _uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
+  final String _uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
 
   @override
   Future<void> getCustomerDetailsForCustomer(String uId) async {
@@ -33,8 +32,8 @@ class CustomerServiceFirebase extends CustomerService {
           await _usersCollection.where('u_id', isEqualTo: uId).get();
 
       if (value.docs.isNotEmpty) {
-        _customerDetailsForCustomer =
-            (value.docs.first.data() as Map<String, dynamic>);
+        _customerDetailsForCustomer = Map<String, dynamic>.from(
+            value.docs.first.data() as Map<String, dynamic>); // safe cast
       }
     } on FirebaseException catch (e) {
       throw Failure(100,
@@ -53,7 +52,9 @@ class CustomerServiceFirebase extends CustomerService {
   Future<void> updateCustomerDetails(User user, ctx) async {
     try {
       String dId = user.docId ?? '0DEPzMAgJji5MoIjvoGY'; //document id
-      await _usersCollection.doc(dId).update(user.toJson());
+      await _usersCollection
+          .doc(dId)
+          .update(user.customerToFirestore()); // update customer data 
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

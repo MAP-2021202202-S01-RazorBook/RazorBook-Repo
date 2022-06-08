@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
 
-import '../app/service_locator/service_locator.dart';
+
 import '../view_model/bookings_view_model.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 

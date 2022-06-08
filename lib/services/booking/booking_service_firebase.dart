@@ -1,12 +1,8 @@
-import 'package:flutter/foundation.dart';
-
 import '../../helpers/helper_functions.dart';
 import '../../models/booking.dart';
 import '../../services/booking/booking_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../failure.dart';
-import 'dart:developer';
 
 class BookingServiceFirebase extends BookingService {
   final CollectionReference _bookingsCollection =
@@ -119,13 +115,14 @@ class BookingServiceFirebase extends BookingService {
   }
 
   @override
-  Future<void> makeBooking(Booking newBooking) async {
+  Future<void> makeBooking(Booking booking) async {
     try {
       // update the document with the booking id to cancelled equal to true
+      /// add booking data later
 
-      await _bookingsCollection.add(newBooking.toJson());
-    } catch (Exc) {
-      print(Exc);
+      await _bookingsCollection.add(booking.toJson());
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }

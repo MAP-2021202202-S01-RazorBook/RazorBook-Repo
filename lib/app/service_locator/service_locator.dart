@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:razor_book/services/customer/customer_service.dart';
 import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/view_model/barber_profile_view_model.dart';
 import 'package:razor_book/view_model/customer_profile_view_model.dart';
@@ -10,7 +9,6 @@ import '../../services/barber_services/barber_services_service.dart';
 import '../../services/barber_services/barber_services_service_firebase.dart';
 import '../../services/barbershop_profile/barbershop_profile_service.dart';
 import '../../services/barbershop_profile/barbershop_profile_service_firebase.dart';
-import '../../services/booking/booking_service.dart';
 import '../../services/booking/booking_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
@@ -47,13 +45,17 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceFirebase());
 
-  locator.registerLazySingleton<BookingService>(() => BookingServiceFirebase());
+  locator.registerLazySingleton<AuthenticationServiceFirebase>(
+      () => AuthenticationServiceFirebase());
+
+  locator.registerLazySingleton<BookingServiceFirebase>(
+      () => BookingServiceFirebase());
 
   locator.registerLazySingleton<BarberServicesService>(
       () => BarberServicesServiceFirebase());
 
-  locator
-      .registerLazySingleton<CustomerService>(() => CustomerServiceFirebase());
+  locator.registerLazySingleton<CustomerServiceFirebase>(
+      () => CustomerServiceFirebase());
 
   locator.registerLazySingleton<BarbershopService>(
       () => BarbershopServiceFirebase());
@@ -79,3 +81,9 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<BarberProfileViewModel>(
       () => BarberProfileViewModel());
 }
+
+//seervice locator for the repeatative actions 
+
+var authServiceFirebase = locator<AuthenticationServiceFirebase>();
+var customerService = locator<CustomerServiceFirebase>();
+var bookingService = locator<BookingServiceFirebase>();

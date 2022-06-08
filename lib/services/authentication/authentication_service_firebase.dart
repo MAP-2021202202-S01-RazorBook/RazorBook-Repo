@@ -39,7 +39,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
         password: password,
       );
       await getUser(credential.user?.uid ?? '');
-      print("in sign in method" + _currentUser.toString());
+      print("in sign in method$_currentUser");
     } on FirebaseAuthException catch (e) {
       throw Failure(400,
           message: e.toString(),
@@ -82,7 +82,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        if (value != null && value.user != null) {
+        if (value.user != null) {
           //  userCollection.doc(value.user.uid).set({
           _usersCollection.add({
             'u_id': value.user?.uid,
@@ -124,7 +124,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        if (value != null && value.user != null) {
+        if (value.user != null) {
           //  userCollection.doc(value.user.uid).set({
           _usersCollection.add({
             'u_id': value.user?.uid,

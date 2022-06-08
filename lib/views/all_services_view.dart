@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/models/service.dart';
 
-import '../app/service_locator/service_locator.dart';
 import '../helpers/colors.dart';
 import '../view_model/services_view_model.dart';
 import 'common_widgets/pages_appbar.dart';
@@ -15,11 +14,11 @@ class ViewServices extends StatefulWidget {
 }
 
 class _ViewServicesState extends State<ViewServices> {
-  TextEditingController _serviceNameTextFieldController =
+  final TextEditingController _serviceNameTextFieldController =
       TextEditingController();
-  TextEditingController _serviceDesciptionTextFieldController =
+  final TextEditingController _serviceDesciptionTextFieldController =
       TextEditingController();
-  TextEditingController _servicePriceTextFieldController =
+  final TextEditingController _servicePriceTextFieldController =
       TextEditingController();
 
   @override
@@ -30,7 +29,7 @@ class _ViewServicesState extends State<ViewServices> {
       future: model.getServices(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
@@ -50,7 +49,7 @@ class _ViewServicesState extends State<ViewServices> {
                   ),
                 ),
                 onPressedFunctionForRightAction: () {},
-                appBarRightIcon: Icon(null)),
+                appBarRightIcon: const Icon(null)),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 _showDialogEditOrAdd(
@@ -135,7 +134,7 @@ class _ViewServicesState extends State<ViewServices> {
                             //to view the same current data that we are holding in our controller in the textfieds
                             setState(() {
                               _serviceNameTextFieldController.text =
-                                  model.servicesList![index].name!;
+                                  model.servicesList![index].name;
 
                               _serviceDesciptionTextFieldController.text =
                                   model.servicesList![index].description!;
@@ -209,7 +208,7 @@ class _ViewServicesState extends State<ViewServices> {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -227,7 +226,7 @@ class _ViewServicesState extends State<ViewServices> {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(

@@ -1,21 +1,23 @@
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:razor_book/app/service_locator/service_locator.dart';
+import 'package:razor_book/helpers/helper_widgets.dart';
 import 'package:razor_book/models/user.dart';
-import 'package:razor_book/services/customer/customer_service.dart';
 import 'package:razor_book/view_model/base_view_model.dart';
 
 import '../services/failure.dart';
 
 class CustomerProfileViewModel extends BaseModel {
-  CustomerService _customerService = locator<CustomerService>();
+  /// set  var globally
+  // final CustomerService _customerService = locator<Custo>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+
   bool _editMode = false;
   bool get editMode => _editMode;
   set editMode(bool value) {
@@ -23,10 +25,13 @@ class CustomerProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
-  User? _user = User(u_id: "", email: "");
+  final User _user = User(u_id: "", email: "");
 
   User? get user => _user;
 
+  /// store profile temp
+
+  ///
   ProfileUploadState _profileUploadState = ProfileUploadState.none;
   ProfileUploadState get profileUploadState => _profileUploadState;
   set profileUploadState(ProfileUploadState value) {
@@ -42,7 +47,7 @@ class CustomerProfileViewModel extends BaseModel {
       print("Customer details VM");
       setBusy(true);
       // await _customerService.getCustomerDetailsForCustomer(id);
-      // _user = _customerService.customerDetailsForCustomer;
+      // user = _customerService.customerDetailsForCustomer;
 
     } on FirebaseException catch (e) {
       // throw Failures.cannotWrite;
@@ -60,13 +65,25 @@ class CustomerProfileViewModel extends BaseModel {
     }
   }
 
+
+//here is the customer update details 
   Future<void> updateUserProfile(User newUser, ctx) async {
     setBusy(true);
+    log("[+] updaing profile");
+    ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar("Updating profile"));
     try {
-      await _customerService.updateCustomerDetails(newUser, ctx);
+      await customerService.updateCustomerDetails(newUser, ctx);
+      log("[+] profile updated");
+      ScaffoldMessenger.of(ctx)
+          .showSnackBar(mySnackBar("Profile updated successfully"));
     } catch (e) {
+      log("[-] profile update failed");
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        mySnackBar("Profile update failed $e", error: true),
+      );
       rethrow;
     } finally {
+      log("[+] updaing profile finished");
       setBusy(false);
     }
   }

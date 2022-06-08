@@ -48,18 +48,18 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyD4ihd4ISwYP3GIwzwCyl6Jz74-Rq9p2oE',
-    appId: '1:17961523529:web:72398e46380a747ecda298',
+    appId: '1:17961523529:web:a81edf335af096dbcda298',
     messagingSenderId: '17961523529',
     projectId: 'razorbook-app',
     authDomain: 'razorbook-app.firebaseapp.com',
     databaseURL: 'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'razorbook-app.appspot.com',
-    measurementId: 'G-0WQY5M661Y',
+    measurementId: 'G-M7R2P15K6K',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDml0vRmKi9qMPZ7C2C-sE-XRCfe2FcYZw',
-    appId: '1:17961523529:android:b5cee2776a359c99cda298',
+    appId: '1:17961523529:android:ffdcf5c2b4cccc6ccda298',
     messagingSenderId: '17961523529',
     projectId: 'razorbook-app',
     databaseURL: 'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',

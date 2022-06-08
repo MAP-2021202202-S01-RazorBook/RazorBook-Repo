@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
 
 import '../../../helpers/colors.dart';
@@ -54,11 +55,12 @@ class _BookNowState extends State<BookNow> {
                 child: StepProgressView(
                     width: MediaQuery.of(context).size.width,
                     curStep: _curStep,
-                    color: Color(0xff50AC02),
+                    color: const Color(0xff50AC02),
                     titles: titles),
               ),
               Expanded(
                 child: PageView(
+                  controller: PageController(keepPage: true),
                   onPageChanged: (i) {
                     setState(() {
                       _curStep = i + 1;
@@ -88,8 +90,12 @@ class _BookNowState extends State<BookNow> {
                                             primary: Colors.red,
                                           ),
                                           child: const Text("Confirm"),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
+                                          onPressed: () async {
+                                            await BookingsViewModel()
+                                                .makeBooking(context)
+                                                .then((value) =>
+                                                    Navigator.of(context)
+                                                        .pop());
                                           },
                                         )
                                       ],
@@ -97,7 +103,7 @@ class _BookNowState extends State<BookNow> {
                                   },
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Confirm Booking",
                                 style: TextStyle(fontSize: 19),
                               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:razor_book/helpers/assets.dart';
+
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/barberUserSide/babershop_profile_model.dart';
 
@@ -35,9 +35,9 @@ class ShopListItem extends StatelessWidget {
           children: [
             Container(
                 height: 160,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(bbsProfile.shopeImage),
+                      image: AssetImage(AssetHelper.assetBarbarShopOne),
                       fit: BoxFit.cover),
                 )),
             Align(

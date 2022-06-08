@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
 
 import '../../view_model/customer_profile_view_model.dart';
 
@@ -49,15 +51,18 @@ class ProfileView extends StatelessWidget {
         //     )),
         body: Consumer<CustomerProfileViewModel>(
             builder: (context, viewModel, child) {
-          //   viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
+          log(viewModel.user!.toJson().toString());
+          // viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
 
           // log("${viewModel.user.address} + here is the real value ${viewModel.user.name}");
 
+          //Dummy text read from local storage just to show the initial data
+
           if (viewModel.emailController.text.isEmpty) {
-            viewModel.emailController.text = viewModel.user?.email ?? "";
-            viewModel.nameController.text = "";
-            viewModel.phoneController.text = "";
-            viewModel.addressController.text = "";
+            viewModel.emailController.text = "amit8@test.com"; //read from localstorage
+            viewModel.nameController.text = "amit${Random().nextInt(100)}";
+            viewModel.phoneController.text = "123123123";
+            viewModel.addressController.text = "somewhere";
           }
           return SingleChildScrollView(
             // ignore: sized_box_for_whitespace
@@ -169,20 +174,18 @@ class ProfileView extends StatelessWidget {
 
                             // });
                           },
-                          onSavePressed: () {
-                            // CustomerProfileModel cust = CustomerProfileModel(
-                            //   name: viewModel.nameController.text,
-                            //   age: 11,
-                            //   email: viewModel.emailController.text,
-                            //   contactNumber: viewModel.phoneController.text,
-                            //   address: viewModel.addressController.text,
-                            //   customerImage: customerProfileModel.customerImage,
-                            //   uid: customerProfileModel.uid,
-                            //   gender: customerProfileModel.gender,
-                            //   docId: customerProfileModel.docId,
-                            // );
-                            // customerServiceFirebase.updateCustomerProfile(
-                            //     cust, context);
+
+                          // here is the updfate operation
+                          onSavePressed: () async {
+                            User user = User(
+                                u_id: "3OS5MJ1kAFYfMpdq4R8odxJtsvl2",
+                                name: viewModel.nameController.text,
+                                email: viewModel.emailController.text,
+                                phone: viewModel.phoneController.text,
+                                address: viewModel.addressController.text,
+                                user_type: "customer");
+
+                            await viewModel.updateUserProfile(user, context);
                           },
                         )
                       : Padding(
@@ -195,11 +198,11 @@ class ProfileView extends StatelessWidget {
                                   fixedSize: Size(
                                       MediaQuery.of(context).size.width, 56)),
                               onPressed: () async {
-                                // await authenticationServiceFirebase
+                                // await authServiceFirebase
                                 //     .signOut()
                                 //     .then((value) => Navigator.of(context)
                                 //         .pushReplacement(MaterialPageRoute(
-                                //             builder: (ctx) => RootView())));
+                                //             builder: (ctx) => Loghin())));
                               },
                               child: Text(
                                 'Logout',

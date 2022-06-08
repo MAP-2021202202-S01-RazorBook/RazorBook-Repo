@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -22,6 +24,21 @@ class User {
   User({
     required this.u_id,
     required this.email,
+    this.user_type,
+    this.name,
+    this.address,
+    this.location,
+    this.phone,
+    this.image,
+    this.description,
+    this.bookings,
+    this.services,
+    this.rating,
+    this.open_days,
+    this.slot_length,
+    this.open_time,
+    this.close_time,
+    this.docId,
   });
 
   // Barber constructor
@@ -55,6 +72,7 @@ class User {
     this.phone,
     this.image,
     this.bookings,
+    
   });
 
 // user from firestore
