@@ -13,6 +13,8 @@ class BarberProfileViewModel extends BaseModel {
   Map<String, dynamic>? get barbershopProfileForBarber =>
       _barberProfileForBarber;
   Map<String, dynamic>? get barbershopForCustomer => _barberProfileForCustomer;
+  List<Map<String, dynamic>?>? _barbershopList;
+  List<Map<String, dynamic>?>? get barbershopList => _barbershopList;
   final _currentUser = locator<AuthenticationService>().currentUser;
   User? get currentUser {
     return _currentUser;
@@ -66,6 +68,30 @@ class BarberProfileViewModel extends BaseModel {
           .updateBarbershopDetails(User.fromJson(payload ?? {}));
       // );
     } catch (e) {
+      print(e);
+    }
+  }
+
+    Future<void>? getAllBarbershops() async {
+    try {
+      await _barberProfileService
+          .getBarbershopsList();
+      _barbershopList =
+          _barberProfileService.barbershopsList;
+    } catch (e) {
+      // setBusy(false);
+      print(e);
+    }
+  }
+
+    Future<void>? getBarbershopDetailsForCustomer(String? barbershopID) async {
+    try {
+      await _barberProfileService
+          .getBarbershopDetailsForCustomer(barbershopID!);
+      _barberProfileForCustomer =
+          _barberProfileService.barbershopForCustomer;
+    } catch (e) {
+      // setBusy(false);
       print(e);
     }
   }

@@ -10,7 +10,7 @@ import 'bookings_slots_list.dart';
 class BookNow extends StatefulWidget {
   const BookNow({Key? key, required this.barbershop_id}) : super(key: key);
 
-  final String barbershop_id;
+  final String? barbershop_id;
 
   @override
   State<BookNow> createState() => _BookNowState();
@@ -67,8 +67,8 @@ class _BookNowState extends State<BookNow> {
                     });
                   },
                   children: <Widget>[
-                    BookingsSlotsList(barbershop_id: widget.barbershop_id),
-                    BookServices(barbershop_id: widget.barbershop_id),
+                    BookingsSlotsList(barbershop_id: widget.barbershop_id!),
+                    BookServices(barbershop_id: widget.barbershop_id!),
                     //this one will be deleted later in the last sprints
                     Container(
                       child: Center(

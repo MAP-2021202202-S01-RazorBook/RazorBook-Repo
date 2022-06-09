@@ -1,19 +1,25 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/views/common_widgets/pages_appbar.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/book_now_screen.dart';
 
+import '../../../view_model/barber_profile_view_model.dart';
+
 class BarberhopDetailView extends StatelessWidget {
-  const BarberhopDetailView({Key? key, required this.barbershop_id})
+   BarberhopDetailView({Key? key, required this.barbershop_id})
       : super(key: key);
 
-  final String barbershop_id;
+   String? barbershop_id;
 
   @override
   Widget build(BuildContext context) {
+
+    final model = context.watch<BarberProfileViewModel>();
+
     return Scaffold(
         appBar: appBar(
             bartitle: const Text("Barbershops Details",
@@ -98,17 +104,29 @@ class BarberhopDetailView extends StatelessWidget {
 
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: ListView(
+                        child: FutureBuilder(
+                          future: model.getBarbershopDetailsForCustomer(barbershop_id),
+                          builder: (context, snapshot){
+                                     if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                              child: Text("Error"),
+                            );
+                          } else {   
+                         return ListView(
                           children: [
                             const SizedBox(
                               height: 16,
                             ),
-                            const Padding(
+                             Padding(
                               padding: EdgeInsets.all(8.0),
                               //here will be the barbershop name *fetched from User model
                               //that we got from the passed ID
-                              child: Text(
-                                "Mr Mancho Studio Barbershop",
+                               child: Text(
+                                model.barbershopForCustomer!['name'],
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -129,7 +147,7 @@ class BarberhopDetailView extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     //once we add the variables we need to delete the Const for the array
-                                    children: const [
+                                    children:  [
                                       Text(
                                         "Address:",
                                         style: TextStyle(
@@ -145,7 +163,7 @@ class BarberhopDetailView extends StatelessWidget {
                                       //here will be the barbershop address *fetched from User model
                                       //that we got from the passed ID
                                       Text(
-                                        "Persiaran Baru tasek, 80150 Johor Bahru",
+                                        model.barbershopForCustomer!['address'],
                                         style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
@@ -226,7 +244,7 @@ class BarberhopDetailView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 //here we should use the description varaiable
                                 //that we got from the passed ID
-                                child: Text("We'll be happy to serve you",
+                                child: Text(model.barbershopForCustomer!['description'],
                                     style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600,
@@ -254,9 +272,9 @@ class BarberhopDetailView extends StatelessWidget {
                             const SizedBox(
                               height: 8,
                             ),
-                            const Padding(
+                             Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Text("6.00 AM to 7.00 PM",
+                              child: Text("${model.barbershopForCustomer!['open_time']} to ${model.barbershopForCustomer!['close_time']}",
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -301,7 +319,7 @@ class BarberhopDetailView extends StatelessWidget {
                                             color: Helper.kTitleTextColor)),
                                   ),
                                 ]),
-                            Padding(
+                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
@@ -311,11 +329,11 @@ class BarberhopDetailView extends StatelessWidget {
                                           MediaQuery.of(context).size.width,
                                           56)),
                                   onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) => const BookNow(
+                                     Navigator.of(context).push(
+                                       MaterialPageRoute(
+                                          builder: (context) => BookNow(
                                                 barbershop_id:
-                                                    "the id is place here",
+                                                    barbershop_id,
                                               )),
                                     );
                                   },
@@ -332,7 +350,9 @@ class BarberhopDetailView extends StatelessWidget {
                                   )),
                             ),
                           ],
-                        ),
+                        
+                        );
+                         }})
                       ),
                     ),
                   ),
