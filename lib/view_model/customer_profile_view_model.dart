@@ -17,7 +17,6 @@ class CustomerProfileViewModel extends BaseModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-
   bool _editMode = false;
   bool get editMode => _editMode;
   set editMode(bool value) {

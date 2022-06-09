@@ -51,7 +51,7 @@ class CustomerServiceFirebase extends CustomerService {
   @override
   Future<void> updateCustomerDetails(User user, ctx) async {
     try {
-      String dId = user.docId !; //document id
+      String dId = user.docId!; //document id
       await _usersCollection
           .doc(dId)
           .update(user.customerToFirestore()); // update customer data
