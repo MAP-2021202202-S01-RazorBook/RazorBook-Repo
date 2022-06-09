@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Booking {
   String? id;
-
   String? c_id;
   String? b_id;
   double? total_price;

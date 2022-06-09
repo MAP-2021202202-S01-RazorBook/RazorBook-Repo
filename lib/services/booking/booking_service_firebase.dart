@@ -122,7 +122,9 @@ class BookingServiceFirebase extends BookingService {
       // update the document with the booking id to cancelled equal to true
       /// add booking data later
 
-      await _bookingsCollection.add(booking.toJson()).then((value) => log(value.id));
+      await _bookingsCollection
+          .add(booking.toJson())
+          .then((value) => log(value.id));
     } catch (e) {
       print(e);
       rethrow;
