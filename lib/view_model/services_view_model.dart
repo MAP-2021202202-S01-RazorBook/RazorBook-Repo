@@ -41,4 +41,16 @@ class ServicesViewModel extends BaseModel {
   //     await _bookingsService.getBookings(userID: '1');
   //     setBusy(false);
   // }
+
+    Future editService({required String? serviceID, required Service updatedService}) async {
+    setBusy(true);
+    await _barberServicesService.editService(serviceID: serviceID!, updatedService: updatedService);
+     print('I am editing at the view model');
+  }
+
+    Future deleteService({required String? serviceID}) async {
+    setBusy(true);
+    await _barberServicesService.deleteService(serviceID: serviceID!);
+     print('I am deleting at the view model');
+  }
 }

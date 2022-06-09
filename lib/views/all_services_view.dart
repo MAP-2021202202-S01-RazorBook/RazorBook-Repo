@@ -129,7 +129,7 @@ class _ViewServicesState extends State<ViewServices> {
 
                         //will check from the value of PopUpMneu and based on it it
                         //it execute the work
-                        onSelected: (String value) {
+                        onSelected: (String value) async {
                           if (value == 'edit') {
                             //to view the same current data that we are holding in our controller in the textfieds
                             setState(() {
@@ -145,8 +145,8 @@ class _ViewServicesState extends State<ViewServices> {
 
                             _showDialogEditOrAdd(
                               context: context,
-                              title: 'Add A new Service',
-                              passedMethod: () {
+                              title: 'Edit a Service',
+                              passedMethod: () async {
                                 //pass your methods here
                                 // for the mean while I'm editing the current element in the array
                                 //and this is only will be showed in the view
@@ -160,6 +160,20 @@ class _ViewServicesState extends State<ViewServices> {
                                 model.servicesList![index].price = double.parse(
                                     _servicePriceTextFieldController.text);
                                 //add the services here
+
+                                await model.editService(
+                                    serviceID: model.servicesList![index].id,
+                                    updatedService: Service(
+                                        sh_id: model.currentUser?.u_id ?? "",
+                                        name: _serviceNameTextFieldController
+                                            .text,
+                                        description:
+                                            _serviceDesciptionTextFieldController
+                                                .text,
+                                        price: double.parse(
+                                            _servicePriceTextFieldController
+                                                .text)));
+
                               },
                             );
                           } else if (value == 'delete') {
@@ -170,6 +184,9 @@ class _ViewServicesState extends State<ViewServices> {
                               model.servicesList!.removeAt(index);
                             });
                             //add the service here
+                            print("Awwwwwwwwwwwwwwwwwwwwwwwww: $index");
+                            await model.deleteService(
+                                    serviceID: model.servicesList![index].id);
                           } else {
                             //do nothing}
                           }
@@ -209,13 +226,13 @@ class _ViewServicesState extends State<ViewServices> {
               },
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             TextFormField(
               controller: _serviceDesciptionTextFieldController,
-              maxLines: 2,
+              maxLines: 1,
               decoration: const InputDecoration(
-                labelText: 'Service Desription',
+                labelText: 'Service Description',
                 border: OutlineInputBorder(),
               ),
               validator: (description) {
@@ -227,7 +244,7 @@ class _ViewServicesState extends State<ViewServices> {
               },
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             TextFormField(
               controller: _servicePriceTextFieldController,
