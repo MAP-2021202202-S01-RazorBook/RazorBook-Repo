@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "17961523529",
+    "firebase_url": "https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "razorbook-app",
+    "storage_bucket": "razorbook-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17961523529:android:ffdcf5c2b4cccc6ccda298",
+        "android_client_info": {
+          "package_name": "com.example.razor_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17961523529-ssa9nbi37t5idt8s7rirbnbb6rdsk5c6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDml0vRmKi9qMPZ7C2C-sE-XRCfe2FcYZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17961523529-ssa9nbi37t5idt8s7rirbnbb6rdsk5c6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "17961523529-vkq6b5h3i4ms53a1tvo2trh7j0beeko9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.razorBook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
