@@ -5,12 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razor_book/models/user.dart';
 import '../../models/user.dart';
 import '../failure.dart';
+// ignore: library_prefixes
+import '../../models/user.dart' as AppUser;
 
 class CustomerServiceFirebase extends CustomerService {
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
   Map<String, dynamic>? _customerDetailsForCustomer;
   Map<String, dynamic>? _customerDetailsForBarber;
+
+  AppUser.User? _currentUser;
 
   @override
   Map<String, dynamic>? get customerDetailsForCustomer =>
@@ -26,14 +30,17 @@ class CustomerServiceFirebase extends CustomerService {
 
   @override
   Future<void> getCustomerDetailsForCustomer(String uId) async {
-    print("uid : $uId");
     try {
-      QuerySnapshot value =
-          await _usersCollection.where('u_id', isEqualTo: uId).get();
-
-      if (value.docs.isNotEmpty) {
-        _customerDetailsForCustomer = Map<String, dynamic>.from(
-            value.docs.first.data() as Map<String, dynamic>); // safe cast
+      var userDoc = await _usersCollection.where('u_id', isEqualTo: uId).get();
+      Map<String, dynamic>? user;
+      if (userDoc.docs[0].exists) {
+        user = userDoc.docs[0].data() as Map<String, dynamic>;
+        // print("userDoc is " + user.toString());
+        _currentUser = AppUser.User.fromJson(user);
+        if (_currentUser != null) {
+          /// save profile to local storage
+          await localServiceProvider.saveProfile(_currentUser!);
+        }
       }
     } on FirebaseException catch (e) {
       throw Failure(100,

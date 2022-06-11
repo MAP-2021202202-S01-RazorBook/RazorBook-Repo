@@ -41,7 +41,8 @@ class AuthenticationServiceFirebase extends AuthenticationService {
 
       /// save logged in userdata to localstorage
       await localServiceProvider.saveUID(credential.user!.uid);
-
+      await customerService
+          .getCustomerDetailsForCustomer(credential.user?.uid ?? '');
       await getUser(credential.user?.uid ?? '');
       print("in sign in method$_currentUser");
     } on FirebaseAuthException catch (e) {
