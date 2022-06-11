@@ -183,7 +183,7 @@ class BookingsViewModel extends BaseModel {
 
   Future getBookings() async {
     // setBusy(true);
-    // await _bookingsService.generateSlots(bID: '1');
+    // await _bookingService.generateSlots(bID: '1');
     try {
       if (currentUser?.user_type == 'customer') {
         await _bookingsService.getCustomerBookings(
@@ -208,7 +208,7 @@ class BookingsViewModel extends BaseModel {
     setBusy(true);
 
     await _bookingsService.cancelBooking(bookingID: bookingID);
-    // await _bookingsService.getCustomerBookings(userID: '1');
+    // await bookingService.getCustomerBookings(userID: '1');
     setBusy(false);
   }
 

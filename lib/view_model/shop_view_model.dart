@@ -7,17 +7,18 @@ import 'package:razor_book/models/user.dart';
 import '../services/barbershop_profile/barbershop_profile_service.dart';
 
 class ShopViewModelProvider extends ChangeNotifier {
-  List<User?> _shopList = [];
+  List<Map<String, dynamic>?>? _shopList = [];
 
-  List<User?> get shopList => _shopList;
-  set(List<User?> value) {
+  List<Map<String, dynamic>?>? get shopList => _shopList;
+  set(List<Map<String, dynamic>?>? value) {
     _shopList = value;
     notifyListeners();
   }
 
   Future getShopList() async {
     log("getting shop list");
-    _shopList = await locator<BarbershopService>().getBarbershopsList();
+    await locator<BarbershopService>().getBarbershopsList();
+    _shopList = locator<BarbershopService>().barbershopsList;
     notifyListeners();
   }
 }

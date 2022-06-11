@@ -102,7 +102,7 @@ class BarbershopServiceFirebase extends BarbershopService {
   }
 
   @override
-  Future<List<User?>> getBarbershopsList() async {
+  Future<void> getBarbershopsList() async {
     try {
       QuerySnapshot value =
           await _usersCollection.where('user_type', isEqualTo: 'barber').get();
@@ -110,13 +110,13 @@ class BarbershopServiceFirebase extends BarbershopService {
       // final Map<String, dynamic> data =
       //value.docs[0].id;
       for (int i = 0; i < value.docs.length; i++) {
-        // final Map<String, dynamic> data = value.docs[i].data() as Map<String,dynamic>;
-        User user = User.fromFirestore(value.docs[i]);
-        barberShopProfileList.add(user);
+        // final Map<String, dynamic> data =
+        //     value.docs[i].data() as Map<String, dynamic>;
+        // User user = User.fromFirestore(value.docs[i]);
+        // barberShopProfileList.add(user);
 
-        // _barbershopsList.add(value.docs[i].data() as Map<String, dynamic>);
+        _barbershopsList.add(value.docs[i].data() as Map<String, dynamic>);
       }
-      return barberShopProfileList;
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

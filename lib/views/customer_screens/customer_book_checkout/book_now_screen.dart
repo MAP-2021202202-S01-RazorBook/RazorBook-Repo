@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:razor_book/views/common_widgets/checkout_button.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
 
 import '../../../helpers/colors.dart';
@@ -69,8 +70,8 @@ class _BookNowState extends State<BookNow> {
                     });
                   },
                   children: <Widget>[
-                    BookingsSlotsList(barbershop_id: widget.barbershop_id),
-                    BookServices(barbershop_id: widget.barbershop_id),
+                    BookingsSlotsList(barbershop_id: widget.barbershop_id!),
+                    BookServices(barbershop_id: widget.barbershop_id!),
                     //this one will be deleted later in the last sprints
                     Container(
                       child: Center(
