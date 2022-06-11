@@ -1,8 +1,12 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import 'package:razor_book/helpers/assets.dart';
-import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/barberUserSide/babershop_profile_model.dart';
+import 'package:razor_book/view_model/shop_view_model.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_item.dart';
 
 class ShopList extends StatelessWidget {
@@ -46,20 +50,35 @@ class ShopList extends StatelessWidget {
           availableTimes: [],
           services: ['Classic cuts']),
     ];
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.6,
-      child: Container(
-        // color: Colors.red,
-        child: ListView.separated(
-          shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => const Divider(),
-          itemCount: 3,
-          itemBuilder: (ctx, idx) {
-            return ShopListItem(bbsProfile: bbrList[idx]);
-          },
-        ),
-      ),
+      child: FutureBuilder(
+          future: Future.delayed(
+            const Duration(seconds: 1),
+            () => locator<ShopViewModelProvider>().getShopList(),
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Consumer<ShopViewModelProvider>(
+                builder: (context, ShopViewModelProvider x, __) {
+              return Container(
+                // color: Colors.red,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: x.shopList.length,
+                  itemBuilder: (ctx, idx) {
+                    return ShopListItem(bbsProfile: x.shopList[idx]!);
+                  },
+                ),
+              );
+            });
+          }),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:razor_book/views/barbershop_screens/barbershop_main_page_nav.dar
 import 'package:razor_book/views/barbershop_screens/barbershop_profile/barbershop_view_profile_screen.dart';
 import 'package:razor_book/views/customer_screens/customer_main_page_nav.dart';
 import 'package:razor_book/views/forgot_password_view.dart';
+import 'package:razor_book/views/home_view.dart';
 import 'package:razor_book/views/login_view.dart';
 import 'package:razor_book/views/signup_view.dart';
 
@@ -13,7 +14,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   // Here we'll handle all the routing
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (context) => const LoginView());
+
+      /// init route is the home page
+      return MaterialPageRoute(builder: (context) => const Home());
     case LoginViewRoute:
       return MaterialPageRoute(builder: (context) => const LoginView());
     case SignupViewRoute:
@@ -39,6 +42,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => const BarbershopProfileView());
     default:
-      return MaterialPageRoute(builder: (context) => const LoginView());
+      return MaterialPageRoute(builder: (context) => const Home());
   }
 }

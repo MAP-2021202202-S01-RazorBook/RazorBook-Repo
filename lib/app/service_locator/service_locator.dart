@@ -1,8 +1,11 @@
 import 'package:get_it/get_it.dart';
-import 'package:razor_book/services/customer/customer_service.dart';
+import 'package:razor_book/services/booking/booking_service.dart';
 import 'package:razor_book/services/customer/customer_service_firebase.dart';
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
+import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
 import 'package:razor_book/view_model/barber_profile_view_model.dart';
 import 'package:razor_book/view_model/customer_profile_view_model.dart';
+import 'package:razor_book/view_model/shop_view_model.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
@@ -10,8 +13,8 @@ import '../../services/barber_services/barber_services_service.dart';
 import '../../services/barber_services/barber_services_service_firebase.dart';
 import '../../services/barbershop_profile/barbershop_profile_service.dart';
 import '../../services/barbershop_profile/barbershop_profile_service_firebase.dart';
-import '../../services/booking/booking_service.dart';
 import '../../services/booking/booking_service_firebase.dart';
+import '../../services/customer/customer_service.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
 import '../../view_model/bookings_view_model.dart';
@@ -78,4 +81,15 @@ Future<void> initializeServiceLocator() async {
 
   locator.registerLazySingleton<BarberProfileViewModel>(
       () => BarberProfileViewModel());
+
+  // Local Storage Service Provider
+  locator.registerLazySingleton<LocalStorageServiceProvider>(
+      () => LocalStorageServiceProvider());
+
+  //prefs service locator
+  locator.registerLazySingleton<SharedPreferencesService>(
+      () => SharedPreferencesService());
+
+  locator.registerLazySingleton<ShopViewModelProvider>(
+      () => ShopViewModelProvider());
 }

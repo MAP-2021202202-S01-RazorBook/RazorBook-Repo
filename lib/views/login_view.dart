@@ -3,14 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/router-constants.dart';
-import '../app/service_locator/service_locator.dart';
 import '../view_model/login_view_model.dart';
 import '../helpers/helper_widgets.dart';
 // import '../views/signup_view.dart';
 // import '../views/forgot_password_view.dart';
 // import '../views/home_view.dart';
-
-import 'customer_screens/customer_main_page_nav.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

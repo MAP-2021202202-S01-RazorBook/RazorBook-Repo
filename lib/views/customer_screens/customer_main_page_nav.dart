@@ -133,7 +133,7 @@ class _HomeViewState extends State<CustomerMainPageNav> {
         bottom: false,
         child: PageView(
           controller: _pageController,
-          children: [
+          children: const [
             ViewBookings(),
             ShopView(),
             ProfileView(),

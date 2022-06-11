@@ -22,7 +22,7 @@ abstract class BarbershopService {
   //Future<void> getAllBarbershops(String? search);
   Future<void> getBarbershopDetailsForBarber(String uId);
   Future<void> getBarbershopDetailsForCustomer(String uId);
-  Future<void> getBarbershopsList();
+  Future<List<User?>> getBarbershopsList();
   //Future<Image> _loadBarbershopProfileImage(String uId);
 
   //including updating list of working days

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/models/service.dart';
 
-import '../app/service_locator/service_locator.dart';
 import '../helpers/colors.dart';
 import '../view_model/services_view_model.dart';
 import 'common_widgets/pages_appbar.dart';
@@ -15,11 +14,11 @@ class ViewServices extends StatefulWidget {
 }
 
 class _ViewServicesState extends State<ViewServices> {
-  TextEditingController _serviceNameTextFieldController =
+  final TextEditingController _serviceNameTextFieldController =
       TextEditingController();
-  TextEditingController _serviceDesciptionTextFieldController =
+  final TextEditingController _serviceDesciptionTextFieldController =
       TextEditingController();
-  TextEditingController _servicePriceTextFieldController =
+  final TextEditingController _servicePriceTextFieldController =
       TextEditingController();
 
   @override
@@ -30,7 +29,7 @@ class _ViewServicesState extends State<ViewServices> {
       future: model.getServices(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
@@ -50,7 +49,7 @@ class _ViewServicesState extends State<ViewServices> {
                   ),
                 ),
                 onPressedFunctionForRightAction: () {},
-                appBarRightIcon: Icon(null)),
+                appBarRightIcon: const Icon(null)),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 _showDialogEditOrAdd(
@@ -130,12 +129,12 @@ class _ViewServicesState extends State<ViewServices> {
 
                         //will check from the value of PopUpMneu and based on it it
                         //it execute the work
-                        onSelected: (String value) {
+                        onSelected: (String value) async {
                           if (value == 'edit') {
                             //to view the same current data that we are holding in our controller in the textfieds
                             setState(() {
                               _serviceNameTextFieldController.text =
-                                  model.servicesList![index].name!;
+                                  model.servicesList![index].name;
 
                               _serviceDesciptionTextFieldController.text =
                                   model.servicesList![index].description!;
@@ -146,31 +145,45 @@ class _ViewServicesState extends State<ViewServices> {
 
                             _showDialogEditOrAdd(
                               context: context,
-                              title: 'Add A new Service',
-                              passedMethod: () {
+                              title: 'Edit a Service',
+                              passedMethod: () async {
                                 //pass your methods here
                                 // for the mean while I'm editing the current element in the array
                                 //and this is only will be showed in the view
                                 //also it's missing the id
-                                model.servicesList![index].name =
-                                    _serviceNameTextFieldController.text;
+                                // model.servicesList![index].name =
+                                //     _serviceNameTextFieldController.text;
 
-                                model.servicesList![index].description =
-                                    _serviceNameTextFieldController.text;
+                                // model.servicesList![index].description =
+                                //     _serviceNameTextFieldController.text;
 
-                                model.servicesList![index].price = double.parse(
-                                    _servicePriceTextFieldController.text);
-                                //add the services here
+                                // model.servicesList![index].price = double.parse(
+                                //     _servicePriceTextFieldController.text);
+                                // //add the services here
+
+                                await model.editService(
+                                    serviceID: model.servicesList![index].id,
+                                    updatedService: Service(
+                                        sh_id: model.currentUser?.u_id ?? "",
+                                        name: _serviceNameTextFieldController
+                                            .text,
+                                        description:
+                                            _serviceDesciptionTextFieldController
+                                                .text,
+                                        price: double.parse(
+                                            _servicePriceTextFieldController
+                                                .text)));
                               },
                             );
                           } else if (value == 'delete') {
                             //this is to delete it from the fetched list and re-render
                             //the screen.
                             //you have to use the service function here either outside setState Or in it
-                            setState(() {
-                              model.servicesList!.removeAt(index);
-                            });
+
                             //add the service here
+                            print("Awwwwwwwwwwwwwwwwwwwwwwwww: $index");
+                            await model.deleteService(
+                                serviceID: model.servicesList![index].id);
                           } else {
                             //do nothing}
                           }
@@ -209,14 +222,14 @@ class _ViewServicesState extends State<ViewServices> {
                 }
               },
             ),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 15,
             ),
             TextFormField(
               controller: _serviceDesciptionTextFieldController,
-              maxLines: 2,
+              maxLines: 1,
               decoration: const InputDecoration(
-                labelText: 'Service Desription',
+                labelText: 'Service Description',
                 border: OutlineInputBorder(),
               ),
               validator: (description) {
@@ -227,8 +240,8 @@ class _ViewServicesState extends State<ViewServices> {
                 }
               },
             ),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 15,
             ),
             TextFormField(
               controller: _servicePriceTextFieldController,
@@ -314,5 +327,3 @@ class _ViewServicesState extends State<ViewServices> {
 //       ],
 //     );
 //   },
-// );
-// }

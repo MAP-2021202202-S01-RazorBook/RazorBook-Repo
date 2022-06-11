@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import '../../models/service.dart';
 import '../../services/barber_services/barber_services_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../failure.dart';
 //import 'dart:developer';
 
@@ -63,9 +62,7 @@ class BarberServicesServiceFirebase extends BarberServicesService {
       String mockServiceId = 'SWWt4m8kEbkteJou65zj';
       // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
       // .get();
-      await _services
-          .doc(serviceID ?? mockServiceId)
-          .update({'is_deleted': true});
+      await _services.doc(serviceID ?? mockServiceId).delete();
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

@@ -1,8 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
 
-import '../app/service_locator/service_locator.dart';
 import '../view_model/bookings_view_model.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
@@ -63,7 +64,7 @@ class _ViewBookingsState extends State<ViewBookings> {
             ),
           ),
           onPressedFunctionForRightAction: () {},
-          appBarRightIcon: Icon(null)),
+          appBarRightIcon: const Icon(null)),
       body: FutureBuilder(
           future: model.getBookings(),
           builder: (context, snapshot) {
@@ -88,7 +89,7 @@ class _ViewBookingsState extends State<ViewBookings> {
                         ? Colors.white
                         : model.bookingsList![index].is_cancelled == true &&
                                 model.bookingsList![index].is_completed == false
-                            ? Color.fromARGB(255, 255, 152, 152)
+                            ? const Color.fromARGB(255, 255, 152, 152)
                             : model.bookingsList![index].is_cancelled ==
                                         false &&
                                     model.bookingsList![index].is_completed ==
@@ -234,7 +235,7 @@ class _ViewBookingsState extends State<ViewBookings> {
                                 message: const Text(
                                   'Rate about your Experince with this order',
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 15),
+                                  style: TextStyle(fontSize: 15),
                                 ),
                                 submitButtonText: 'Submit',
                                 onSubmitted: (response) {

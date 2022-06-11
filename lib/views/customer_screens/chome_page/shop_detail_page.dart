@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -313,9 +315,8 @@ class BarberhopDetailView extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (context) => const BookNow(
-                                                barbershop_id:
-                                                    "the id is place here",
+                                          builder: (context) => BookNow(
+                                                barbershop_id: barbershop_id,
                                               )),
                                     );
                                   },

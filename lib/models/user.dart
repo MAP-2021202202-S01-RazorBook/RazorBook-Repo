@@ -1,18 +1,25 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
+  /// how about that
+  ///[Barber]? barber;
+  ///[Customer]? customer;
+  /// So i can call [User.customer] or [User.barber]
+  ///
   String u_id;
   String email;
   String? user_type;
   String? name;
   String? address;
-  Map<String, dynamic>? location;
+  dynamic location;
   String? phone;
   String? image;
   String? description;
   List<dynamic>? bookings;
   List<dynamic>? services;
-  Map<String, dynamic>? rating;
+  List<dynamic>? rating;
   List<dynamic>? open_days;
   double? slot_length;
   String? open_time;
@@ -22,6 +29,21 @@ class User {
   User({
     required this.u_id,
     required this.email,
+    this.user_type,
+    this.name,
+    this.address,
+    this.location,
+    this.phone,
+    this.image,
+    this.description,
+    this.bookings,
+    this.services,
+    this.rating,
+    this.open_days,
+    this.slot_length,
+    this.open_time,
+    this.close_time,
+    this.docId,
   });
 
   // Barber constructor
@@ -81,7 +103,7 @@ class User {
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
-        location: Map.from(data['location']),
+        location: data['location'],
         phone: data['phone'],
         image: data['image'],
         description: data['description'],
@@ -91,7 +113,7 @@ class User {
         services: data['services'] is Iterable
             ? List.from(data['services'])
             : data['services'],
-        rating: Map.from(data['rating']),
+        rating: data['rating'],
         open_days:
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
@@ -105,7 +127,7 @@ class User {
         user_type: data['user_type'] as String,
         name: data['name'] as String,
         address: data['address'] as String,
-        location: Map.from(data['location']),
+        location: data['location'],
         phone: data['phone'] as String,
         image: data['image'],
         bookings: data['bookings'] is Iterable
@@ -123,7 +145,7 @@ class User {
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
-        location: data['location'] == null ? null : Map.from(data['location']),
+        location: data['location'],
         phone: data['phone'],
         image: data['image'],
         description: data['description'],
@@ -133,7 +155,7 @@ class User {
         services: data['services'] is Iterable
             ? List.from(data['services'])
             : data['services'],
-        rating: data['rating'] == null ? null : Map.from(data['rating']),
+        rating: data['rating'],
         open_days:
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
@@ -147,7 +169,7 @@ class User {
         user_type: data['user_type'] ?? 'customer',
         name: data['name'] ?? '',
         address: data['address'] ?? '',
-        location: data['location'] == null ? null : Map.from(data['location']),
+        location: data['location'],
         phone: data['phone'] ?? "",
         image: data['image'] ?? "",
         bookings: data['bookings'] is Iterable
@@ -192,23 +214,29 @@ class User {
 
   // USER to json
   Map<String, dynamic> toJson() {
-    return {
-      'u_id': u_id,
-      'email': email,
-      'user_type': user_type,
-      'name': name,
-      'address': address,
-      'location': location,
-      'phone': phone,
-      'image': image,
-      'description': description,
-      'bookings': bookings,
-      'services': services,
-      'rating': rating,
-      'open_days': open_days,
-      'slot_length': slot_length,
-      'open_time': open_time,
-      'close_time': close_time,
-    };
+    if (user_type != "customer") {
+      return customerToFirestore();
+    } else {
+      return barberToFirestore();
+    }
   }
+  //   return {
+  //     'u_id': u_id,
+  //     'email': email,
+  //     'user_type': user_type,
+  //     'name': name,
+  //     'address': address,
+  //     'location': location,
+  //     'phone': phone,
+  //     'image': image,
+  //     'description': description,
+  //     'bookings': bookings,
+  //     'services': services,
+  //     'rating': rating,
+  //     'open_days': open_days,
+  //     'slot_length': slot_length,
+  //     'open_time': open_time,
+  //     'close_time': close_time,
+  //   };
+  // }
 }

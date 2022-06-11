@@ -1,21 +1,18 @@
-import 'package:razor_book/services/customer/customer_service.dart';
-import 'package:razor_book/views/signup_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razor_book/services/barbershop_profile/barbershop_profile_service.dart';
 import 'package:razor_book/models/user.dart';
-import 'package:flutter/material.dart';
-import '../../helpers/helper_widgets.dart';
+
 import '../../models/user.dart';
 import '../failure.dart';
-import 'dart:developer';
+
 import 'dart:io';
 
 class BarbershopServiceFirebase extends BarbershopService {
   CollectionReference get _usersCollection =>
       FirebaseFirestore.instance.collection('users');
 
-  String uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
-
+  // String uId = 'eRiujAfrWASWbosQGToSO1wcmNz1';
+  List<User?> barberShopProfileList = <User?>[];
   Map<String, dynamic>? _barbershopDetailsForCustomer;
   Map<String, dynamic>? _barbershopDetailsForBarber;
   final List<Map<String, dynamic>?> _barbershopsList = [];
@@ -105,7 +102,7 @@ class BarbershopServiceFirebase extends BarbershopService {
   }
 
   @override
-  Future<void> getBarbershopsList() async {
+  Future<List<User?>> getBarbershopsList() async {
     try {
       QuerySnapshot value =
           await _usersCollection.where('user_type', isEqualTo: 'barber').get();
@@ -113,18 +110,23 @@ class BarbershopServiceFirebase extends BarbershopService {
       // final Map<String, dynamic> data =
       //value.docs[0].id;
       for (int i = 0; i < value.docs.length; i++) {
-        _barbershopsList.add(value.docs[i].data() as Map<String, dynamic>);
+        // final Map<String, dynamic> data = value.docs[i].data() as Map<String,dynamic>;
+        User user = User.fromFirestore(value.docs[i]);
+        barberShopProfileList.add(user);
+
+        // _barbershopsList.add(value.docs[i].data() as Map<String, dynamic>);
       }
+      return barberShopProfileList;
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),
           location:
-              'CounterServiceFireStore.getCustomerDetails() on FirebaseException');
+              'CounterServiceFireStore.getBarbershopsList() on FirebaseException');
     } catch (e) {
       throw Failure(101,
           message: e.toString(),
           location:
-              'CounterServiceFireStore.getCustomerDetails() on other exception');
+              'CounterServiceFireStore.getBarbershopsList() on other exception');
     }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:razor_book/helpers/assets.dart';
+
 import 'package:razor_book/helpers/colors.dart';
-import 'package:razor_book/models/barberUserSide/babershop_profile_model.dart';
+import 'package:razor_book/models/user.dart';
 
 import 'shop_detail_page.dart';
 
@@ -13,7 +13,7 @@ class ShopListItem extends StatelessWidget {
   }) : super(key: key);
   //this one should be replaced with the User Model we have
   // we should change its type from BarberShopProfilePageModel to User
-  final BarberShopProfilePageModel bbsProfile;
+  final User bbsProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class ShopListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => const BarberhopDetailView(
-                    barbershop_id: "the id is place here",
+              builder: (context) => BarberhopDetailView(
+                    barbershop_id: bbsProfile.u_id,
                   )),
         );
       },
@@ -35,9 +35,9 @@ class ShopListItem extends StatelessWidget {
           children: [
             Container(
                 height: 160,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(bbsProfile.shopeImage),
+                      image: AssetImage(AssetHelper.assetBarbarShopOne),
                       fit: BoxFit.cover),
                 )),
             Align(
@@ -45,7 +45,7 @@ class ShopListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 21.0, top: 8, bottom: 8),
                 child: Text(
-                  bbsProfile.shopName,
+                  bbsProfile.name!,
                   style: const TextStyle(
                     fontFamily: 'Metropolis',
                     fontSize: 16,

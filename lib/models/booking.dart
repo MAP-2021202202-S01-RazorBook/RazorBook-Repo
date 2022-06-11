@@ -1,10 +1,12 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Booking {
   String? id;
   String? c_id;
   String? b_id;
-  double? total_price;
+  num? total_price;
   String? date;
   String? time;
   bool is_cancelled = false;
@@ -45,7 +47,7 @@ class Booking {
       id: json!['id'] as String,
       c_id: json['c_id'] as String,
       b_id: json['b_id'] as String,
-      total_price: json['total_price'] as double,
+      total_price: json['total_price'] as num,
       date: json['date'] as String,
       time: json['time'] as String,
       is_cancelled: json['is_cancelled'] as bool,
@@ -65,7 +67,7 @@ class Booking {
       id: id,
       c_id: data['c_id'] as String?,
       b_id: data['b_id'] as String?,
-      total_price: data['total_price'] as double?,
+      total_price: data['total_price'] as num?,
       date: data['date'] as String?,
       time: data['time'] as String?,
       is_cancelled: data['is_cancelled'] as bool,
