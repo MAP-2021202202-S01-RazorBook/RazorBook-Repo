@@ -4,9 +4,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
+import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
+import 'package:razor_book/views/home_view.dart';
 
 import '../../view_model/customer_profile_view_model.dart';
 
@@ -19,6 +23,8 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? user =
+        Provider.of<LocalStorageServiceProvider>(context).userProfile;
     // _customerProfileModel =
     //     Provider.of<AuthViewModelProvider>(context, listen: true).cusProfile;
 
@@ -49,15 +55,17 @@ class ProfileView extends StatelessWidget {
         //     )),
         body: Consumer<CustomerProfileViewModel>(
             builder: (context, viewModel, child) {
-          //   viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
+          log(user!.toJson().toString());
+          // viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
 
           // log("${viewModel.user.address} + here is the real value ${viewModel.user.name}");
 
           if (viewModel.emailController.text.isEmpty) {
-            viewModel.emailController.text = viewModel.user?.email ?? "";
-            viewModel.nameController.text = "";
-            viewModel.phoneController.text = "";
-            viewModel.addressController.text = "";
+            viewModel.emailController.text =
+                user.email; //read from localstorage
+            viewModel.nameController.text = user.name!;
+            viewModel.phoneController.text = user.phone!;
+            viewModel.addressController.text = user.address!;
           }
           return SingleChildScrollView(
             // ignore: sized_box_for_whitespace
@@ -169,20 +177,16 @@ class ProfileView extends StatelessWidget {
 
                             // });
                           },
-                          onSavePressed: () {
-                            // CustomerProfileModel cust = CustomerProfileModel(
-                            //   name: viewModel.nameController.text,
-                            //   age: 11,
-                            //   email: viewModel.emailController.text,
-                            //   contactNumber: viewModel.phoneController.text,
-                            //   address: viewModel.addressController.text,
-                            //   customerImage: customerProfileModel.customerImage,
-                            //   uid: customerProfileModel.uid,
-                            //   gender: customerProfileModel.gender,
-                            //   docId: customerProfileModel.docId,
-                            // );
-                            // customerServiceFirebase.updateCustomerProfile(
-                            //     cust, context);
+                          onSavePressed: () async {
+                            User newuser = User(
+                                u_id: user.u_id,
+                                name: viewModel.nameController.text,
+                                email: viewModel.emailController.text,
+                                phone: viewModel.phoneController.text,
+                                address: viewModel.addressController.text,
+                                user_type: user.user_type);
+
+                            await viewModel.updateUserProfile(newuser, context);
                           },
                         )
                       : Padding(
@@ -195,11 +199,11 @@ class ProfileView extends StatelessWidget {
                                   fixedSize: Size(
                                       MediaQuery.of(context).size.width, 56)),
                               onPressed: () async {
-                                // await authenticationServiceFirebase
-                                //     .signOut()
-                                //     .then((value) => Navigator.of(context)
-                                //         .pushReplacement(MaterialPageRoute(
-                                //             builder: (ctx) => RootView())));
+                                await locator<AuthenticationService>()
+                                    .signOut()
+                                    .then((value) => Navigator.of(context)
+                                        .pushReplacement(MaterialPageRoute(
+                                            builder: (ctx) => Home())));
                               },
                               child: Text(
                                 'Logout',

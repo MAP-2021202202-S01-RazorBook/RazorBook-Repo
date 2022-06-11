@@ -1,4 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:razor_book/views/common_widgets/checkout_button.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
 
 import '../../../helpers/colors.dart';
@@ -54,11 +57,12 @@ class _BookNowState extends State<BookNow> {
                 child: StepProgressView(
                     width: MediaQuery.of(context).size.width,
                     curStep: _curStep,
-                    color: Color(0xff50AC02),
+                    color: const Color(0xff50AC02),
                     titles: titles),
               ),
               Expanded(
                 child: PageView(
+                  controller: PageController(keepPage: true),
                   onPageChanged: (i) {
                     setState(() {
                       _curStep = i + 1;
@@ -71,37 +75,10 @@ class _BookNowState extends State<BookNow> {
                     Container(
                       child: Center(
                         child: SizedBox(
-                            height: 80,
+                            // height: 80,
                             width: 180,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text("Confirm Booking Now"),
-                                      content: const Text(
-                                          "are you sure you want to confirm your booking?"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.red,
-                                          ),
-                                          child: const Text("Confirm"),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Text(
-                                "Confirm Booking",
-                                style: TextStyle(fontSize: 19),
-                              ),
-                            )),
+                            child: CheckOutButton(
+                                barbershopId: widget.barbershop_id)),
                       ),
                     ),
                   ],
