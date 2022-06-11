@@ -158,7 +158,6 @@ class BookingsSlotsList extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemBuilder: ((context, columnIndex) {
                 //this is where we generate the slots.
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

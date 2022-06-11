@@ -52,7 +52,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '17961523529',
     projectId: 'razorbook-app',
     authDomain: 'razorbook-app.firebaseapp.com',
-    databaseURL: 'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'razorbook-app.appspot.com',
     measurementId: 'G-M7R2P15K6K',
   );
@@ -62,7 +63,8 @@ class DefaultFirebaseOptions {
     appId: '1:17961523529:android:ffdcf5c2b4cccc6ccda298',
     messagingSenderId: '17961523529',
     projectId: 'razorbook-app',
-    databaseURL: 'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'razorbook-app.appspot.com',
   );
 
@@ -71,9 +73,11 @@ class DefaultFirebaseOptions {
     appId: '1:17961523529:ios:6c3070cd7ed77921cda298',
     messagingSenderId: '17961523529',
     projectId: 'razorbook-app',
-    databaseURL: 'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://razorbook-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'razorbook-app.appspot.com',
-    iosClientId: '17961523529-vkq6b5h3i4ms53a1tvo2trh7j0beeko9.apps.googleusercontent.com',
+    iosClientId:
+        '17961523529-vkq6b5h3i4ms53a1tvo2trh7j0beeko9.apps.googleusercontent.com',
     iosBundleId: 'com.example.razorBook',
   );
 }

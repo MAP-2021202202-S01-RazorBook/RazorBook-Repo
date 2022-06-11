@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import '../../models/service.dart';
 import '../../services/barber_services/barber_services_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../failure.dart';
 //import 'dart:developer';
 

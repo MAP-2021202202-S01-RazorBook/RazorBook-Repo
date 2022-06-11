@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Service {
   String? id;
   String sh_id;
-  double price;
+  num? price;
   String name;
   String? description;
 
@@ -36,7 +36,7 @@ class Service {
     return Service(
         id: json!['id'] as String,
         sh_id: json['sh_id'] as String,
-        price: json['price'] as double,
+        price: json['price'] as num,
         name: json['name'] as String,
         description: json['description'] as String);
   }
@@ -50,7 +50,7 @@ class Service {
     return Service(
       id: id,
       sh_id: data['sh_id'] as String,
-      price: data['price'] as double,
+      price: data['price'] as num,
       name: data['name'] as String,
       description: data['description'] as String?,
     );
