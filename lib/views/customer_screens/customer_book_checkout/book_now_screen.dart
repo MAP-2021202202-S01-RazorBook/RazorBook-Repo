@@ -69,8 +69,8 @@ class _BookNowState extends State<BookNow> {
                     });
                   },
                   children: <Widget>[
-                    BookingsSlotsList(barbershop_id: widget.barbershop_id),
-                    BookServices(barbershop_id: widget.barbershop_id),
+                    BookingsSlotsList(barbershop_id: widget.barbershop_id!),
+                    BookServices(barbershop_id: widget.barbershop_id!),
                     //this one will be deleted later in the last sprints
                     Container(
                       child: Center(
