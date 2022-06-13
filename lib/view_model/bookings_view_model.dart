@@ -2,17 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/helper_widgets.dart';
-import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 
 import '../app/service_locator/service_locator.dart';
 import '../models/booking.dart';
 import '../models/user.dart';
+import '../services/booking/booking_service.dart';
 import 'base_view_model.dart';
 
 class BookingsViewModel extends BaseModel {
-  // final bookingService = locator<BookingService>();
+  final _bookingsService = locator<BookingService>();
 
   List<Booking>? bookings = [];
   List<Booking>? get bookingsList {
@@ -180,23 +179,20 @@ class BookingsViewModel extends BaseModel {
 
   /// end migrated from book_services_view.dart
 
-  Future getBookings(String uid) async {
+  Future getBookings() async {
     // setBusy(true);
-    // await bookingService.generateSlots(bID: '1');
+    // await _bookingService.generateSlots(bID: '1');
     try {
-      /// data is not stored in local yet
-      /// so i make default to customer
-      // if (currentUser?.user_type == 'customer') {
-      //   await bookingService.getCustomerBookings(
-      //       userID: currentUser?.u_id ?? "");
-      //   bookings = bookingService.customerBookingsList;
-      // } else {
-      //   await bookingService.getBarberBookings(
-      //       userID: _currentUser?.u_id ?? '');
-      //   bookings = bookingService.barberBookingsList;
-      // }
-      await bookingService.getCustomerBookings(userID: uid);
-      bookings = bookingService.customerBookingsList;
+      if (currentUser?.user_type == 'customer') {
+        await _bookingsService.getCustomerBookings(
+            userID: currentUser?.u_id ?? "");
+        bookings = _bookingsService.customerBookingsList;
+      } else {
+        log("current user here is : ${currentUser?.u_id}");
+        await _bookingsService.getBarberBookings(
+            userID: _currentUser?.u_id ?? '');
+        bookings = _bookingsService.barberBookingsList;
+      }
       bookings?.sort((a, b) => b.is_cancelled ? 0 : 1);
       log(bookings!.toList().toString());
       // setBusy(false);
@@ -209,15 +205,16 @@ class BookingsViewModel extends BaseModel {
   Future cancelBooking(String? bookingID) async {
     setBusy(true);
 
-    await bookingService.cancelBooking(bookingID: bookingID);
+    await _bookingsService.cancelBooking(bookingID: bookingID);
     // await bookingService.getCustomerBookings(userID: '1');
     setBusy(false);
   }
 
   Future makeBooking(BuildContext ctx, String bid,
-      List<Map<dynamic, dynamic>> srv, double totalP) async {
+      List<Map<dynamic, dynamic>> srv, double totalP,
+      {required String selectedDay, required String selectedTime}) async {
     log("""
-cid: ${Provider.of<LocalStorageServiceProvider>(ctx, listen: false).uid}
+cid: ${currentUser!.u_id}
 service : $services
 booking slot :$slots
 total price: $totalP
@@ -225,8 +222,7 @@ total price: $totalP
 
     """);
     Booking booking = Booking(
-      c_id: Provider.of<LocalStorageServiceProvider>(ctx, listen: false)
-          .uid, // auth user id  not (users.docs.id)
+      c_id: currentUser!.u_id, // auth user id  not (users.docs.id)
       b_id: bid,
       is_cancelled: false,
 
@@ -234,7 +230,8 @@ total price: $totalP
       total_price: totalP,
       is_paid: false,
       is_completed: false,
-      time: DateTime.now().toIso8601String(),
+      time: "$selectedDay $selectedTime ",
+      date: DateTime.now().toUtc().toIso8601String(),
     );
     log("[s] Booking object: $booking");
     log(booking.toJson().toString());
@@ -243,7 +240,7 @@ total price: $totalP
       'Booking ......',
     ));
     try {
-      await bookingService.makeBooking(booking).then((value) {
+      await _bookingsService.makeBooking(booking).then((value) {
         ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar(
           'Booking Successful',
         ));

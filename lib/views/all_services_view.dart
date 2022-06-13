@@ -151,15 +151,15 @@ class _ViewServicesState extends State<ViewServices> {
                                 // for the mean while I'm editing the current element in the array
                                 //and this is only will be showed in the view
                                 //also it's missing the id
-                                model.servicesList![index].name =
-                                    _serviceNameTextFieldController.text;
+                                // model.servicesList![index].name =
+                                //     _serviceNameTextFieldController.text;
 
-                                model.servicesList![index].description =
-                                    _serviceNameTextFieldController.text;
+                                // model.servicesList![index].description =
+                                //     _serviceNameTextFieldController.text;
 
-                                model.servicesList![index].price = double.parse(
-                                    _servicePriceTextFieldController.text);
-                                //add the services here
+                                // model.servicesList![index].price = double.parse(
+                                //     _servicePriceTextFieldController.text);
+                                // //add the services here
 
                                 await model.editService(
                                     serviceID: model.servicesList![index].id,
@@ -179,9 +179,7 @@ class _ViewServicesState extends State<ViewServices> {
                             //this is to delete it from the fetched list and re-render
                             //the screen.
                             //you have to use the service function here either outside setState Or in it
-                            setState(() {
-                              model.servicesList!.removeAt(index);
-                            });
+
                             //add the service here
                             print("Awwwwwwwwwwwwwwwwwwwwwwwww: $index");
                             await model.deleteService(

@@ -13,7 +13,7 @@ class ShopListItem extends StatelessWidget {
   }) : super(key: key);
   //this one should be replaced with the User Model we have
   // we should change its type from BarberShopProfilePageModel to User
-  final User bbsProfile;
+  final Map<String, dynamic>? bbsProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ShopListItem extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => BarberhopDetailView(
-                    barbershop_id: bbsProfile.u_id,
+                    barbershop_id: bbsProfile!['u_id'],
                   )),
         );
       },
@@ -45,7 +45,7 @@ class ShopListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 21.0, top: 8, bottom: 8),
                 child: Text(
-                  bbsProfile.name!,
+                  bbsProfile!['name'],
                   style: const TextStyle(
                     fontFamily: 'Metropolis',
                     fontSize: 16,
@@ -67,7 +67,7 @@ class ShopListItem extends StatelessWidget {
                       const Icon(Icons.star_rate_rounded,
                           size: 24, color: Helper.kButtonColor),
                       Text(
-                        bbsProfile.rating.toString(),
+                        bbsProfile!['rating'].toString(),
                         style: const TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 11,

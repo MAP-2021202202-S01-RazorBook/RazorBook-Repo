@@ -1,5 +1,7 @@
 // ignore_for_file: library_prefixes, avoid_print
 
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:razor_book/views/signup_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:razor_book/app/service_locator/service_locator.dart';
 
 import '../failure.dart';
 import '../../models/user.dart' as AppUser;
+import '../local_storage_service/local_storage_service.dart';
 // import '../../models/user.dart'
 //     as AppUser; // To resolve conflict with firebase 'User' class
 
@@ -40,11 +43,11 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       );
 
       /// save logged in userdata to localstorage
-      await localServiceProvider.saveUID(credential.user!.uid);
-      await customerService
-          .getCustomerDetailsForCustomer(credential.user?.uid ?? '');
+      await locator<LocalStorageServiceProvider>()
+          .saveUID(credential.user!.uid);
+
       await getUser(credential.user?.uid ?? '');
-      print("in sign in method$_currentUser");
+      print("in sign in method" + _currentUser.toString());
     } on FirebaseAuthException catch (e) {
       throw Failure(400,
           message: e.toString(),
@@ -61,7 +64,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
     try {
       await _auth.signOut();
       _currentUser = null;
-      await localServiceProvider.logout();
+      await locator<LocalStorageServiceProvider>().logout();
     } on FirebaseAuthException catch (e) {
       throw Failure(500,
           message: e.toString(),
@@ -88,7 +91,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        if (value.user != null) {
+        if (value != null && value.user != null) {
           //  userCollection.doc(value.user.uid).set({
           _usersCollection.add({
             'u_id': value.user?.uid,
@@ -223,9 +226,10 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       user = userDoc.docs[0].data() as Map<String, dynamic>;
       // print("userDoc is " + user.toString());
       _currentUser = AppUser.User.fromJson(user);
+      log("getUser() > _currentUser is " + _currentUser.toString());
       if (_currentUser != null) {
         /// save profile to local storage
-        await localServiceProvider.saveProfile(_currentUser!);
+        await locator<LocalStorageServiceProvider>().saveProfile(_currentUser!);
       }
     } else {
       user = null;

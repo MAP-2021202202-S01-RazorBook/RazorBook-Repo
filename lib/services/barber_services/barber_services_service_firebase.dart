@@ -59,12 +59,10 @@ class BarberServicesServiceFirebase extends BarberServicesService {
   Future<void> deleteService({String? serviceID}) async {
     // TODO: implement delete Service
     try {
-      String mockServiceId = 'SWWt4m8kEbkteJou65zj';
+      //String mockServiceId = 'SWWt4m8kEbkteJou65zj';
       // final doc = await _services.where("sh_id", isEqualTo: "eRiujAfrWASWbosQGToSO1wcmNz1")
       // .get();
-      await _services
-          .doc(serviceID ?? mockServiceId)
-          .update({'is_deleted': true});
+      await _services.doc(serviceID ?? "").delete();
     } on FirebaseException catch (e) {
       throw Failure(100,
           message: e.toString(),

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
-import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 
 import '../view_model/bookings_view_model.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -67,8 +66,7 @@ class _ViewBookingsState extends State<ViewBookings> {
           onPressedFunctionForRightAction: () {},
           appBarRightIcon: const Icon(null)),
       body: FutureBuilder(
-          future: model.getBookings(
-              Provider.of<LocalStorageServiceProvider>(context).uid!),
+          future: model.getBookings(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

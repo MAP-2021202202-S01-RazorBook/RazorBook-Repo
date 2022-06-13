@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:razor_book/services/booking/booking_service.dart';
 import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
@@ -10,8 +11,10 @@ import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/authentication_service_firebase.dart';
 import '../../services/barber_services/barber_services_service.dart';
 import '../../services/barber_services/barber_services_service_firebase.dart';
+import '../../services/barbershop_profile/barbershop_profile_service.dart';
 import '../../services/barbershop_profile/barbershop_profile_service_firebase.dart';
 import '../../services/booking/booking_service_firebase.dart';
+import '../../services/customer/customer_service.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
 import '../../view_model/bookings_view_model.dart';
@@ -47,19 +50,15 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceFirebase());
 
-  locator.registerLazySingleton<AuthenticationServiceFirebase>(
-      () => AuthenticationServiceFirebase());
-
-  locator.registerLazySingleton<BookingServiceFirebase>(
-      () => BookingServiceFirebase());
+  locator.registerLazySingleton<BookingService>(() => BookingServiceFirebase());
 
   locator.registerLazySingleton<BarberServicesService>(
       () => BarberServicesServiceFirebase());
 
-  locator.registerLazySingleton<CustomerServiceFirebase>(
-      () => CustomerServiceFirebase());
+  locator
+      .registerLazySingleton<CustomerService>(() => CustomerServiceFirebase());
 
-  locator.registerLazySingleton<BarbershopServiceFirebase>(
+  locator.registerLazySingleton<BarbershopService>(
       () => BarbershopServiceFirebase());
 
   // Register ViewModels
@@ -94,10 +93,3 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<ShopViewModelProvider>(
       () => ShopViewModelProvider());
 }
-
-var authServiceFirebase = locator<AuthenticationServiceFirebase>();
-var customerService = locator<CustomerServiceFirebase>();
-var bookingService = locator<BookingServiceFirebase>();
-var localServiceProvider = locator<LocalStorageServiceProvider>();
-var barbershopServiceFirebase = locator<BarbershopServiceFirebase>();
-var shopViewModelProvider = locator<ShopViewModelProvider>();

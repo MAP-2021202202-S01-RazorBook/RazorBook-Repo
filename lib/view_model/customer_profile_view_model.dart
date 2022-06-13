@@ -7,6 +7,7 @@ import 'package:razor_book/helpers/helper_widgets.dart';
 import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/base_view_model.dart';
 
+import '../services/customer/customer_service.dart';
 import '../services/failure.dart';
 
 class CustomerProfileViewModel extends BaseModel {
@@ -69,7 +70,7 @@ class CustomerProfileViewModel extends BaseModel {
     log("[+] updaing profile");
     ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar("Updating profile"));
     try {
-      await customerService.updateCustomerDetails(newUser, ctx);
+      await locator<CustomerService>().updateCustomerDetails(newUser, ctx);
       log("[+] profile updated");
       ScaffoldMessenger.of(ctx)
           .showSnackBar(mySnackBar("Profile updated successfully"));

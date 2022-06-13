@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/models/user.dart';
+import 'package:razor_book/view_model/shop_view_model.dart';
 // import 'package:razor_book/models/service.dart';
 import 'package:razor_book/views/barbershop_screens/barbershop_main_page_nav.dart';
 import 'package:razor_book/views/customer_screens/customer_main_page_nav.dart';
@@ -12,6 +13,7 @@ import 'package:razor_book/views/login_view.dart';
 // import 'package:razor_book/services/customer/customer_service.dart';
 import '../app/service_locator/service_locator.dart';
 // import '../services/barber_services/barber_services_service.dart';
+import '../services/local_storage_service/local_storage_service.dart';
 import '../view_model/barber_profile_view_model.dart';
 import '../view_model/bookings_view_model.dart';
 import '../view_model/customer_profile_view_model.dart';
@@ -43,8 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<BookingsViewModel>()),
         ChangeNotifierProvider(create: (_) => locator<ServicesViewModel>()),
         ChangeNotifierProvider(create: (_) => locator<LoginViewModel>()),
-        ChangeNotifierProvider(create: (_) => localServiceProvider),
-        ChangeNotifierProvider(create: (_) => shopViewModelProvider),
+        ChangeNotifierProvider(
+            create: (_) => locator<LocalStorageServiceProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<ShopViewModelProvider>()),
       ],
       child: const MaterialApp(
         home: Home(),
@@ -163,26 +166,23 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.delayed(
-            const Duration(seconds: 2),
-            () async => localServiceProvider
-              ..readUID()
-              ..readProfile()),
+    return StreamBuilder(
+        stream: locator<AuthenticationService>().authState,
         builder: ((context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
+          if (snapshot.connectionState != ConnectionState.active) {
             return const Scaffold(
               body: Center(child: CupertinoActivityIndicator()),
             );
           }
-          String? uid = localServiceProvider.uid;
-          User? userProfile = localServiceProvider.userProfile;
+          String? uid = locator<AuthenticationService>().currentUser?.u_id;
+          User? userProfile = locator<AuthenticationService>().currentUser;
+          final user = snapshot.data;
 
           log("-----------home----------------");
           print(uid);
           print(userProfile?.toJson().toString());
           log("-------------home------------------");
-          return uid == null
+          return user == null
               ? const LoginView()
               : userProfile == null
                   ? const LoginView()
