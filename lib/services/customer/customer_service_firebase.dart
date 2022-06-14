@@ -48,10 +48,23 @@ class CustomerServiceFirebase extends CustomerService {
     }
   }
 
+  /// find user document id by u_id
+  Future<String?> getUserDocumentId(String userId) {
+    return _usersCollection
+        .where('u_id', isEqualTo: userId)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.first.id;
+      }
+      return null;
+    });
+  }
+
   @override
   Future<void> updateCustomerDetails(User user, ctx) async {
     try {
-      String dId = user.docId!; //document id
+      String? dId = await getUserDocumentId(user.u_id); //document id
       await _usersCollection
           .doc(dId)
           .update(user.customerToFirestore()); // update customer data

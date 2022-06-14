@@ -36,101 +36,99 @@ class BookServices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BookingsViewModel>(
-        builder: (context, BookingsViewModel viewModel, _) {
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Select a Service ",
-                          style: TextStyle(
-                            fontFamily: "MetropolisExtra",
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Helper.kTitleTextColor,
-                          ),
+    final viewModel = context.watch<BookingsViewModel>();
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Select a Service ",
+                        style: TextStyle(
+                          fontFamily: "MetropolisExtra",
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Helper.kTitleTextColor,
                         ),
-                        Text(
-                          "${viewModel.totalPrice} \$ ",
-                          style: const TextStyle(
-                            fontFamily: "MetropolisExtra",
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Helper.kTitleTextColor,
-                          ),
+                      ),
+                      Text(
+                        "${viewModel.totalPrice} \$ ",
+                        style: const TextStyle(
+                          fontFamily: "MetropolisExtra",
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Helper.kTitleTextColor,
                         ),
-                      ],
-                    )),
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Text(
-                    "Click on the card to choose the services that you want, ",
-                    style: TextStyle(
-                      height: 1.2,
-                      fontFamily: "MetropolisExtra",
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 141, 141, 141),
-                    ),
+                      ),
+                    ],
+                  )),
+              const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  "Click on the card to choose the services that you want, ",
+                  style: TextStyle(
+                    height: 1.2,
+                    fontFamily: "MetropolisExtra",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromARGB(255, 141, 141, 141),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 500,
-                  width: 400,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: viewModel.services.length,
-                      itemBuilder: ((contwxt, index) {
-                        return Card(
-                          key: ValueKey(viewModel.services[index]['name']),
-                          margin: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: viewModel.services[index]['isSelected'] == true
-                              ? Helper.kFABColor
-                              : Colors.white,
-                          child: ListTile(
-                            onTap: () {
-                              if (viewModel.services[index]['isSelected'] ==
-                                  true) {
-                                viewModel.services[index]['isSelected'] = false;
-                                viewModel.totalPrice -=
-                                    viewModel.services[index]['price'];
-                              } else {
-                                viewModel.services[index]['isSelected'] = true;
-                                viewModel.totalPrice +=
-                                    viewModel.services[index]['price'];
-                              }
-                            },
-                            title: Text(viewModel.services[index]['name']),
-                            subtitle:
-                                Text(viewModel.services[index]['description']),
-                            trailing: Text(
-                                viewModel.services[index]['price'].toString()),
-                          ),
-                        );
-                      })),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      );
-    });
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 500,
+                width: 400,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: viewModel.services.length,
+                    itemBuilder: ((contwxt, index) {
+                      return Card(
+                        key: ValueKey(viewModel.services[index]['name']),
+                        margin: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: viewModel.services[index]['isSelected'] == true
+                            ? Helper.kFABColor
+                            : Colors.white,
+                        child: ListTile(
+                          onTap: () {
+                            if (viewModel.services[index]['isSelected'] ==
+                                true) {
+                              viewModel.services[index]['isSelected'] = false;
+                              viewModel.totalPrice -=
+                                  viewModel.services[index]['price'];
+                            } else {
+                              viewModel.services[index]['isSelected'] = true;
+                              viewModel.totalPrice +=
+                                  viewModel.services[index]['price'];
+                            }
+                          },
+                          title: Text(viewModel.services[index]['name']),
+                          subtitle:
+                              Text(viewModel.services[index]['description']),
+                          trailing: Text(
+                              viewModel.services[index]['price'].toString()),
+                        ),
+                      );
+                    })),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
   }
 }

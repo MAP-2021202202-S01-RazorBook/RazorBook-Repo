@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:razor_book/views/common_widgets/checkout_button.dart';
-import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
 
 import '../../../helpers/colors.dart';

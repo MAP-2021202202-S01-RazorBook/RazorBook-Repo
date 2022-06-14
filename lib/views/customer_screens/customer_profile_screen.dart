@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/app/service_locator/service_locator.dart';
@@ -9,7 +7,6 @@ import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/user.dart';
-import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/views/home_view.dart';
 
 import '../../view_model/customer_profile_view_model.dart';
@@ -23,8 +20,11 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? user =
-        Provider.of<LocalStorageServiceProvider>(context).userProfile;
+    final CustomerProfileViewModel viewModel =
+        context.watch<CustomerProfileViewModel>();
+    AuthenticationService authService = locator<AuthenticationService>();
+    // final User? user =
+    //     Provider.of<LocalStorageServiceProvider>(context).userProfile;
     // _customerProfileModel =
     //     Provider.of<AuthViewModelProvider>(context, listen: true).cusProfile;
 
@@ -53,19 +53,20 @@ class ProfileView extends StatelessWidget {
         //       Icons.shopping_cart,
         //       color: Helper.kTitleTextColor,
         //     )),
-        body: Consumer<CustomerProfileViewModel>(
-            builder: (context, viewModel, child) {
-          log(user!.toJson().toString());
+        body: Builder(
+            // future: viewModel.getCustomerDetails(auth ),
+            builder: (context) {
           // viewModel.getCustomerDetails("eRiujAfrWASWbosQGToSO1wcmNz1");
 
           // log("${viewModel.user.address} + here is the real value ${viewModel.user.name}");
 
           if (viewModel.emailController.text.isEmpty) {
             viewModel.emailController.text =
-                user.email; //read from localstorage
-            viewModel.nameController.text = user.name!;
-            viewModel.phoneController.text = user.phone!;
-            viewModel.addressController.text = user.address!;
+                authService.currentUser!.email; //read from localstorage
+            viewModel.nameController.text = authService.currentUser!.name!;
+            viewModel.phoneController.text = authService.currentUser!.phone!;
+            viewModel.addressController.text =
+                authService.currentUser!.address!;
           }
           return SingleChildScrollView(
             // ignore: sized_box_for_whitespace
@@ -179,12 +180,12 @@ class ProfileView extends StatelessWidget {
                           },
                           onSavePressed: () async {
                             User newuser = User(
-                                u_id: user.u_id,
+                                u_id: authService.currentUser!.u_id,
                                 name: viewModel.nameController.text,
                                 email: viewModel.emailController.text,
                                 phone: viewModel.phoneController.text,
                                 address: viewModel.addressController.text,
-                                user_type: user.user_type);
+                                user_type: authService.currentUser!.user_type);
 
                             await viewModel.updateUserProfile(newuser, context);
                           },

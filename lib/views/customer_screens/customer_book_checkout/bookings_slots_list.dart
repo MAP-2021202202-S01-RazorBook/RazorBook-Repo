@@ -112,163 +112,158 @@ class BookingsSlotsList extends StatelessWidget {
   Widget build(BuildContext context) {
     //this variable should be deleted later once it's connected to viewModel
     //will return dateOf the weeks
-
-    return Consumer<BookingsViewModel>(
-        builder: (context, BookingsViewModel bookingViewModel, _) {
-      var dateOfCalender = bookingViewModel.getDateOfWorkingDays();
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 8),
-                child: Text(
-                  "Book Now ",
-                  style: TextStyle(
-                    fontFamily: "MetropolisExtra",
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Helper.kTitleTextColor,
-                  ),
+    final bookingViewModel = context.watch<BookingsViewModel>();
+    var dateOfCalender = bookingViewModel.getDateOfWorkingDays();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 8),
+              child: Text(
+                "Book Now ",
+                style: TextStyle(
+                  fontFamily: "MetropolisExtra",
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Helper.kTitleTextColor,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Text(
-                  "Click on the card to book the day and time that suits you, ",
-                  style: TextStyle(
-                    height: 1.2,
-                    fontFamily: "MetropolisExtra",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 141, 141, 141),
-                  ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Text(
+                "Click on the card to book the day and time that suits you, ",
+                style: TextStyle(
+                  height: 1.2,
+                  fontFamily: "MetropolisExtra",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 141, 141, 141),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: bookingViewModel.days.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: ((context, columnIndex) {
-                //this is where we generate the slots.
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          bookingViewModel.days[columnIndex],
-                          style: const TextStyle(
-                            fontFamily: "MetropolisExtra",
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Helper.kTitleTextColor,
-                          ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: bookingViewModel.days.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: ((context, columnIndex) {
+              //this is where we generate the slots.
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        bookingViewModel.days[columnIndex],
+                        style: const TextStyle(
+                          fontFamily: "MetropolisExtra",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Helper.kTitleTextColor,
                         ),
-                        const SizedBox(
-                          height: 5,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        dateOfCalender[columnIndex], //
+                        style: const TextStyle(
+                          fontFamily: "MetropolisExtra",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Helper.kTitleTextColor,
                         ),
-                        Text(
-                          dateOfCalender[columnIndex], //
-                          style: const TextStyle(
-                            fontFamily: "MetropolisExtra",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Helper.kTitleTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: double.maxFinite,
-                      height: 80,
-                      child: ListView.builder(
-                        itemBuilder: ((context, rowIndex) {
-                          return GestureDetector(
-                            onTap: () {
-                              // here is the logic where we identify the place of the selected slot.
-                              //column index is the day
-                              //row index is the number of the booking slot
-                              if (bookingViewModel.selectedColumn == null &&
-                                  bookingViewModel.selectedRow == null) {
-                                bookingViewModel.selectedColumn = columnIndex;
-                                bookingViewModel.selectedRow = rowIndex;
-                              } else {
-                                bookingViewModel.selectedColumn = null;
-                                bookingViewModel.selectedRow = null;
-                              }
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: 80,
+                    child: ListView.builder(
+                      itemBuilder: ((context, rowIndex) {
+                        return GestureDetector(
+                          onTap: () {
+                            // here is the logic where we identify the place of the selected slot.
+                            //column index is the day
+                            //row index is the number of the booking slot
+                            if (bookingViewModel.selectedColumn == null &&
+                                bookingViewModel.selectedRow == null) {
+                              bookingViewModel.selectedColumn = columnIndex;
+                              bookingViewModel.selectedRow = rowIndex;
+                            } else {
+                              bookingViewModel.selectedColumn = null;
+                              bookingViewModel.selectedRow = null;
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: bookingViewModel.selectedColumn ==
+                                          columnIndex &&
+                                      bookingViewModel.selectedRow == rowIndex
+                                  ? Helper.kFABColor
+                                  : Colors.white,
+                              border: Border.all(
+                                width: 2,
                                 color: bookingViewModel.selectedColumn ==
                                             columnIndex &&
                                         bookingViewModel.selectedRow == rowIndex
                                     ? Helper.kFABColor
-                                    : Colors.white,
-                                border: Border.all(
-                                  width: 2,
+                                    : const Color.fromARGB(255, 214, 214, 214),
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                bookingViewModel.slots[rowIndex],
+                                style: TextStyle(
+                                  fontFamily: "MetropolisExtra",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
                                   color: bookingViewModel.selectedColumn ==
                                               columnIndex &&
                                           bookingViewModel.selectedRow ==
                                               rowIndex
-                                      ? Helper.kFABColor
+                                      ? Helper.kTextFieldColor
                                       : const Color.fromARGB(
-                                          255, 214, 214, 214),
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  bookingViewModel.slots[rowIndex],
-                                  style: TextStyle(
-                                    fontFamily: "MetropolisExtra",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: bookingViewModel.selectedColumn ==
-                                                columnIndex &&
-                                            bookingViewModel.selectedRow ==
-                                                rowIndex
-                                        ? Helper.kTextFieldColor
-                                        : const Color.fromARGB(
-                                            255, 159, 161, 167),
-                                  ),
+                                          255, 159, 161, 167),
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                        itemCount: bookingViewModel.slots.length,
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                      ),
+                          ),
+                        );
+                      }),
+                      itemCount: bookingViewModel.slots.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                );
-              }),
-            ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              );
+            }),
           ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 }

@@ -19,7 +19,8 @@ class _CheckOutButtonState extends State<CheckOutButton> {
   bool loading = false;
   @override
   Widget build(BuildContext context) {
-    return Consumer<BookingsViewModel>(builder: (context, x, __) {
+    final x = context.watch<BookingsViewModel>();
+    return Builder(builder: (context) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 32),
         child: ElevatedButton(
@@ -37,7 +38,9 @@ class _CheckOutButtonState extends State<CheckOutButton> {
                   .where((element) => element['isSelected'] == true)
                   .toList();
               await BookingsViewModel().makeBooking(
-                  context, widget.barbershopId, selectedService, x.totalPrice);
+                  context, widget.barbershopId, selectedService, x.totalPrice,
+                  selectedDay: x.days[x.selectedColumn ?? 0],
+                  selectedTime: x.slots[x.selectedRow ?? 0]);
 
               ///
               ///
