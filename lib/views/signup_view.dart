@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:razor_book/router-constants.dart';
 import '../view_model/barber_registration_view_model.dart';
-import '../views/login_view.dart';
 import '../views/home_view.dart';
 import '../helpers/helper_widgets.dart';
 import '../view_model/customer_registration_view_model.dart';
@@ -28,7 +27,7 @@ class _UserTypeDropdownState extends State<UserTypeDropdown> {
       }
     }
 
-    return Container(
+    return SizedBox(
       width: 330.0,
       child: DropdownButtonHideUnderline(
           child: ButtonTheme(
@@ -36,8 +35,8 @@ class _UserTypeDropdownState extends State<UserTypeDropdown> {
               child: DropdownButton(
                 hint: const Text("Choose your account type"),
                 items: const [
-                  DropdownMenuItem(child: Text("Barber"), value: "barber"),
-                  DropdownMenuItem(child: Text("Customer"), value: "customer")
+                  DropdownMenuItem(value: "barber", child: Text("Barber")),
+                  DropdownMenuItem(value: "customer", child: Text("Customer"))
                 ],
                 value: _dropdownValue,
                 onChanged: dropdownCallback,
@@ -61,7 +60,7 @@ class _SignupViewState extends State<SignupView> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
           Color.fromARGB(0, 219, 201, 201),
           Color.fromARGB(255, 21, 141, 91),
@@ -74,15 +73,15 @@ class _SignupViewState extends State<SignupView> {
             child: Column(
               children: <Widget>[
                 logoWidget("assets/images/logo.png"),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text("Choose your account type"),
-                SizedBox(
+                const Text("Choose your account type"),
+                const SizedBox(
                   height: 20,
                 ),
-                UserTypeDropdown(),
-                SizedBox(
+                const UserTypeDropdown(),
+                const SizedBox(
                   height: 30,
                 ),
                 confirmButton(context, "Continue", () {
@@ -127,7 +126,7 @@ class _BarberSignupViewState extends State<BarberSignupView> {
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
               Color.fromARGB(0, 219, 201, 201),
               Color.fromARGB(255, 21, 141, 91),
@@ -140,45 +139,45 @@ class _BarberSignupViewState extends State<BarberSignupView> {
                 child: Column(
                   children: <Widget>[
                     logoWidget("assets/images/logo.png"),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Shop Name", Icons.store, false, shopNameController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Contact Number", Icons.call, false, contactController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Address", Icons.place, false, addressController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField("Description", Icons.info, false,
                         descriptionController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Email", Icons.mail_outline, false, emailController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField("Enter your Password", Icons.lock_outline, true,
                         passwordController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     pickTime("Shop open time", openTimeController, context),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     pickTime("Shop close time", closeTimeController, context),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     confirmButton(context, "Sign Up", () async {
@@ -200,11 +199,13 @@ class _BarberSignupViewState extends State<BarberSignupView> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
 
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Home()));
                     }),
                     login(),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                   ],
@@ -259,7 +260,7 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
               Color.fromARGB(0, 219, 201, 201),
               Color.fromARGB(255, 21, 141, 91),
@@ -272,32 +273,32 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
                 child: Column(
                   children: <Widget>[
                     logoWidget("assets/images/logo.png"),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField("Full Name", Icons.person_outline, false,
                         nameController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Contact Number", Icons.call, false, contactController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Address", Icons.place, false, addressController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField(
                         "Email", Icons.mail_outline, false, emailController),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField("Enter your Password", Icons.lock_outline, true,
                         passwordController),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     confirmButton(context, "Sign Up", () async {
@@ -315,11 +316,13 @@ class _CustomerSignupViewState extends State<CustomerSignupView> {
                             messageSnackBar(errorMessage, Colors.red);
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Home()));
                     }),
                     login(),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                   ],

@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/helper_widgets.dart';
-import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 
 import '../app/service_locator/service_locator.dart';
 import '../models/booking.dart';
@@ -213,9 +211,10 @@ class BookingsViewModel extends BaseModel {
   }
 
   Future makeBooking(BuildContext ctx, String bid,
-      List<Map<dynamic, dynamic>> srv, double totalP) async {
+      List<Map<dynamic, dynamic>> srv, double totalP,
+      {required String selectedDay, required String selectedTime}) async {
     log("""
-cid: ${Provider.of<LocalStorageServiceProvider>(ctx, listen: false).uid}
+cid: ${currentUser!.u_id}
 service : $services
 booking slot :$slots
 total price: $totalP
@@ -223,8 +222,7 @@ total price: $totalP
 
     """);
     Booking booking = Booking(
-      c_id: Provider.of<LocalStorageServiceProvider>(ctx, listen: false)
-          .uid, // auth user id  not (users.docs.id)
+      c_id: currentUser!.u_id, // auth user id  not (users.docs.id)
       b_id: bid,
       is_cancelled: false,
 
@@ -232,7 +230,8 @@ total price: $totalP
       total_price: totalP,
       is_paid: false,
       is_completed: false,
-      time: DateTime.now().toIso8601String(),
+      time: "$selectedDay $selectedTime ",
+      date: DateTime.now().toUtc().toIso8601String(),
     );
     log("[s] Booking object: $booking");
     log(booking.toJson().toString());
