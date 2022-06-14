@@ -130,4 +130,40 @@ class BookingServiceFirebase extends BookingService {
       rethrow;
     }
   }
+
+  @override
+  Future<void> rateBooking({required String barbershopID, required String bookingID, required num rating, String? comment}) async {
+    try {
+      await _bookingsCollection.doc(bookingID).update({"rating": rating, "comment": comment});
+      var bookingsDoc = await _bookingsCollection.where("b_id", isEqualTo: barbershopID).get();
+      var barbershopDoc = await _usersCollection.where("u_id", isEqualTo: barbershopID).get();
+      //print(doc.docs[0].data().rating);
+      var bookings = <dynamic>[];
+      num allRatings = 0;
+      
+      for(int i=0; i<bookingsDoc.docs.length; i++) {
+        bookings.add(bookingsDoc.docs[i].data());
+
+        if(bookings[bookings.length-1]['rating'] == null || bookings[bookings.length-1]['rating'] == 0){
+          bookings.removeAt(bookings.length-1);
+          }else{
+            allRatings += bookings[bookings.length-1]['rating'];
+      }          
+      }
+
+      int ratingsCount = bookings.length;
+      await _usersCollection.doc(barbershopDoc.docs[0].id).update({"rating": allRatings/ratingsCount, "ratings_counter": ratingsCount});
+
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.rateBooking() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location:
+              'BookingServiceFirebase.rateBooking() on other exception');
+    }
+  }
 }
