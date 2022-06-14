@@ -19,7 +19,8 @@ class User {
   String? description;
   List<dynamic>? bookings;
   List<dynamic>? services;
-  List<dynamic>? rating;
+  num? rating;
+  num? ratings_counter;
   List<dynamic>? open_days;
   double? slot_length;
   String? open_time;
@@ -39,6 +40,7 @@ class User {
     this.bookings,
     this.services,
     this.rating,
+    this.ratings_counter,
     this.open_days,
     this.slot_length,
     this.open_time,
@@ -60,6 +62,7 @@ class User {
     this.bookings,
     this.services,
     this.rating,
+    this.ratings_counter,
     this.open_days,
     this.slot_length,
     this.open_time,
@@ -114,6 +117,7 @@ class User {
             ? List.from(data['services'])
             : data['services'],
         rating: data['rating'],
+        ratings_counter: data['ratings_counter'],
         open_days:
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
@@ -156,6 +160,7 @@ class User {
             ? List.from(data['services'])
             : data['services'],
         rating: data['rating'],
+        ratings_counter: data['ratings_counter'],
         open_days:
             data['open_days'] is Iterable ? List.from(data['open_days']) : null,
         slot_length: data['slot_length'],
@@ -193,6 +198,7 @@ class User {
       'bookings': bookings,
       'services': services,
       'rating': rating,
+      'ratings_counter': ratings_counter,
       'open_days': open_days,
       'slot_length': slot_length,
       'close_time': close_time,
