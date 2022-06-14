@@ -19,7 +19,7 @@ class User {
   String? description;
   List<dynamic>? bookings;
   List<dynamic>? services;
-  List<dynamic>? rating;
+  dynamic rating;
   List<dynamic>? open_days;
   double? slot_length;
   String? open_time;
