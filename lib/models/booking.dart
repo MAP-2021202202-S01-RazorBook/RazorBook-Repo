@@ -7,6 +7,8 @@ class Booking {
   String? c_id;
   String? b_id;
   num? total_price;
+  num? rating;
+  String? comment;
   String? date;
   String? time;
   bool is_cancelled = false;
@@ -20,6 +22,8 @@ class Booking {
     this.c_id,
     this.b_id,
     this.total_price,
+    this.rating,
+    this.comment,
     this.date,
     this.time,
     this.is_cancelled = false,
@@ -48,6 +52,8 @@ class Booking {
       c_id: json['c_id'] as String,
       b_id: json['b_id'] as String,
       total_price: json['total_price'] as num,
+      rating: json['rating'] as num,
+      comment: json['comment'] as String,
       date: json['date'] as String,
       time: json['time'] as String,
       is_cancelled: json['is_cancelled'] as bool,
@@ -68,6 +74,8 @@ class Booking {
       c_id: data['c_id'] as String?,
       b_id: data['b_id'] as String?,
       total_price: data['total_price'] as num?,
+      rating: data['rating'] as num?,
+      comment: data['comment'] as String?,
       date: data['date'] as String?,
       time: data['time'] as String?,
       is_cancelled: data['is_cancelled'] as bool,

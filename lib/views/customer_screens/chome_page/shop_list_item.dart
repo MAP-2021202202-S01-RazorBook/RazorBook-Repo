@@ -70,6 +70,7 @@ class ShopListItem extends StatelessWidget {
                     children: [
                       const Icon(Icons.star_rate_rounded,
                           size: 24, color: Helper.kButtonColor),
+                          bbsProfile.rating!=null && bbsProfile.rating!=0?    
                       Text(
                         bbsProfile.rating.toString(),
                         style: const TextStyle(
@@ -81,9 +82,35 @@ class ShopListItem extends StatelessWidget {
                         textHeightBehavior: const TextHeightBehavior(
                             applyHeightToFirstAscent: false),
                         softWrap: false,
-                      ),
+                         ) :
                       const Text(
-                        ' (124 ratings) }',
+                        "",
+                        style: TextStyle(
+                          fontFamily: 'Metropolis',
+                          fontSize: 11,
+                          color: Color(0xff29ac7b),
+                          height: 1.8181818181818181,
+                        ),
+                        textHeightBehavior: TextHeightBehavior(
+                            applyHeightToFirstAscent: false),
+                        softWrap: false,
+                      )
+                      ,
+                       bbsProfile.rating!=null && bbsProfile.rating!=0?
+                       Text(
+                         " (${bbsProfile.ratings_counter} ratings)",
+                        style: const TextStyle(
+                          fontFamily: 'Metropolis',
+                          fontSize: 12,
+                          color: Color(0xffb6b7b7),
+                          height: 1.6666666666666667,
+                        ),
+                        textHeightBehavior:
+                            const TextHeightBehavior(applyHeightToFirstAscent: false),
+                        softWrap: false,
+                      ) : const Text(
+                         " (no ratings yet)",
+                     
                         style: TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 12,
