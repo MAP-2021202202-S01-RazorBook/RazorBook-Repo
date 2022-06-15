@@ -23,9 +23,15 @@ class BarberProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
-  final _currentUser = locator<AuthenticationService>().currentUser;
+  // i had to change the status from Final To var
+  //the reason is mentioned in the updateBarberProfile methond
+  var _currentUser = locator<AuthenticationService>().currentUser;
   User? get currentUser {
     return _currentUser;
+  }
+
+  set currentUser(User? user) {
+    _currentUser = user;
   }
 
   Future<void> logout() async {
@@ -71,6 +77,16 @@ class BarberProfileViewModel extends BaseModel {
       payload?.addAll(barberProfile ?? {});
       // print(payload);
       // print(User.fromJson(payload ?? {}).toJson());
+
+      /* i had to assign the new value collected after edting the profile details. 
+        it works fine with it , it will update the data in firebase but there will be an issue later on
+        once you redo the same process again but this time you don't edit the same fields as first time
+        those fields will contains the first values !! which you have already modified them.
+        the reasone because we are not overwritting the current user data that we assign them to payload in line 75.
+        so basically it will send the same previous data to firebase which has not be overwritten in line 77 (addAll)
+       */
+      //important to read the above comment to not mess up with this line
+      currentUser = User.fromJson(payload ?? {});
 
       await _barberProfileService
           .updateBarbershopDetails(User.fromJson(payload ?? {}));

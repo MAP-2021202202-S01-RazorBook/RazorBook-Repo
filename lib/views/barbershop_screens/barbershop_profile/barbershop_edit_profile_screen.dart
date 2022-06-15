@@ -31,6 +31,9 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _openTimeTextFiledController = TextEditingController();
   final _closeTimeTextFiledController = TextEditingController();
 
+  final _locationLatTextFiledController = TextEditingController();
+  final _locationLngTextFiledController = TextEditingController();
+
   final List<Map> workingDaysToSelect = [
     {'day': 'SUN', 'isSelected': false},
     {'day': 'MON', 'isSelected': false},
@@ -134,6 +137,32 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                           const SizedBox(
                             height: 8,
                           ),
+                          //this part is related to google maps
+
+                          ProfileEditViewTextField(
+                            inputType: TextInputType.number,
+                            hintText:
+                                model.barbershopProfileForBarber?["location"]
+                                        ["lat"] ??
+                                    "Enter Latitude",
+                            controller: _locationLatTextFiledController,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+
+                          ProfileEditViewTextField(
+                            inputType: TextInputType.number,
+                            hintText:
+                                model.barbershopProfileForBarber?["location"]
+                                        ["lng"] ??
+                                    "Enter Longitude",
+                            controller: _locationLngTextFiledController,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+
                           const ProfileEditViewTextFieldTitle(
                               label: "Description"),
                           ProfileEditViewTextField(
@@ -296,6 +325,9 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                               _slotLengthTextFiledController.clear();
                               _openTimeTextFiledController.clear();
                               _closeTimeTextFiledController.clear();
+                              _locationLatTextFiledController.clear();
+                              _locationLngTextFiledController.clear();
+
                               Navigator.of(context).pop();
                             },
                             onSavePressed: () async {
@@ -320,7 +352,11 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                 "open_time": _openTimeTextFiledController.text,
                                 "close_time":
                                     _closeTimeTextFiledController.text,
-                                "working_days": model.barberWorkingDays,
+                                "open_days": model.barberWorkingDays,
+                                "location": {
+                                  "lat": _locationLatTextFiledController.text,
+                                  "lng": _locationLngTextFiledController.text,
+                                }
                               });
 
                               Navigator.pushNamed(context, BarberProfileRoute);
