@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:ffi';
 
+import 'package:razor_book/services/map_services/maps_services.dart';
 import 'package:razor_book/view_model/base_view_model.dart';
 
 import '../app/service_locator/service_locator.dart';
@@ -10,6 +12,10 @@ import '../services/barbershop_profile/barbershop_profile_service.dart';
 class BarberProfileViewModel extends BaseModel {
   final _barberProfileService = locator<BarbershopService>();
   final _barberServicesService = locator<BarberServicesService>();
+
+  // openMap service
+  final _openMap = locator<MapServices>();
+
   Map<String, dynamic>? _barberProfileForBarber;
   Map<String, dynamic>? _barberProfileForCustomer;
   Map<String, dynamic>? get barbershopProfileForBarber =>
@@ -136,5 +142,17 @@ class BarberProfileViewModel extends BaseModel {
       return filteredList;
     }
     return [];
+  }
+
+  Future<void> openMap(String latitude, String longitude) async {
+    //if any of coord is not provide it will display lat and lng of 0, 0
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=0,0';
+
+    if (latitude.isNotEmpty && longitude.isNotEmpty) {
+      googleUrl =
+          'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    }
+
+    await _openMap.openLocationOnMap(googleUrl);
   }
 }

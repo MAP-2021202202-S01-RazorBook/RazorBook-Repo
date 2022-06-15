@@ -125,12 +125,12 @@ class BarberhopDetailView extends StatelessWidget {
                                         height: 16,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         //here will be the barbershop name *fetched from User model
                                         //that we got from the passed ID
                                         child: Text(
                                           model.barbershopForCustomer!['name'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'Metropolis',
@@ -153,7 +153,7 @@ class BarberhopDetailView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               //once we add the variables we need to delete the Const for the array
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Address:",
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -165,28 +165,38 @@ class BarberhopDetailView extends StatelessWidget {
                                                       overflow: TextOverflow
                                                           .ellipsis),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 //here will be the barbershop address *fetched from User model
                                                 //that we got from the passed ID
-                                                Text(
-                                                  model.barbershopForCustomer![
-                                                      'address'],
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'Metropolis',
-                                                      color: Helper
-                                                          .kTitleTextColor),
+                                                Container(
+                                                  width: 270,
+                                                  child: Text(
+                                                    model.barbershopForCustomer![
+                                                        'address'],
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily:
+                                                            'Metropolis',
+                                                        color: Helper
+                                                            .kTitleTextColor),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                             //here we should connect it we google maps since we will get the Latitude and Longitude
                                             //that we got from the passed ID
                                             InkWell(
-                                              onTap: () => log("tapped!"),
+                                              onTap: () async {
+                                                await model.openMap(
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lat"],
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lng"]);
+                                              },
                                               child: const Text(
                                                 "View On Map",
                                                 style: TextStyle(
@@ -295,7 +305,7 @@ class BarberhopDetailView extends StatelessWidget {
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                             "${model.barbershopForCustomer!['open_time']} to ${model.barbershopForCustomer!['close_time']}",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
                                                 fontFamily: 'Metropolis',

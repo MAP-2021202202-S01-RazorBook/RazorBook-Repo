@@ -3,6 +3,8 @@ import 'package:razor_book/services/booking/booking_service.dart';
 import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
+import 'package:razor_book/services/map_services/map_services_google_map.dart';
+import 'package:razor_book/services/map_services/maps_services.dart';
 import 'package:razor_book/view_model/barber_profile_view_model.dart';
 import 'package:razor_book/view_model/customer_profile_view_model.dart';
 import 'package:razor_book/view_model/shop_view_model.dart';
@@ -60,6 +62,8 @@ Future<void> initializeServiceLocator() async {
 
   locator.registerLazySingleton<BarbershopService>(
       () => BarbershopServiceFirebase());
+
+  locator.registerLazySingleton<MapServices>(() => GoogleMap());
 
   // Register ViewModels
 
