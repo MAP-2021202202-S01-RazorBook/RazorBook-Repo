@@ -1,6 +1,4 @@
-import 'package:razor_book/models/user.dart';
 import '../../models/booking.dart';
-import '../../models/service.dart';
 
 abstract class BookingService {
   // List<Booking>? get bookingsList => null;
@@ -13,4 +11,5 @@ abstract class BookingService {
   Future<void> getBarberBookings({required String userID});
   Future<void> cancelBooking({String? bookingID});
   Future<void> generateSlots({String? bID});
+  Future<List<Map<String, dynamic>>> getService(String id);
 }

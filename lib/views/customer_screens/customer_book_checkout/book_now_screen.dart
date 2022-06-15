@@ -1,6 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:razor_book/models/user.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/checkout_button.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
 
@@ -10,9 +15,9 @@ import 'book_services_view.dart';
 import 'bookings_slots_list.dart';
 
 class BookNow extends StatefulWidget {
-  const BookNow({Key? key, required this.barbershop_id}) : super(key: key);
+  const BookNow({Key? key, required this.barbershop}) : super(key: key);
 
-  final String barbershop_id;
+  final User barbershop;
 
   @override
   State<BookNow> createState() => _BookNowState();
@@ -25,6 +30,13 @@ class _BookNowState extends State<BookNow> {
   // AppBar appbarWidget() {
   //   return
   // }
+  @override
+  void didChangeDependencies() {
+    var bookingViewModel = context.watch<BookingsViewModel>();
+    bookingViewModel.workingDays = bookingViewModel.getDateOfWorkingDays();
+    log("${bookingViewModel.workingDays}  working days");
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +81,8 @@ class _BookNowState extends State<BookNow> {
                     });
                   },
                   children: <Widget>[
-                    BookingsSlotsList(barbershop_id: widget.barbershop_id!),
-                    BookServices(barbershop_id: widget.barbershop_id!),
+                    BookingsSlotsList(barbershop: widget.barbershop),
+                    BookServices(barbershop: widget.barbershop),
                     //this one will be deleted later in the last sprints
                     Container(
                       child: Center(
@@ -78,7 +90,7 @@ class _BookNowState extends State<BookNow> {
                             // height: 80,
                             width: 180,
                             child: CheckOutButton(
-                                barbershopId: widget.barbershop_id)),
+                                barbershopId: widget.barbershop.u_id)),
                       ),
                     ),
                   ],

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/assets.dart';
-
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/user.dart';
 
-import 'shop_detail_page.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
+import 'package:razor_book/views/customer_screens/chome_page/shop_detail_page.dart';
 
 class ShopListItem extends StatelessWidget {
   const ShopListItem({
@@ -13,17 +14,20 @@ class ShopListItem extends StatelessWidget {
   }) : super(key: key);
   //this one should be replaced with the User Model we have
   // we should change its type from BarberShopProfilePageModel to User
-  final Map<String, dynamic>? bbsProfile;
+  final User bbsProfile;
 
   @override
   Widget build(BuildContext context) {
+    BookingsViewModel model = context.read<BookingsViewModel>();
+
     return GestureDetector(
       //once the card is clicked open a new page that contains the shop's details
       onTap: () {
+        model.selectedShop = bbsProfile;
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => BarberhopDetailView(
-                    barbershop_id: bbsProfile!['u_id'],
+                    barbershop: bbsProfile,
                   )),
         );
       },
@@ -45,7 +49,7 @@ class ShopListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 21.0, top: 8, bottom: 8),
                 child: Text(
-                  bbsProfile!['name'],
+                  bbsProfile.name!,
                   style: const TextStyle(
                     fontFamily: 'Metropolis',
                     fontSize: 16,
@@ -67,7 +71,7 @@ class ShopListItem extends StatelessWidget {
                       const Icon(Icons.star_rate_rounded,
                           size: 24, color: Helper.kButtonColor),
                       Text(
-                        bbsProfile!['rating'].toString(),
+                        bbsProfile.rating.toString(),
                         style: const TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 11,

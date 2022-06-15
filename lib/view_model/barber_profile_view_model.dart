@@ -17,12 +17,6 @@ class BarberProfileViewModel extends BaseModel {
   Map<String, dynamic>? get barbershopForCustomer => _barberProfileForCustomer;
   List<Map<String, dynamic>?>? _barbershopList;
   List<Map<String, dynamic>?>? get barbershopList => _barbershopList;
-
-  set barbershopList(List<Map<String, dynamic>?>? value) {
-    _barbershopList = value;
-    notifyListeners();
-  }
-
   final _currentUser = locator<AuthenticationService>().currentUser;
   User? get currentUser {
     return _currentUser;
@@ -82,12 +76,9 @@ class BarberProfileViewModel extends BaseModel {
 
   Future<void>? getAllBarbershops() async {
     try {
-      /// avoid duplicates
-      // barbershopList?.clear();
-      _barbershopList?.clear();
       await _barberProfileService.getBarbershopsList();
       _barbershopList = _barberProfileService.barbershopsList;
-      log("barbershop list: $barbershopList");
+      log("barbershop list: $_barbershopList");
     } catch (e) {
       // setBusy(false);
       print(e);
@@ -103,22 +94,5 @@ class BarberProfileViewModel extends BaseModel {
       // setBusy(false);
       print(e);
     }
-  }
-
-  List<User>? searchShopList(String name) {
-    List<User>? filteredList = [];
-    log("_barbershopList: ${_barbershopList!.length}");
-    if (_barbershopList != null) {
-      if (_barbershopList!.isNotEmpty) {
-        for (var shop in _barbershopList!) {
-          if (shop!['name'].toLowerCase().contains(name.toLowerCase())) {
-            filteredList.add(User.fromJson(shop));
-          }
-        }
-      }
-      log("filtered list: ${filteredList.length}");
-      return filteredList;
-    }
-    return [];
   }
 }
