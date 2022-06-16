@@ -7,7 +7,18 @@ import '../barbershop_screens/barbershop_profile/barbershop_edit_profile_screen.
 
 class ProfileViewAvator extends StatelessWidget {
   final bool editMode;
-  const ProfileViewAvator({Key? key, required this.editMode}) : super(key: key);
+  final fileUploadFunction;
+  final imageUrl;
+  final setImageUrl;
+  final bool isCircle;
+  const ProfileViewAvator(
+      {Key? key,
+      required this.editMode,
+      required this.fileUploadFunction,
+      this.imageUrl,
+      this.isCircle = true,
+      this.setImageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +26,20 @@ class ProfileViewAvator extends StatelessWidget {
       children: [
         Stack(
           children: [
-            CircleAvatar(
-              radius: 52,
-              backgroundColor: Helper.kFABColor.withOpacity(0.4),
-              backgroundImage: AssetImage(AssetHelper.assetProfilePic),
-            ),
+            () {
+              if (!isCircle) {
+                return CircleAvatar(
+                    radius: 52,
+                    backgroundColor: Helper.kFABColor.withOpacity(0.4),
+                    backgroundImage: NetworkImage(imageUrl));
+              } else {
+                return Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(imageUrl), fit: BoxFit.cover)));
+              }
+            }(),
           ],
         ),
         if (!editMode)
@@ -55,7 +75,12 @@ class ProfileViewAvator extends StatelessWidget {
               child: InkWell(
                   customBorder: const CircleBorder(),
                   onTap: () async {
-                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                    final XFile? _image = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    if (_image != null) {
+                      await fileUploadFunction(_image.path, _image.name);
+                      print("uploaded");
+                    }
                   },
                   child: const Icon(
                     Icons.camera_alt,

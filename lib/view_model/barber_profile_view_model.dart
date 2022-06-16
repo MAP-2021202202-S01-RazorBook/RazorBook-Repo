@@ -6,6 +6,7 @@ import '../app/service_locator/service_locator.dart';
 import '../models/user.dart';
 import '../services/barber_services/barber_services_service.dart';
 import '../services/barbershop_profile/barbershop_profile_service.dart';
+import '../services/file_upload_service/file_upload_service.dart';
 
 class BarberProfileViewModel extends BaseModel {
   final _barberProfileService = locator<BarbershopService>();
@@ -17,6 +18,18 @@ class BarberProfileViewModel extends BaseModel {
   Map<String, dynamic>? get barbershopForCustomer => _barberProfileForCustomer;
   List<Map<String, dynamic>?>? _barbershopList;
   List<Map<String, dynamic>?>? get barbershopList => _barbershopList;
+
+  final _fileUploadService = locator<FileUploadService>();
+  String? _imgUrl;
+  String? get imgUrl {
+    log("using view model imgrul");
+    return _imgUrl;
+  }
+
+  void setImgUrl(String? value) {
+    _imgUrl = value;
+    notifyListeners();
+  }
 
   set barbershopList(List<Map<String, dynamic>?>? value) {
     _barbershopList = value;
@@ -44,13 +57,14 @@ class BarberProfileViewModel extends BaseModel {
       // get the services for this barber and embed it in the map
       await _barberServicesService.getServices(
           userID: _currentUser?.u_id ?? '');
-      print("regetting");
       _barberProfileForBarber?['servicesNames'] = _barberServicesService
           .servicesList
           ?.map((service) => service.name)
           .toList();
       barberWorkingDays = _barberProfileForBarber?['open_days'] ?? [];
-      print(_barberProfileForBarber?["servicesNames"]);
+
+      _barberProfileForBarber?['image'] =
+          _imgUrl ?? _barberProfileForBarber?['image'];
     } catch (e) {
       // setBusy(false);
       print(e);
@@ -69,7 +83,7 @@ class BarberProfileViewModel extends BaseModel {
       Map<String, dynamic>? payload = currentUser?.toJson();
       // print(payload);
       payload?.addAll(barberProfile ?? {});
-      // print(payload);
+      log('updating payload $payload');
       // print(User.fromJson(payload ?? {}).toJson());
 
       await _barberProfileService
@@ -120,5 +134,16 @@ class BarberProfileViewModel extends BaseModel {
       return filteredList;
     }
     return [];
+  }
+
+  Future<void>? uploadFile(String filePath, String fileName) async {
+    try {
+      setBusy(true);
+      await _fileUploadService.uploadFile(filePath, fileName);
+      _imgUrl = await _fileUploadService.getDownloadUrl(fileName);
+      setBusy(false);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }
