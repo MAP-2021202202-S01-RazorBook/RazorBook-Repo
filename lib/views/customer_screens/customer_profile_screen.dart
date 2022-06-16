@@ -179,6 +179,7 @@ class ProfileView extends StatelessWidget {
                             // });
                           },
                           onSavePressed: () async {
+                            viewModel.editMode = false;
                             User newuser = User(
                                 u_id: authService.currentUser!.u_id,
                                 name: viewModel.nameController.text,
