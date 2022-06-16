@@ -9,11 +9,12 @@ import 'package:razor_book/view_model/base_view_model.dart';
 
 import '../services/customer/customer_service.dart';
 import '../services/failure.dart';
+import '../services/file_upload_service/file_upload_service.dart';
 
 class CustomerProfileViewModel extends BaseModel {
   /// set  var globally
   // final CustomerService _customerService = locator<Custo>();
-
+  final _fileUploadService = locator<FileUploadService>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -28,6 +29,11 @@ class CustomerProfileViewModel extends BaseModel {
   final User _user = User(u_id: "", email: "");
 
   User? get user => _user;
+  String? _imgUrl;
+  String? get imgUrl {
+    log("using view model imgrul");
+    return _imgUrl;
+  }
 
   /// store profile temp
 
@@ -93,6 +99,17 @@ class CustomerProfileViewModel extends BaseModel {
     phoneController.dispose();
     addressController.dispose();
     super.dispose();
+  }
+
+  Future<void>? uploadFile(String filePath, String fileName) async {
+    try {
+      _profileUploadState = ProfileUploadState.uploading;
+      await _fileUploadService.uploadFile(filePath, fileName);
+      _imgUrl = await _fileUploadService.getDownloadUrl(fileName);
+      setBusy(false);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }
 
