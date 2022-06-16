@@ -13,4 +13,5 @@ abstract class BookingService {
   Future<void> getBarberBookings({required String userID});
   Future<void> cancelBooking({String? bookingID});
   Future<void> generateSlots({String? bID});
+  Future<void> rateBooking({required String barbershopID, required String bookingID, required num rating, String? comment});
 }

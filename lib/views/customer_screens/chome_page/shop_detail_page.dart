@@ -212,8 +212,9 @@ class BarberhopDetailView extends StatelessWidget {
                                                 ),
                                                 //here we should use the ratings varaiable
                                                 //that we got from the passed ID
+                                                model.barbershopForCustomer!['rating']!=0 && model.barbershopForCustomer!['rating']!=null?
                                                 Text(
-                                                  "4/5",
+                                                  "${model.barbershopForCustomer!['rating']}/5",
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w600,
@@ -222,7 +223,19 @@ class BarberhopDetailView extends StatelessWidget {
                                                         .kTitleTextColor
                                                         .withOpacity(0.6),
                                                   ),
-                                                ),
+                                                ):
+                                                Text(
+                                                  "no ratings yet",
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: 'Metropolis',
+                                                    color: Helper
+                                                        .kTitleTextColor
+                                                        .withOpacity(0.6),
+                                                  ),
+                                                )
+                                                ,
                                               ],
                                             )),
                                       ),

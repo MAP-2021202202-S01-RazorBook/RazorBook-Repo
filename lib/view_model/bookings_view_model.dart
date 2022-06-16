@@ -250,4 +250,13 @@ total price: $totalP
           .showSnackBar(mySnackBar(e.toString(), error: true));
     }
   }
+
+    Future rateBooking(String barbershopID, String bookingID, num rating, String? comment) async {
+
+    if(comment == ""){comment = "none";}
+      
+    setBusy(true);
+    await _bookingsService.rateBooking(barbershopID: barbershopID, bookingID: bookingID,  rating: rating, comment: comment);
+    setBusy(false);
+  }
 }

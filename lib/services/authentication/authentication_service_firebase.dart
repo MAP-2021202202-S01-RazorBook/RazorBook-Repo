@@ -105,7 +105,8 @@ class AuthenticationServiceFirebase extends AuthenticationService {
             'description': description,
             'bookings': [],
             'services': [],
-            'rating': [],
+            'rating': 0,
+            'ratings_counter': 0,
             'location': [
               {'lat': 0.0, 'lng': 0.0}
             ],
