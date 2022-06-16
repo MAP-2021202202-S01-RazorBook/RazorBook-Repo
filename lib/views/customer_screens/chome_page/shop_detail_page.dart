@@ -21,105 +21,91 @@ class BarberhopDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<BarberProfileViewModel>();
 
-    return Scaffold(
-        appBar: appBar(
-            bartitle: const Text("Barbershops Details",
-                style: TextStyle(
-                  fontFamily: "MetropolisExtra",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Helper.kTitleTextColor,
-                )),
-            onPressedFunctionForRightAction: () {},
-            appBarRightIcon: const Icon(
-              Icons.shopping_cart,
-              color: Helper.kTitleTextColor,
-            ),
-            leadingW: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Helper.kTitleTextColor,
-              ),
-            )),
-        body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          //here we will replace it with the image that is stored in firebase
-                          image: AssetImage(AssetHelper.assetBarbarShopOne),
-                          fit: BoxFit.fitHeight,
+    return FutureBuilder(
+        future: model.getBarbershopDetailsForCustomer(barbershop_id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text("Error"),
+            );
+          } else {
+            return Scaffold(
+                appBar: appBar(
+                    bartitle: const Text("Barbershops Details",
+                        style: TextStyle(
+                          fontFamily: "MetropolisExtra",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Helper.kTitleTextColor,
+                        )),
+                    onPressedFunctionForRightAction: () {},
+                    appBarRightIcon: const Icon(
+                      Icons.shopping_cart,
+                      color: Helper.kTitleTextColor,
+                    ),
+                    leadingW: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Helper.kTitleTextColor,
+                      ),
+                    )),
+                body: SafeArea(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.4,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  // if the image in the model.barbershopdetails exists,
+                                  // display it, else display a placeholder
+                                  image: (model.barbershopForCustomer?['image']
+                                                  ?.length >
+                                              0
+                                          ? NetworkImage(model
+                                              .barbershopForCustomer?['image'])
+                                          : const AssetImage(AssetHelper
+                                              .barberShopPlaceholder))
+                                      as ImageProvider,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ],
-                ),
+                        Positioned(
+                          bottom: 30,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                            ),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.52,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(30)),
+                              // height: MediaQuery.of(context).size.height * 0.4,
 
-                // Positioned(
-                //     child: IconButton(
-                //         onPressed: () {
-                //           Navigator.of(context).pop();
-                //         },
-                //         icon: const Icon(
-                //           Icons.arrow_back_ios,
-                //           color: Colors.white,
-                //         ))),
-                // Positioned(
-                //     right: 0,
-                //     child: IconButton(
-                //         onPressed: () {
-                //           Navigator.of(context).pop();
-                //         },
-                //         icon: const Icon(
-                //           Icons.shopping_cart,
-                //           color: Colors.white,
-                //         ))),
-                Positioned(
-                  bottom: 30,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.52,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30)),
-                      // height: MediaQuery.of(context).size.height * 0.4,
-
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: FutureBuilder(
-                              future: model.getBarbershopDetailsForCustomer(
-                                  barbershop_id),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return const Center(
-                                    child: Text("Error"),
-                                  );
-                                } else {
-                                  return ListView(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: ListView(
                                     children: [
                                       const SizedBox(
                                         height: 16,
@@ -381,15 +367,15 @@ class BarberhopDetailView extends StatelessWidget {
                                             )),
                                       ),
                                     ],
-                                  );
-                                }
-                              })),
+                                  )),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ));
+                ));
+          }
+        });
   }
 }

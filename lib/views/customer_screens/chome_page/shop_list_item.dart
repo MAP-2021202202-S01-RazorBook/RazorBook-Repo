@@ -35,9 +35,13 @@ class ShopListItem extends StatelessWidget {
           children: [
             Container(
                 height: 160,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(AssetHelper.assetBarbarShopOne),
+                      image: (bbsProfile?['image']?.length > 0
+                              ? NetworkImage(bbsProfile?['image'])
+                              : const AssetImage(
+                                  AssetHelper.barberShopPlaceholder))
+                          as ImageProvider,
                       fit: BoxFit.cover),
                 )),
             Align(

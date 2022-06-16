@@ -2,11 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:razor_book/app/service_locator/service_locator.dart';
-
-import 'package:razor_book/helpers/assets.dart';
-import 'package:razor_book/models/barberUserSide/babershop_profile_model.dart';
-import 'package:razor_book/view_model/shop_view_model.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_item.dart';
 
 import '../../../view_model/barber_profile_view_model.dart';
