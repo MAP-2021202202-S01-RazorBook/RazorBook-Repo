@@ -4,25 +4,27 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/app/service_locator/service_locator.dart';
 import 'package:razor_book/helpers/assets.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/pages_appbar.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/book_now_screen.dart';
 
 import '../../../view_model/barber_profile_view_model.dart';
 
 class BarberhopDetailView extends StatelessWidget {
-  BarberhopDetailView({Key? key, required this.barbershop_id})
-      : super(key: key);
+  BarberhopDetailView({Key? key, required this.barbershop}) : super(key: key);
 
-  String? barbershop_id;
+  User barbershop;
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<BarberProfileViewModel>();
 
     return FutureBuilder(
-        future: model.getBarbershopDetailsForCustomer(barbershop_id),
+        future: model.getBarbershopDetailsForCustomer(barbershop.u_id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -111,12 +113,12 @@ class BarberhopDetailView extends StatelessWidget {
                                         height: 16,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         //here will be the barbershop name *fetched from User model
                                         //that we got from the passed ID
                                         child: Text(
                                           model.barbershopForCustomer!['name'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'Metropolis',
@@ -139,7 +141,7 @@ class BarberhopDetailView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               //once we add the variables we need to delete the Const for the array
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Address:",
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -151,7 +153,7 @@ class BarberhopDetailView extends StatelessWidget {
                                                       overflow: TextOverflow
                                                           .ellipsis),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 //here will be the barbershop address *fetched from User model
@@ -159,7 +161,7 @@ class BarberhopDetailView extends StatelessWidget {
                                                 Text(
                                                   model.barbershopForCustomer![
                                                       'address'],
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -291,10 +293,10 @@ class BarberhopDetailView extends StatelessWidget {
                                         height: 8,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                             "${model.barbershopForCustomer!['open_time']} to ${model.barbershopForCustomer!['close_time']}",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w600,
                                                 fontFamily: 'Metropolis',
@@ -356,14 +358,18 @@ class BarberhopDetailView extends StatelessWidget {
                                                         .size
                                                         .width,
                                                     56)),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              var bookingVM =
+                                                  locator<BookingsViewModel>();
+
+                                              bookingVM
+                                                  .getService(barbershop.u_id);
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         BookNow(
-                                                          barbershop_id:
-                                                              barbershop_id ??
-                                                                  "",
+                                                          barbershop:
+                                                              barbershop,
                                                         )),
                                               );
                                             },

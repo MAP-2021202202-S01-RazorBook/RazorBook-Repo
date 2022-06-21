@@ -166,4 +166,20 @@ class BookingServiceFirebase extends BookingService {
               'BookingServiceFirebase.rateBooking() on other exception');
     }
   }
+  @override
+  Future<List<Map<String, dynamic>>> getService(String id) async {
+    try {
+      var data = await _servicesCollection.where('sh_id', isEqualTo: id).get();
+      var lm =
+          data.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      return lm;
+    } catch (e) {
+      log(e.toString());
+      throw Failure(
+        22222,
+        message: e.toString(),
+        location: 'BookingServiceFirebase.getService()',
+      );
+    }
+  }
 }

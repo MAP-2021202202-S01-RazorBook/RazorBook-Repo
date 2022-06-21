@@ -31,7 +31,6 @@ class ViewBookings extends StatefulWidget {
     4: is completed with reivew is_completed = true && cancelled == true
       card color green, 
       options: none
-
   */
 
 /*

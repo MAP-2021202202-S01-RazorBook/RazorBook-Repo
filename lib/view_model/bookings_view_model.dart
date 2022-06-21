@@ -34,11 +34,26 @@ class BookingsViewModel extends BaseModel {
   }
 
   final _currentUser = locator<AuthenticationService>().currentUser;
+
   User? get currentUser {
     return _currentUser;
   }
 
   var temtime = "";
+
+  User? _selectedShop;
+  User? get selectedShop {
+    return _selectedShop;
+  }
+
+  set selectedShop(User? v) {
+    _selectedShop = v;
+
+    days = _selectedShop?.open_days!.map((e) => e.toString()).toList() ?? [];
+
+    print(days);
+    notifyListeners();
+  }
 
   ///
   ///
@@ -61,16 +76,36 @@ class BookingsViewModel extends BaseModel {
 //this function might be moved to the ViewModel where from there we can store a the list
 //result is YYYY-MM-DD of the working day
 
+  // List<String> getDateOfWorkingDays() {
+  //   List<String> datesOfWorkingDays = [];
+  //   for (int i = 0; i < days.length + 1; i++) {
+  //     var date = DateTime.now().add(Duration(days: i));
+  //     // if (days.contains(DateFormat('EEEE').format(date))) {
+
+  //     // }
+  //     datesOfWorkingDays.add(DateFormat('dd/MM/yyyy').format(date));
+  //   }
+
+  //   return datesOfWorkingDays;
+  // }
+
   List<String> getDateOfWorkingDays() {
     List<String> datesOfWorkingDays = [];
-    for (int i = 0; i < days.length + 1; i++) {
-      var date = DateTime.now().add(Duration(days: i));
-      // if (days.contains(DateFormat('EEEE').format(date))) {
+    for (int i = 0; i < days.length; i++) {
+      String availableDate = days[i];
+      print(availableDate);
 
-      // }
-      datesOfWorkingDays.add(DateFormat('dd/MM/yyyy').format(date));
+      ///generate next 7 days from current date
+      for (int i = 0; i < 7; i++) {
+        /// remove day that are not available day from next 7 days
+        DateTime date = DateTime.now().add(Duration(days: i));
+        String day = DateFormat('EEEE').format(date);
+        if (day == availableDate) {
+          datesOfWorkingDays.add(DateFormat('yyyy-MM-dd').format(date));
+        }
+      }
     }
-
+    print(datesOfWorkingDays);
     return datesOfWorkingDays;
   }
 
@@ -81,7 +116,7 @@ class BookingsViewModel extends BaseModel {
   //the logic is already  built -it's the commented part- but hard to use it only for one object
   //since it's a function called in a loop
 
-  static List<String> generateBookingSlots(
+  List<String> generateBookingSlots(
       {required String openTime,
       required String closeTime,
       required double slotLength}) {
@@ -89,6 +124,7 @@ class BookingsViewModel extends BaseModel {
 
     //convert time "10:43:13" to TimeDay Object
     var format = DateFormat("HH:mm");
+
     var shopOpenTime = format.parse(openTime);
     var shopCloseTime = format.parse(closeTime);
 
@@ -110,7 +146,7 @@ class BookingsViewModel extends BaseModel {
     // var timeNowString = DateFormat('HH:mm').format(DateTime.now());
     // var currentTime = format.parse(timeNowString);
 
-    // if (listOfWorkingDate.contains(todaydate) &&
+    // if (getDateOfWorkingDays().contains(todaydate) &&
     //     currentTime.isAfter(shopOpenTime)) {
     //   Duration durationBetweenCurrentTimeAndClose =
     //       shopCloseTime.difference(currentTime).abs();
@@ -142,8 +178,8 @@ class BookingsViewModel extends BaseModel {
     return bookingSlots;
   }
 
-  List<String> slots = generateBookingSlots(
-      closeTime: "16:30", openTime: "14:00", slotLength: 0.5);
+  List<String> slots = <String>[];
+  List<String> workingDays = <String>[];
 
   ///
   ///end slot list
@@ -153,20 +189,17 @@ class BookingsViewModel extends BaseModel {
   ///
   ///
 
-  List<Map> _services = List.generate(
-      20,
-      (index) => {
-            'id': index,
-            'name': 'Item $index',
-            'description': 'this is just a test description',
-            'price': index * 4,
-            'isSelected': false
-          });
+  List<Map<String, dynamic>> _services = [];
 
-  List<Map> get services => _services;
+  List<Map<String, dynamic>> get services => _services;
   set services(v) {
     _services = v;
     notifyListeners();
+  }
+
+  Future<void> getService(String shopId) async {
+   var service = await _bookingsService.getService(shopId);
+   _services = service;
   }
 
   double _totalPrice = 0.0;
@@ -197,7 +230,7 @@ class BookingsViewModel extends BaseModel {
       log(bookings!.toList().toString());
       // setBusy(false);
     } catch (e) {
-      // print("Wtf is happening");
+     
       print(e);
     }
   }
@@ -210,13 +243,19 @@ class BookingsViewModel extends BaseModel {
     setBusy(false);
   }
 
-  Future makeBooking(BuildContext ctx, String bid,
-      List<Map<dynamic, dynamic>> srv, double totalP,
-      {required String selectedDay, required String selectedTime}) async {
+  Future makeBooking(
+    BuildContext ctx,
+    String bid,
+    List<Map<dynamic, dynamic>> srv,
+    double totalP, {
+    required String selectedDay,
+    required String selectedTime,
+    required String selectedWorkingDay,
+  }) async {
     log("""
 cid: ${currentUser!.u_id}
 service : $services
-booking slot :$slots
+// booking slot :$slots
 total price: $totalP
 
 
@@ -226,12 +265,13 @@ total price: $totalP
       b_id: bid,
       is_cancelled: false,
 
-      services: srv, // need json encode
+      ///save only sh_id to firestore
+      services: srv.map((e) => e['sh_id']).toList(), // need json encode
       total_price: totalP,
       is_paid: false,
       is_completed: false,
       time: "$selectedDay $selectedTime ",
-      date: DateTime.now().toUtc().toIso8601String(),
+      date: selectedWorkingDay,
     );
     log("[s] Booking object: $booking");
     log(booking.toJson().toString());

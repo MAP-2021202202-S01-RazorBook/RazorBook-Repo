@@ -87,6 +87,21 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
                                 model.barbershopProfileForBarber?["email"] ??
                                     "Example Email",
                           ),
+                                const SizedBox(height: 40),
+                          // pass from the viewModel in the userDate
+                          model.barbershopProfileForBarber?["rating"]!=null && model.barbershopProfileForBarber?["rating"]!=0?
+                          ProfileViewInfoText(
+                            label: "Shop Rating",
+                            userDate:
+                                model.barbershopProfileForBarber?["rating"].toString() ??
+                                    "No ratings yet",
+                          ):
+                          ProfileViewInfoText(
+                            label: "Shop Rating",
+                            userDate:
+                                    "No ratings yet",
+                          )
+                          ,
 
                           const SizedBox(height: 40),
                           // pass from the viewModel in the userDate

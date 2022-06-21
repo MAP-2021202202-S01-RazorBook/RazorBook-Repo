@@ -63,4 +63,13 @@ class Service {
         "name": name,
         "description": description,
       };
+
+// add isSelected!
+  Map<String, dynamic> toLocalJson() => {
+        "sh_id": sh_id,
+        "price": price,
+        "name": name,
+        "description": description,
+        'isSelected': false
+      };
 }

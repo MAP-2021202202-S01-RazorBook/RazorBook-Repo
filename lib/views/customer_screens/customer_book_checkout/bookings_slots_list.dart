@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 
 import '../../../helpers/colors.dart';
 
 class BookingsSlotsList extends StatelessWidget {
-  const BookingsSlotsList({Key? key, required this.barbershop_id})
+  const BookingsSlotsList({Key? key, required this.barbershop})
       : super(key: key);
-  final String barbershop_id;
+  final User barbershop;
 
 //   //should be replaced with the once fetched from the database.
 //   List<String> days = [
@@ -113,7 +114,13 @@ class BookingsSlotsList extends StatelessWidget {
     //this variable should be deleted later once it's connected to viewModel
     //will return dateOf the weeks
     final bookingViewModel = context.watch<BookingsViewModel>();
-    var dateOfCalender = bookingViewModel.getDateOfWorkingDays();
+
+    bookingViewModel.slots = bookingViewModel.generateBookingSlots(
+      openTime: barbershop.open_time!,
+      closeTime: barbershop.close_time!,
+      slotLength: 0.5,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -176,7 +183,7 @@ class BookingsSlotsList extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        dateOfCalender[columnIndex], //
+                        bookingViewModel.workingDays[columnIndex], //
                         style: const TextStyle(
                           fontFamily: "MetropolisExtra",
                           fontSize: 16,
@@ -194,6 +201,8 @@ class BookingsSlotsList extends StatelessWidget {
                     height: 80,
                     child: ListView.builder(
                       itemBuilder: ((context, rowIndex) {
+                        /// gets booking slots based on the day and time
+
                         return GestureDetector(
                           onTap: () {
                             // here is the logic where we identify the place of the selected slot.

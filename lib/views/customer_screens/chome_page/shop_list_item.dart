@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/assets.dart';
-
 import 'package:razor_book/helpers/colors.dart';
 import 'package:razor_book/models/user.dart';
 
-import 'shop_detail_page.dart';
+import 'package:razor_book/view_model/bookings_view_model.dart';
+import 'package:razor_book/views/customer_screens/chome_page/shop_detail_page.dart';
 
 class ShopListItem extends StatelessWidget {
   const ShopListItem({
@@ -13,17 +14,20 @@ class ShopListItem extends StatelessWidget {
   }) : super(key: key);
   //this one should be replaced with the User Model we have
   // we should change its type from BarberShopProfilePageModel to User
-  final Map<String, dynamic>? bbsProfile;
+  final User bbsProfile;
 
   @override
   Widget build(BuildContext context) {
+    BookingsViewModel model = context.read<BookingsViewModel>();
+
     return GestureDetector(
       //once the card is clicked open a new page that contains the shop's details
       onTap: () {
+        model.selectedShop = bbsProfile;
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => BarberhopDetailView(
-                    barbershop_id: bbsProfile!['u_id'],
+                    barbershop: bbsProfile,
                   )),
         );
       },
@@ -37,8 +41,8 @@ class ShopListItem extends StatelessWidget {
                 height: 160,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: (bbsProfile?['image']?.length > 0
-                              ? NetworkImage(bbsProfile?['image'])
+                      image: (bbsProfile.image!.isNotEmpty
+                              ? NetworkImage(bbsProfile.image!)
                               : const AssetImage(
                                   AssetHelper.barberShopPlaceholder))
                           as ImageProvider,
@@ -49,7 +53,7 @@ class ShopListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 21.0, top: 8, bottom: 8),
                 child: Text(
-                  bbsProfile!['name'],
+                  bbsProfile.name!,
                   style: const TextStyle(
                     fontFamily: 'Metropolis',
                     fontSize: 16,
@@ -70,9 +74,9 @@ class ShopListItem extends StatelessWidget {
                     children: [
                       const Icon(Icons.star_rate_rounded,
                           size: 24, color: Helper.kButtonColor),
-                      bbsProfile!['rating']!=null && bbsProfile!['rating']!=0?    
+                      bbsProfile.rating!=null && bbsProfile.rating!=0?    
                       Text(
-                        "${bbsProfile!['rating']}",
+                        "${bbsProfile.rating}",
                         style: const TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 11,
@@ -83,32 +87,32 @@ class ShopListItem extends StatelessWidget {
                             applyHeightToFirstAscent: false),
                         softWrap: false,
                       ) :
-                      Text(
+                      const Text(
                         "",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 11,
                           color: Color(0xff29ac7b),
                           height: 1.8181818181818181,
                         ),
-                        textHeightBehavior: const TextHeightBehavior(
+                        textHeightBehavior: TextHeightBehavior(
                             applyHeightToFirstAscent: false),
                         softWrap: false,
                       )
                       ,
-                       bbsProfile!['rating']!=null && bbsProfile!['rating']!=0?
+                       bbsProfile.rating!=null && bbsProfile.rating!=0?
                        Text(
-                         " (${bbsProfile!['ratings_counter']} ratings)",
-                        style: TextStyle(
+                         " (${bbsProfile.ratings_counter} ratings)",
+                        style: const TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 12,
                           color: Color(0xffb6b7b7),
                           height: 1.6666666666666667,
                         ),
                         textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
+                            const TextHeightBehavior(applyHeightToFirstAscent: false),
                         softWrap: false,
-                      ) : Text(
+                      ) : const Text(
                          " (no ratings yet)",
                         style: TextStyle(
                           fontFamily: 'Metropolis',

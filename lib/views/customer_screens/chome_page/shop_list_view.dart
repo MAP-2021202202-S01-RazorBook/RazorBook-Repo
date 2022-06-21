@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_item.dart';
 
 import '../../../view_model/barber_profile_view_model.dart';
@@ -50,7 +51,7 @@ class ShopList extends StatelessWidget {
     //       services: ['Classic cuts']),
     // ];
 
-    return Container(
+    return SizedBox(
         height: MediaQuery.of(context).size.height * 0.6,
         child: Container(
           // color: Colors.red,
@@ -73,7 +74,8 @@ class ShopList extends StatelessWidget {
                     itemCount: model.barbershopList?.length,
                     itemBuilder: (context, index) {
                       return ShopListItem(
-                          bbsProfile: model.barbershopList?[index]);
+                          bbsProfile:
+                              User.fromJson(model.barbershopList![index]!));
                     },
                   );
                 }

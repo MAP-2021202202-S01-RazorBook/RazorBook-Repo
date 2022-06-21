@@ -96,12 +96,9 @@ class BarberProfileViewModel extends BaseModel {
 
   Future<void>? getAllBarbershops() async {
     try {
-      /// avoid duplicates
-      // barbershopList?.clear();
-      _barbershopList?.clear();
       await _barberProfileService.getBarbershopsList();
       _barbershopList = _barberProfileService.barbershopsList;
-      log("barbershop list: $barbershopList");
+      log("barbershop list: $_barbershopList");
     } catch (e) {
       // setBusy(false);
       print(e);
