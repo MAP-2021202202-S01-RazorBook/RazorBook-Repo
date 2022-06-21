@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:razor_book/models/user.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_item.dart';
 

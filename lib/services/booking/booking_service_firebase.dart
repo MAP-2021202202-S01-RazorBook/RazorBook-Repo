@@ -130,8 +130,8 @@ class BookingServiceFirebase extends BookingService {
       rethrow;
     }
   }
-  
-@override
+
+  @override
   Future<void> rateBooking({required String barbershopID, required String bookingID, required num rating, String? comment}) async {
     try {
       await _bookingsCollection.doc(bookingID).update({"rating": rating, "comment": comment});
@@ -140,7 +140,7 @@ class BookingServiceFirebase extends BookingService {
       //print(doc.docs[0].data().rating);
       var bookings = <dynamic>[];
       num allRatings = 0;
-
+      
       for(int i=0; i<bookingsDoc.docs.length; i++) {
         bookings.add(bookingsDoc.docs[i].data());
 
@@ -166,7 +166,6 @@ class BookingServiceFirebase extends BookingService {
               'BookingServiceFirebase.rateBooking() on other exception');
     }
   }
-
   @override
   Future<List<Map<String, dynamic>>> getService(String id) async {
     try {

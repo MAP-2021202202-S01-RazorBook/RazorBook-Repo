@@ -6,7 +6,7 @@ class AssetHelper {
   static const String assetBarbarShopOne = 'assets/images/barbarshop1.png';
   static const String assetBarbarShopTwo = 'assets/images/barbarshop2.png';
   static const String assetBarbarShopThree = 'assets/images/barbarshop3.png';
-  static const String assetBarbarShopFour = 'assets/images/barbarshop4.png';
+  static const String barberShopPlaceholder = 'assets/images/barbarshop4.png';
   static const String assetBarbarShopFive = 'assets/images/barbarshop5.png';
   static const String assetBarberShopSix = 'assets/images/barber6.png';
   static const String assetBarberShopSeven = 'assets/images/barber7.png';

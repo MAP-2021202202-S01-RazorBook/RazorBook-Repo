@@ -39,9 +39,13 @@ class ShopListItem extends StatelessWidget {
           children: [
             Container(
                 height: 160,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(AssetHelper.assetBarbarShopOne),
+                      image: (bbsProfile.image!.isNotEmpty
+                              ? NetworkImage(bbsProfile.image!)
+                              : const AssetImage(
+                                  AssetHelper.barberShopPlaceholder))
+                          as ImageProvider,
                       fit: BoxFit.cover),
                 )),
             Align(
@@ -70,9 +74,9 @@ class ShopListItem extends StatelessWidget {
                     children: [
                       const Icon(Icons.star_rate_rounded,
                           size: 24, color: Helper.kButtonColor),
-                          bbsProfile.rating!=null && bbsProfile.rating!=0?    
+                      bbsProfile.rating!=null && bbsProfile.rating!=0?    
                       Text(
-                        bbsProfile.rating.toString(),
+                        "${bbsProfile.rating}",
                         style: const TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 11,
@@ -82,7 +86,7 @@ class ShopListItem extends StatelessWidget {
                         textHeightBehavior: const TextHeightBehavior(
                             applyHeightToFirstAscent: false),
                         softWrap: false,
-                         ) :
+                      ) :
                       const Text(
                         "",
                         style: TextStyle(
@@ -110,7 +114,6 @@ class ShopListItem extends StatelessWidget {
                         softWrap: false,
                       ) : const Text(
                          " (no ratings yet)",
-                     
                         style: TextStyle(
                           fontFamily: 'Metropolis',
                           fontSize: 12,

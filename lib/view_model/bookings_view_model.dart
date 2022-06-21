@@ -198,8 +198,8 @@ class BookingsViewModel extends BaseModel {
   }
 
   Future<void> getService(String shopId) async {
-    var service = await _bookingsService.getService(shopId);
-    _services = service;
+   var service = await _bookingsService.getService(shopId);
+   _services = service;
   }
 
   double _totalPrice = 0.0;
@@ -294,10 +294,9 @@ total price: $totalP
     Future rateBooking(String barbershopID, String bookingID, num rating, String? comment) async {
 
     if(comment == ""){comment = "none";}
-
+      
     setBusy(true);
     await _bookingsService.rateBooking(barbershopID: barbershopID, bookingID: bookingID,  rating: rating, comment: comment);
     setBusy(false);
   }
-
 }

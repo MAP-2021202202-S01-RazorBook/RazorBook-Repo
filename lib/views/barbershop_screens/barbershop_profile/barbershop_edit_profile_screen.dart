@@ -31,6 +31,8 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _openTimeTextFiledController = TextEditingController();
   final _closeTimeTextFiledController = TextEditingController();
 
+  String? _imageUrl;
+
   final List<Map> workingDaysToSelect = [
     {'day': 'SUN', 'isSelected': false},
     {'day': 'MON', 'isSelected': false},
@@ -94,9 +96,11 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                       Column(
                         children: [
                           // const ProfileViewAppBar(editMode: true),
-                          const ProfileViewAvator(
-                            editMode: true,
-                          ),
+                          ProfileViewAvator(
+                              editMode: true,
+                              fileUploadFunction: model.uploadFile,
+                              imageUrl:
+                                  model.barbershopProfileForBarber?['image']),
                           const SizedBox(
                             height: 32,
                           ),
@@ -321,6 +325,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                 "close_time":
                                     _closeTimeTextFiledController.text,
                                 "working_days": model.barberWorkingDays,
+                                "image": model.imgUrl,
                               });
 
                               Navigator.pushNamed(context, BarberProfileRoute);
