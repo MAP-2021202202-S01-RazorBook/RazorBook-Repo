@@ -72,7 +72,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
 
             print(model.barberWorkingDays);
             return Scaffold(
-              appBar: appBar(
+              appBar: CustomAppBar(
                 bartitle: const Text(
                   "Edit Profile",
                   style: TextStyle(

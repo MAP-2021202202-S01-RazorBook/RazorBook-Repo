@@ -41,7 +41,7 @@ class _BookNowState extends State<BookNow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(
+        appBar: CustomAppBar(
           bartitle: const Text(
             "Book Now ",
             style: TextStyle(
@@ -89,8 +89,8 @@ class _BookNowState extends State<BookNow> {
                         child: SizedBox(
                             // height: 80,
                             width: 180,
-                            child: CheckOutButton(
-                                barbershopId: widget.barbershop.u_id)),
+                            child:
+                                CheckOutButton(barbershop: widget.barbershop)),
                       ),
                     ),
                   ],

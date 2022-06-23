@@ -15,7 +15,10 @@ class Booking {
   bool? is_completed;
   bool? is_paid;
   List<dynamic>? services;
-
+  late String customerName;
+  late String barberName;
+  String? createdAt;
+  late String updatedAt;
 // default constructor
   Booking({
     this.id,
@@ -30,6 +33,10 @@ class Booking {
     this.is_completed,
     this.is_paid,
     this.services,
+    required this.customerName,
+    required this.barberName,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
 // booking from firestore
@@ -46,9 +53,9 @@ class Booking {
 // );
 
   // from json
-  factory Booking.fromJson(Map<String, dynamic>? json) {
+  factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
-      id: json!['id'] as String,
+      id: json['id'],
       c_id: json['c_id'] as String,
       b_id: json['b_id'] as String,
       total_price: json['total_price'] as num,
@@ -60,6 +67,10 @@ class Booking {
       is_completed: json['is_completed'] as bool,
       is_paid: json['is_paid'] as bool,
       services: json['services'] as List<dynamic>,
+      customerName: json['customerName'] as String,
+      barberName: json['barberName'] as String,
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
     );
   }
 
@@ -82,6 +93,10 @@ class Booking {
       is_completed: data['is_completed'] as bool?,
       is_paid: data['is_paid'] as bool?,
       services: data['services'] as List<dynamic>?,
+      customerName: data['customerName'] as String,
+      barberName: data['barberName'] as String,
+      createdAt: data['createdAt'] as String,
+      updatedAt: data['updatedAt'] as String,
     );
   }
 
@@ -93,9 +108,15 @@ class Booking {
         "total_price": total_price,
         "date": date,
         "time": time,
+        "rating": rating??0.0,
+        "comment": comment??"",
         "is_cancelled": is_cancelled,
         "is_completed": is_completed,
         "is_paid": is_paid,
         "services": services,
+        "customerName": customerName,
+        "barberName": barberName,
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
       };
 }

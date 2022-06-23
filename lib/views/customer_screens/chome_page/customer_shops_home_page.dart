@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/views/customer_screens/chome_page/notification_view.dart';
 import 'package:razor_book/views/customer_screens/chome_page/shop_list_view.dart';
 import '../../common_widgets/pages_appbar.dart';
 import '../../common_widgets/search_bar.dart';
@@ -14,9 +15,9 @@ class ShopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(
+      appBar: CustomAppBar(
         bartitle: const Text(
-          "Search Barbershops ",
+          "Search Barbershops",
           style: TextStyle(
             fontFamily: "MetropolisExtra",
             fontSize: 20,
@@ -24,9 +25,16 @@ class ShopView extends StatelessWidget {
             color: Helper.kTitleTextColor,
           ),
         ),
-        onPressedFunctionForRightAction: () {},
+        onPressedFunctionForRightAction: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NotificationView(),
+            ),
+          );
+        },
         appBarRightIcon: const Icon(
-          Icons.shopping_cart,
+          Icons.notifications,
           color: Helper.kTitleTextColor,
         ),
       ),
@@ -57,12 +65,12 @@ class ShopView extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 32.0),
                 child: ListView(
                   children: const [
-                     SizedBox(
+                    SizedBox(
                       height: 16,
                     ),
                     // ignore: prefer_const_constructors
                     ShopList(),
-                     SizedBox(
+                    SizedBox(
                       height: 32,
                     ),
                   ],

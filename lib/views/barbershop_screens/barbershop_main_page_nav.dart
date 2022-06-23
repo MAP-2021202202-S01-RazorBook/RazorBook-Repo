@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:razor_book/views/common_widgets/pages_appbar.dart';
 
 import '../../helpers/colors.dart';
 import '../all_bookings_view.dart';
@@ -32,6 +33,7 @@ class _HomeViewState extends State<BarberMainPageNav> {
   Widget build(BuildContext context) {
     // print(showFab);
     return Scaffold(
+      // appBar: CustomAppBar(bartitle: bartitle, onPressedFunctionForRightAction: onPressedFunctionForRightAction, appBarRightIcon: appBarRightIcon),
       extendBody: true,
       floatingActionButton: Visibility(
         visible: currentIndex != 2,

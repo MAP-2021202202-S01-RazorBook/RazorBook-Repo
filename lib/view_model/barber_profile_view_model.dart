@@ -98,7 +98,7 @@ class BarberProfileViewModel extends BaseModel {
     try {
       await _barberProfileService.getBarbershopsList();
       _barbershopList = _barberProfileService.barbershopsList;
-      log("barbershop list: $_barbershopList");
+      // log("barbershop list: $_barbershopList");
     } catch (e) {
       // setBusy(false);
       print(e);

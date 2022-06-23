@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'base_view_model.dart';
 
 class BookingsViewModel extends BaseModel {
   final _bookingsService = locator<BookingService>();
-
   List<Booking>? bookings = [];
   List<Booking>? get bookingsList {
     return bookings;
@@ -198,8 +198,8 @@ class BookingsViewModel extends BaseModel {
   }
 
   Future<void> getService(String shopId) async {
-   var service = await _bookingsService.getService(shopId);
-   _services = service;
+    var service = await _bookingsService.getService(shopId);
+    _services = service;
   }
 
   double _totalPrice = 0.0;
@@ -230,7 +230,6 @@ class BookingsViewModel extends BaseModel {
       log(bookings!.toList().toString());
       // setBusy(false);
     } catch (e) {
-     
       print(e);
     }
   }
@@ -245,7 +244,7 @@ class BookingsViewModel extends BaseModel {
 
   Future makeBooking(
     BuildContext ctx,
-    String bid,
+    User barberShop,
     List<Map<dynamic, dynamic>> srv,
     double totalP, {
     required String selectedDay,
@@ -262,7 +261,7 @@ total price: $totalP
     """);
     Booking booking = Booking(
       c_id: currentUser!.u_id, // auth user id  not (users.docs.id)
-      b_id: bid,
+      b_id: barberShop.u_id,
       is_cancelled: false,
 
       ///save only sh_id to firestore
@@ -272,6 +271,10 @@ total price: $totalP
       is_completed: false,
       time: "$selectedDay $selectedTime ",
       date: selectedWorkingDay,
+      barberName: barberShop.name!,
+      customerName: currentUser!.name!,
+      createdAt: DateTime.now().toUtc().toIso8601String(),
+      updatedAt: DateTime.now().toUtc().toIso8601String(),
     );
     log("[s] Booking object: $booking");
     log(booking.toJson().toString());
@@ -291,12 +294,18 @@ total price: $totalP
     }
   }
 
-    Future rateBooking(String barbershopID, String bookingID, num rating, String? comment) async {
+  Future rateBooking(String barbershopID, String bookingID, num rating,
+      String? comment) async {
+    if (comment == "") {
+      comment = "none";
+    }
 
-    if(comment == ""){comment = "none";}
-      
     setBusy(true);
-    await _bookingsService.rateBooking(barbershopID: barbershopID, bookingID: bookingID,  rating: rating, comment: comment);
+    await _bookingsService.rateBooking(
+        barbershopID: barbershopID,
+        bookingID: bookingID,
+        rating: rating,
+        comment: comment);
     setBusy(false);
   }
 }

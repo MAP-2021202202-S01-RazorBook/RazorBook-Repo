@@ -4,7 +4,13 @@ import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/services/file_upload_service/file_upload_service.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
+import 'package:razor_book/services/notification/barber/barber_notification_service.dart';
+import 'package:razor_book/services/notification/barber/barber_notification_service_firebase.dart';
+import 'package:razor_book/services/notification/customer_notification_service.dart';
+import 'package:razor_book/services/notification/customer_notification_service_firebase.dart';
+import 'package:razor_book/view_model/barber_noti_view_model.dart';
 import 'package:razor_book/view_model/barber_profile_view_model.dart';
+import 'package:razor_book/view_model/cumster_noti_view_model.dart';
 import 'package:razor_book/view_model/customer_profile_view_model.dart';
 import 'package:razor_book/view_model/shop_view_model.dart';
 
@@ -97,4 +103,13 @@ Future<void> initializeServiceLocator() async {
 
   locator.registerLazySingleton<ShopViewModelProvider>(
       () => ShopViewModelProvider());
+
+  locator.registerLazySingleton<CustomerNotificationService>(
+      () => CustomerNotificationServiceFirebase());
+
+  locator.registerLazySingleton<BarberNotificationService>(
+      () => BarberNotificationServiceFirebase());
+  locator.registerLazySingleton(() => CustomerNotificationProvider());
+
+  locator.registerLazySingleton(() => BarberNotificationProvider());
 }
