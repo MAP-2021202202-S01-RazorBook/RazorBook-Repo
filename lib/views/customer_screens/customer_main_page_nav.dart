@@ -20,6 +20,7 @@ class _HomeViewState extends State<CustomerMainPageNav> {
   @override
   void initState() {
     _pageController = PageController(initialPage: 1, keepPage: true);
+
     super.initState();
   }
 

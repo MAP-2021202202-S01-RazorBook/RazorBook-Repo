@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
@@ -11,7 +13,7 @@ class NotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var model = context.read<CustomerNotificationProvider>();
-
+    model.getNotification();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -36,8 +38,9 @@ class NotificationView extends StatelessWidget {
           ),
         ),
         body: StreamBuilder(
-            stream: model.getNotification(),
+            stream: model.notiStream,
             builder: (ctx, AsyncSnapshot<List<Booking>> snapshot) {
+              log("NotificationView: ${snapshot.connectionState}");
               if (snapshot.connectionState != ConnectionState.active) {
                 return const Center(
                   child: CircularProgressIndicator(),

@@ -11,7 +11,7 @@ class BarberNotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var model = context.read<BarberNotificationProvider>();
-
+    model.getNotification();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -36,7 +36,7 @@ class BarberNotificationView extends StatelessWidget {
           ),
         ),
         body: StreamBuilder(
-            stream: model.getNotification(),
+            stream: model.notiStream,
             builder: (ctx, AsyncSnapshot<List<Booking>> snapshot) {
               if (snapshot.connectionState != ConnectionState.active) {
                 return const Center(

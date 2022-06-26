@@ -12,10 +12,12 @@ class BarberNotificationProvider {
   Stream<List<Booking>> get notiStream => _notiStreamController.stream;
 
   //get notification for cancelled bookings
-  Stream<List<Booking>> getNotification() {
+  void getNotification() {
     final v = _cusNoti.getBookingNoti(_auth.currentUser!.u_id);
 
-    return v;
+    v.map((event) => event).listen((event) {
+      _notiStreamController.add(event);
+    });
   }
 
   void dispose() {

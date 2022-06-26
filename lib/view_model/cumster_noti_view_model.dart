@@ -12,10 +12,12 @@ class CustomerNotificationProvider {
   Stream<List<Booking>> get notiStream => _notiStreamController.stream;
 
   //get notification for cancelled bookings
-  Stream<List<Booking>> getNotification() {
+  getNotification() {
     final v = _cusNoti.getCancelledBookings(_auth.currentUser!.u_id);
     // _notiStreamController.addStream(v);
-    return v;
+    v.map((event) => event).listen((event) {
+      _notiStreamController.add(event);
+    });
   }
 
   void dispose() {

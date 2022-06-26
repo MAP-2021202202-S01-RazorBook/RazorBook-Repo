@@ -178,6 +178,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return StreamBuilder(
         stream: locator<AuthenticationService>().authState,
         builder: ((context, snapshot) {
