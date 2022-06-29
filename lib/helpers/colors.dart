@@ -6,4 +6,5 @@ class Helper {
   static const kSearchBoxColor = Color(0xFFF2F2F2);
   static const kFABColor = Color(0xFF29AC7B);
   static const kTextFieldColor = Color(0xFFF2F2F2);
+  static const checkOutSummaryTexts = Color.fromARGB(255, 37, 37, 37);
 }

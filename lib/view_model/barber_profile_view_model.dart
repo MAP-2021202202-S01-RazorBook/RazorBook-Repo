@@ -170,15 +170,16 @@ class BarberProfileViewModel extends BaseModel {
     }
 
     await _openMap.openLocationOnMap(googleUrl);
-    Future<void>? uploadFile(String filePath, String fileName) async {
-      try {
-        setBusy(true);
-        await _fileUploadService.uploadFile(filePath, fileName);
-        _imgUrl = await _fileUploadService.getDownloadUrl(fileName);
-        setBusy(false);
-      } catch (e) {
-        log(e.toString());
-      }
+  }
+
+  Future<void>? uploadFile(String filePath, String fileName) async {
+    try {
+      setBusy(true);
+      await _fileUploadService.uploadFile(filePath, fileName);
+      _imgUrl = await _fileUploadService.getDownloadUrl(fileName);
+      setBusy(false);
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

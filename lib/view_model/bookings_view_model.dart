@@ -13,6 +13,10 @@ import 'base_view_model.dart';
 class BookingsViewModel extends BaseModel {
   final _bookingsService = locator<BookingService>();
 
+  List<Map<String, dynamic>>  selectedServices() {
+    return _services.where((element) => element['isSelected'] == true).toList();
+  }
+
   List<Booking>? bookings = [];
   List<Booking>? get bookingsList {
     return bookings;
@@ -198,8 +202,8 @@ class BookingsViewModel extends BaseModel {
   }
 
   Future<void> getService(String shopId) async {
-   var service = await _bookingsService.getService(shopId);
-   _services = service;
+    var service = await _bookingsService.getService(shopId);
+    _services = service;
   }
 
   double _totalPrice = 0.0;
@@ -230,7 +234,6 @@ class BookingsViewModel extends BaseModel {
       log(bookings!.toList().toString());
       // setBusy(false);
     } catch (e) {
-     
       print(e);
     }
   }
@@ -291,12 +294,18 @@ total price: $totalP
     }
   }
 
-    Future rateBooking(String barbershopID, String bookingID, num rating, String? comment) async {
+  Future rateBooking(String barbershopID, String bookingID, num rating,
+      String? comment) async {
+    if (comment == "") {
+      comment = "none";
+    }
 
-    if(comment == ""){comment = "none";}
-      
     setBusy(true);
-    await _bookingsService.rateBooking(barbershopID: barbershopID, bookingID: bookingID,  rating: rating, comment: comment);
+    await _bookingsService.rateBooking(
+        barbershopID: barbershopID,
+        bookingID: bookingID,
+        rating: rating,
+        comment: comment);
     setBusy(false);
   }
 }

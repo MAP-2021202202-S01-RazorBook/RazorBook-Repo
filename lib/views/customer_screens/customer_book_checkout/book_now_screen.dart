@@ -8,6 +8,7 @@ import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/checkout_button.dart';
 import 'package:razor_book/views/customer_screens/customer_book_checkout/step_progress_view.dart';
+import 'package:razor_book/views/customer_screens/customer_book_checkout/summary_check_out.dart';
 
 import '../../../helpers/colors.dart';
 import '../../common_widgets/pages_appbar.dart';
@@ -84,15 +85,16 @@ class _BookNowState extends State<BookNow> {
                     BookingsSlotsList(barbershop: widget.barbershop),
                     BookServices(barbershop: widget.barbershop),
                     //this one will be deleted later in the last sprints
-                    Container(
-                      child: Center(
-                        child: SizedBox(
-                            // height: 80,
-                            width: 180,
-                            child: CheckOutButton(
-                                barbershopId: widget.barbershop.u_id)),
-                      ),
-                    ),
+                    // Container(
+                    //   child: Center(
+                    //     child: SizedBox(
+                    //         // height: 80,
+                    //         width: 180,
+                    //         child: CheckOutButton(
+                    //             barbershopId: widget.barbershop.u_id)),
+                    //   ),
+                    // ),
+                    SummayCheckOut(barbershop_id: widget.barbershop.u_id,)
                   ],
                 ),
               )
