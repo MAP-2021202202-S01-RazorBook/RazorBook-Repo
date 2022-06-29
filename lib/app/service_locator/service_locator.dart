@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:razor_book/services/booking/booking_service.dart';
 import 'package:razor_book/services/customer/customer_service_firebase.dart';
+import 'package:razor_book/services/file_upload_service/file_upload_service.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
 import 'package:razor_book/services/map_services/map_services_google_map.dart';
@@ -17,6 +18,7 @@ import '../../services/barbershop_profile/barbershop_profile_service.dart';
 import '../../services/barbershop_profile/barbershop_profile_service_firebase.dart';
 import '../../services/booking/booking_service_firebase.dart';
 import '../../services/customer/customer_service.dart';
+import '../../services/file_upload_service/file_upload_service_firebase.dart';
 import '../../services/initializer/service_initializer.dart';
 import '../../services/initializer/service_initializer_firebase.dart';
 import '../../view_model/bookings_view_model.dart';
@@ -64,6 +66,8 @@ Future<void> initializeServiceLocator() async {
       () => BarbershopServiceFirebase());
 
   locator.registerLazySingleton<MapServices>(() => GoogleMap());
+  locator.registerLazySingleton<FileUploadService>(
+      () => FileUploadServiceFirebase());
 
   // Register ViewModels
 

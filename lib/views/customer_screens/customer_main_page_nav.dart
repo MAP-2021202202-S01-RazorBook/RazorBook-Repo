@@ -30,9 +30,6 @@ class _HomeViewState extends State<CustomerMainPageNav> {
 
   @override
   Widget build(BuildContext context) {
-    // final String? uid =
-    //     Provider.of<LocalStorageServiceProvider>(context, listen: false).uid;
-    // print(showFab);
     return Scaffold(
       extendBody: true,
       floatingActionButton: InkWell(

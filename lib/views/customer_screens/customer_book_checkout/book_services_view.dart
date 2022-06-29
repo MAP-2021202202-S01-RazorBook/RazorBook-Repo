@@ -2,14 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 
 import '../../../helpers/colors.dart';
 
 class BookServices extends StatelessWidget {
-  const BookServices({Key? key, required this.barbershop_id}) : super(key: key);
+  const BookServices({Key? key, required this.barbershop}) : super(key: key);
 
-  final String barbershop_id;
+  final User barbershop;
 //   @override
 //   State<BookServices> createState() => _BookServicesState();
 // }

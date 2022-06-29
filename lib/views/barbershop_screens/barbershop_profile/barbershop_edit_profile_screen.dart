@@ -37,6 +37,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
 
   final _locationLatTextFiledController = TextEditingController();
   final _locationLngTextFiledController = TextEditingController();
+  String? _imageUrl;
 
   final List<Map> workingDaysToSelect = [
     {'day': 'SUN', 'isSelected': false},
@@ -101,9 +102,11 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                       Column(
                         children: [
                           // const ProfileViewAppBar(editMode: true),
-                          const ProfileViewAvator(
-                            editMode: true,
-                          ),
+                          ProfileViewAvator(
+                              editMode: true,
+                              fileUploadFunction: model.uploadFile,
+                              imageUrl:
+                                  model.barbershopProfileForBarber?['image']),
                           const SizedBox(
                             height: 32,
                           ),
@@ -383,7 +386,8 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                       "location"]["lat"],
                                   "lng": model.barbershopProfileForBarber?[
                                       "location"]["lng"],
-                                }
+                                },
+                                "image": model.imgUrl,
                               });
 
                               Navigator.pushNamed(context, BarberProfileRoute);

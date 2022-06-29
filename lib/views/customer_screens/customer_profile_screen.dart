@@ -173,12 +173,13 @@ class ProfileView extends StatelessWidget {
                   viewModel.editMode
                       ? SaveCancelButtons(
                           onCanclePressed: () {
-                            viewModel.editMode = !viewModel.editMode;
+                            viewModel.editMode = viewModel.editMode;
                             // setState(() {
 
                             // });
                           },
                           onSavePressed: () async {
+                            viewModel.editMode = false;
                             User newuser = User(
                                 u_id: authService.currentUser!.u_id,
                                 name: viewModel.nameController.text,
@@ -188,7 +189,6 @@ class ProfileView extends StatelessWidget {
                                 user_type: authService.currentUser!.user_type);
 
                             await viewModel.updateUserProfile(newuser, context);
-                             viewModel.editMode = !viewModel.editMode;
                           },
                         )
                       : Padding(

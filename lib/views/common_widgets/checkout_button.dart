@@ -34,13 +34,31 @@ class _CheckOutButtonState extends State<CheckOutButton> {
               setState(() {
                 loading = true;
               });
-              List<Map<dynamic, dynamic>> selectedService = x.services
+              List<Map<String, dynamic>> selectedService = x.services
                   .where((element) => element['isSelected'] == true)
                   .toList();
-              await BookingsViewModel().makeBooking(
-                  context, widget.barbershopId, selectedService, x.totalPrice,
-                  selectedDay: x.days[x.selectedColumn ?? 0],
-                  selectedTime: x.slots[x.selectedRow ?? 0]);
+
+              try {
+                await x
+                    .makeBooking(context, widget.barbershopId, selectedService,
+                        x.totalPrice,
+                        selectedDay: x.days[x.selectedColumn ?? 0],
+                        selectedTime: x.slots[x.selectedRow ?? 0],
+                        selectedWorkingDay:
+                            x.workingDays[x.selectedColumn ?? 0])
+                    .then((value) {
+                  x.slots = [];
+                  x.services = <Map<String, dynamic>>[];
+                  x.totalPrice = 0.0;
+                  x.selectedColumn = null;
+                  x.selectedRow = null;
+                  x.days = [];
+                });
+              } catch (e) {
+                setState(() {
+                  loading = false;
+                });
+              }
 
               ///
               ///

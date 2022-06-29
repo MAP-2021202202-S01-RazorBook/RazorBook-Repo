@@ -36,7 +36,7 @@ class ShopSearchResult extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ShopListItem(
-                    bbsProfile: shopList[idx].toJson(),
+                    bbsProfile: shopList[idx],
                   ),
                 );
               }),
