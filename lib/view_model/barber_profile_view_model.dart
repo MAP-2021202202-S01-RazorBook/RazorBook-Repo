@@ -29,6 +29,13 @@ class BarberProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
+
+  void updateLocationDetails(String lat, String lng) {
+    _barberProfileForBarber?["location"]["lat"] = lat;
+    _barberProfileForBarber?["location"]["lng"] = lng;
+
+  }
+
   // i had to change the status from Final To var
   //the reason is mentioned in the updateBarberProfile methond
   var _currentUser = locator<AuthenticationService>().currentUser;
