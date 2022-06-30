@@ -17,9 +17,7 @@ class BarberNotificationServiceFirebase implements BarberNotificationService {
     try {
       log("calling get bookings noti");
 
-      /// lateer -> booking_status -> [cancelled, confirmed, completed, pending]
-      ///
-      ///
+      /// later -> booking_status -> [cancelled, confirmed, completed, pending]
       return _bookingsCollection
           .where('b_id', isEqualTo: bid)
           .where('is_completed', isEqualTo: false)

@@ -11,11 +11,14 @@ class BarberNotificationProvider {
   final _auth = locator<AuthenticationService>();
   Stream<List<Booking>> get notiStream => _notiStreamController.stream;
 
+  List<Booking> notiList = <Booking>[];
+
   //get notification for cancelled bookings
   void getNotification() {
     final v = _cusNoti.getBookingNoti(_auth.currentUser!.u_id);
 
-    v.map((event) => event).listen((event) {
+    v.listen((event) {
+      notiList = event;
       _notiStreamController.add(event);
     });
   }

@@ -11,7 +11,7 @@ class BarberNotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var model = context.read<BarberNotificationProvider>();
-    model.getNotification();
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -35,48 +35,48 @@ class BarberNotificationView extends StatelessWidget {
             ),
           ),
         ),
-        body: StreamBuilder(
-            stream: model.notiStream,
-            builder: (ctx, AsyncSnapshot<List<Booking>> snapshot) {
-              if (snapshot.connectionState != ConnectionState.active) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              List<Booking> data = snapshot.data ?? [];
-              if (data.isNotEmpty) {
-                return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (ctx, idx) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Dismissible(
-                          key: Key(data[idx].id.toString()),
-                          child: ListTile(
-                            leading: const CircleAvatar(
-                              child: Icon(Icons.notifications_active),
-                            ),
-                            title: Text(
-                              "${data[idx].customerName} ",
-                              style: const TextStyle(
-                                fontFamily: "MetropolisExtra",
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Helper.kTitleTextColor,
-                              ),
-                            ),
-                            subtitle: const Text("make a booking"),
-                            trailing: Text(timeago.format(
-                                DateTime.parse(data[idx].updatedAt).toLocal())),
+        body: Builder(
+            // stream: model.notiStream,
+            builder: (ctx) {
+          // if (snapshot.connectionState != ConnectionState.active) {
+          //   return const Center(
+          //     child: CircularProgressIndicator(),
+          //   );
+          // }
+          List<Booking> data = model.notiList;
+          if (data.isNotEmpty) {
+            return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (ctx, idx) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Dismissible(
+                      key: Key(data[idx].id.toString()),
+                      child: ListTile(
+                        leading: const CircleAvatar(
+                          child: Icon(Icons.notifications_active),
+                        ),
+                        title: Text(
+                          "${data[idx].customerName} ",
+                          style: const TextStyle(
+                            fontFamily: "MetropolisExtra",
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Helper.kTitleTextColor,
                           ),
                         ),
-                      );
-                    });
-              } else {
-                return const Center(
-                  child: Text("No Notification"),
-                );
-              }
-            }));
+                        subtitle: const Text("make a booking"),
+                        trailing: Text(timeago.format(
+                            DateTime.parse(data[idx].updatedAt).toLocal())),
+                      ),
+                    ),
+                  );
+                });
+          } else {
+            return const Center(
+              child: Text("No Notification"),
+            );
+          }
+        }));
   }
 }

@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:razor_book/views/common_widgets/pages_appbar.dart';
+import 'package:provider/provider.dart';
+import 'package:razor_book/view_model/barber_noti_view_model.dart';
 
 import '../../helpers/colors.dart';
 import '../all_bookings_view.dart';
@@ -26,6 +27,8 @@ class _HomeViewState extends State<BarberMainPageNav> {
 
   @override
   void didChangeDependencies() {
+    var model = context.read<BarberNotificationProvider>();
+    model.getNotification();
     super.didChangeDependencies();
   }
 
