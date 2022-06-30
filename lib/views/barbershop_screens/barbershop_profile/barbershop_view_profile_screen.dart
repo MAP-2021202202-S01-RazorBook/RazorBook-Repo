@@ -87,7 +87,16 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
                                 model.barbershopProfileForBarber?["email"] ??
                                     "Example Email",
                           ),
-                                const SizedBox(height: 40),
+                          const SizedBox(height: 40),
+
+                          ProfileViewInfoText(
+                            label: "PayPal Email",
+                            userDate:
+                                model.barbershopProfileForBarber?["paypal_email"] ??
+                                    "Your PayPal Account Email (Optional)",
+                          ),
+                          const SizedBox(height: 40),
+
                           // pass from the viewModel in the userDate
                           model.barbershopProfileForBarber?["rating"]!=null && model.barbershopProfileForBarber?["rating"]!=0?
                           ProfileViewInfoText(
@@ -96,12 +105,6 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
                                 model.barbershopProfileForBarber?["rating"].toString() ??
                                     "No ratings yet",
                           ):
-                          ProfileViewInfoText(
-                            label: "Shop Rating",
-                            userDate:
-                                    "No ratings yet",
-                          )
-                          ,
 
                           const SizedBox(height: 40),
                           // pass from the viewModel in the userDate
@@ -112,12 +115,6 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
                                 model.barbershopProfileForBarber?["rating"].toString() ??
                                     "No ratings yet",
                           ):
-                          ProfileViewInfoText(
-                            label: "Shop Rating",
-                            userDate:
-                                    "No ratings yet",
-                          )
-                          ,
 
                           const SizedBox(height: 40),
                           // pass from the viewModel in the userDate

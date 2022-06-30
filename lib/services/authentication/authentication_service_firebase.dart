@@ -98,6 +98,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
             'email': email,
             'name': name,
             'phone': phone,
+            'paypal_email': "",
             'user_type': 'barber',
             'address': address,
             'open_time': openTime,
