@@ -18,6 +18,9 @@ class BookingsViewModel extends BaseModel {
     return bookings;
   }
 
+  bool _hasPayPalEmail = false;
+  bool get hasPayPalEmail => _hasPayPalEmail;
+  
   int? _selectedColumn;
   int? get selectedColumn => _selectedColumn;
 
@@ -298,5 +301,74 @@ total price: $totalP
     setBusy(true);
     await _bookingsService.rateBooking(barbershopID: barbershopID, bookingID: bookingID,  rating: rating, comment: comment);
     setBusy(false);
+  }
+
+  Future makePayPalBooking(
+    BuildContext ctx,
+    String bid,
+    List<Map<dynamic, dynamic>> srv,
+    double totalP, {
+    required String selectedDay,
+    required String selectedTime,
+    required String selectedWorkingDay,
+  }) async {
+    log("""
+cid: ${currentUser!.u_id}
+service : $services
+// booking slot :$slots
+total price: $totalP
+
+
+    """);
+    Booking booking = Booking(
+      c_id: currentUser!.u_id, // auth user id  not (users.docs.id)
+      b_id: bid,
+      is_cancelled: false,
+
+      ///save only sh_id to firestore
+      services: srv.map((e) => e['sh_id']).toList(), // need json encode
+      total_price: totalP,
+      is_paid: true,
+      is_completed: false,
+      time: "$selectedDay $selectedTime ",
+      date: selectedWorkingDay,
+    );
+    log("[s] Booking object: $booking");
+    log(booking.toJson().toString());
+    log("[e] Booking object: $booking");
+    ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar(
+      'Booking ......',
+    ));
+
+  //   var value =
+  //     await waitTask().whenComplete(() => print('do something here'));
+  // // Prints "do something here" after waitTask() completed.
+  // print(value); //
+
+    try {
+      await _bookingsService.makePayPalBooking(booking, ctx).whenComplete(() {
+        ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar(
+          'Checkout with PayPal',
+        ));
+      });
+
+      // ((value) {
+      //   ScaffoldMessenger.of(ctx).showSnackBar(mySnackBar(
+      //     'Booking Successful',
+      //   ));
+      // });
+    } catch (e) {
+      ScaffoldMessenger.of(ctx)
+          .showSnackBar(mySnackBar(e.toString(), error: true));
+    }
+  }
+
+  Future getPaymentMethod(String barbershopID) async {
+      
+    //setBusy(true);
+    await _bookingsService.getPaymentMethod(barbershopID);
+    _hasPayPalEmail = _bookingsService.hasPayPalEmail;
+    //print('22222222222222222222222: $_hasPayPalEmail');
+    //setBusy(false);
   }
 }
