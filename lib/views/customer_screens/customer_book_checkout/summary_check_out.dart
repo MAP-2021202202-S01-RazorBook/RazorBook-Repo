@@ -3,12 +3,14 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/checkout_button.dart';
 
 class SummayCheckOut extends StatelessWidget {
-  const SummayCheckOut({Key? key, String? barbershop_id}) : super(key: key);
-  final String? barbershop_id = "";
+  const SummayCheckOut({Key? key, required this.barbershop}) : super(key: key);
+
+  final User barbershop;
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +245,7 @@ class SummayCheckOut extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        CheckOutButton(barbershopId: barbershop_id!),
+        CheckOutButton(barbershop: barbershop),
       ]),
     );
   }

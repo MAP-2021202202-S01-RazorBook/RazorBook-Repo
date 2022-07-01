@@ -91,7 +91,7 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.5"
+    version: "0.7.4"
   fake_async:
     dependency: transitive
     description:
@@ -499,14 +499,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
-  place_picker:
-    dependency: "direct main"
-    description:
-      name: place_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.20-nullsafety"
-    version: "2.1.0"
   petitparser:
     dependency: transitive
     description:
@@ -514,6 +506,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  place_picker:
+    dependency: "direct main"
+    description:
+      name: place_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.20-nullsafety"
   platform:
     dependency: transitive
     description:
@@ -673,13 +672,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  tuple:
-    dependency: "direct main"
-    description:
-      name: tuple
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   timeago:
     dependency: "direct main"
     description:
@@ -694,6 +686,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.0"
+  tuple:
+    dependency: "direct main"
+    description:
+      name: tuple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:

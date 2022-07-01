@@ -94,7 +94,7 @@ class _BookNowState extends State<BookNow> {
                     //             barbershopId: widget.barbershop.u_id)),
                     //   ),
                     // ),
-                    SummayCheckOut(barbershop_id: widget.barbershop.u_id,)
+                    SummayCheckOut(barbershop: widget.barbershop,)
                   ],
                 ),
               )
