@@ -218,12 +218,15 @@ class User {
     };
   }
 
+  //there was a logical error here that caused problems in updating the
+  // barbshop profile , the error was if this condition is true user_type != "customer" it calles customerToFirestore();
+  //instead of barberToFirestore(); which will effect later on the data captured of current user.
   // USER to json
   Map<String, dynamic> toJson() {
     if (user_type != "customer") {
-      return customerToFirestore();
-    } else {
       return barberToFirestore();
+    } else {
+      return customerToFirestore();
     }
   }
   //   return {

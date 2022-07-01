@@ -158,23 +158,33 @@ class BarberhopDetailView extends StatelessWidget {
                                                 ),
                                                 //here will be the barbershop address *fetched from User model
                                                 //that we got from the passed ID
-                                                Text(
-                                                  model.barbershopForCustomer![
-                                                      'address'],
-                                                  style: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'Metropolis',
-                                                      color: Helper
-                                                          .kTitleTextColor),
+                                                Container(
+                                                  width: 270,
+                                                  child: Text(
+                                                    model.barbershopForCustomer![
+                                                        'address'],
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily:
+                                                            'Metropolis',
+                                                        color: Helper
+                                                            .kTitleTextColor),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                             //here we should connect it we google maps since we will get the Latitude and Longitude
                                             //that we got from the passed ID
                                             InkWell(
-                                              onTap: () => log("tapped!"),
+                                              onTap: () async {
+                                                await model.openMap(
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lat"],
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lng"]);
+                                              },
                                               child: const Text(
                                                 "View On Map",
                                                 style: TextStyle(

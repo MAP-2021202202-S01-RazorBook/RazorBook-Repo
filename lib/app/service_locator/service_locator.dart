@@ -4,6 +4,8 @@ import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/services/file_upload_service/file_upload_service.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
+import 'package:razor_book/services/map_services/map_services_google_map.dart';
+import 'package:razor_book/services/map_services/maps_services.dart';
 import 'package:razor_book/services/notification/barber/barber_notification_service.dart';
 import 'package:razor_book/services/notification/barber/barber_notification_service_firebase.dart';
 import 'package:razor_book/services/notification/customer_notification_service.dart';
@@ -76,6 +78,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<BarbershopService>(
       () => BarbershopServiceFirebase());
 
+  locator.registerLazySingleton<MapServices>(() => GoogleMap());
   locator.registerLazySingleton<FileUploadService>(
       () => FileUploadServiceFirebase());
 

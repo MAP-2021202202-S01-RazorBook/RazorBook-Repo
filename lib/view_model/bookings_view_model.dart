@@ -13,6 +13,11 @@ import 'base_view_model.dart';
 
 class BookingsViewModel extends BaseModel {
   final _bookingsService = locator<BookingService>();
+
+  List<Map<String, dynamic>>  selectedServices() {
+    return _services.where((element) => element['isSelected'] == true).toList();
+  }
+
   List<Booking>? bookings = [];
   List<Booking>? get bookingsList {
     return bookings;

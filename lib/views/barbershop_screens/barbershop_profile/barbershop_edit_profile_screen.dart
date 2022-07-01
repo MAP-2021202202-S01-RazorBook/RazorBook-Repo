@@ -8,9 +8,13 @@ import '../../common_widgets/pages_appbar.dart';
 import '../../common_widgets/profile_edit_custome_textfield.dart';
 import '../../common_widgets/profile_view_avatar.dart';
 import '../../common_widgets/text_fields_labels_for_edit_profiles.dart';
+import '../maps/google_map_screen.dart';
 import 'barbershop_view_profile_related_widgets/barbershop_services_display_view.dart';
 import 'barbershop_view_profile_related_widgets/profile_cancel_save_buttons.dart';
 import 'package:provider/provider.dart';
+// import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:place_picker/place_picker.dart';
 
 class BarbershopEditProfile extends StatefulWidget {
   const BarbershopEditProfile({Key? key}) : super(key: key);
@@ -31,6 +35,8 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _openTimeTextFiledController = TextEditingController();
   final _closeTimeTextFiledController = TextEditingController();
 
+  final _locationLatTextFiledController = TextEditingController();
+  final _locationLngTextFiledController = TextEditingController();
   String? _imageUrl;
 
   final List<Map> workingDaysToSelect = [
@@ -135,6 +141,14 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                     "Example Address",
                             controller: _addressTextFiledController,
                           ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          //this part is related to google maps
+                          const SizedBox(
+                            height: 8,
+                          ),
+
                           const SizedBox(
                             height: 8,
                           ),
@@ -286,8 +300,47 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                     "servicesNames"] ??
                                 [],
                           ),
-                          const SizedBox(height: 40),
-
+                          const SizedBox(height: 28),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 8),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: const StadiumBorder(),
+                                  primary: Helper.kFABColor,
+                                  fixedSize: Size(
+                                      MediaQuery.of(context).size.width, 30)),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => LocationGoogle()));
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Icons.location_on_sharp,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Update shop location',
+                                    style: TextStyle(
+                                      fontFamily: 'Metropolis',
+                                      fontSize: 18,
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    softWrap: false,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           ProfileEditViewCancelSaveButtons(
                             onCanclePressed: () {
                               // clear all the data that has been stored
@@ -300,6 +353,9 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                               _slotLengthTextFiledController.clear();
                               _openTimeTextFiledController.clear();
                               _closeTimeTextFiledController.clear();
+                              _locationLatTextFiledController.clear();
+                              _locationLngTextFiledController.clear();
+
                               Navigator.of(context).pop();
                             },
                             onSavePressed: () async {
@@ -324,7 +380,13 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                 "open_time": _openTimeTextFiledController.text,
                                 "close_time":
                                     _closeTimeTextFiledController.text,
-                                "working_days": model.barberWorkingDays,
+                                "open_days": model.barberWorkingDays,
+                                "location": {
+                                  "lat": model.barbershopProfileForBarber?[
+                                      "location"]["lat"],
+                                  "lng": model.barbershopProfileForBarber?[
+                                      "location"]["lng"],
+                                },
                                 "image": model.imgUrl,
                               });
 
