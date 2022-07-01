@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -248,7 +249,7 @@ class BookingsViewModel extends BaseModel {
 
   Future makeBooking(
     BuildContext ctx,
-    String bid,
+    User barberShop,
     List<Map<dynamic, dynamic>> srv,
     double totalP, {
     required String selectedDay,
@@ -265,7 +266,7 @@ total price: $totalP
     """);
     Booking booking = Booking(
       c_id: currentUser!.u_id, // auth user id  not (users.docs.id)
-      b_id: bid,
+      b_id: barberShop.u_id,
       is_cancelled: false,
 
       ///save only sh_id to firestore
@@ -275,6 +276,10 @@ total price: $totalP
       is_completed: false,
       time: "$selectedDay $selectedTime ",
       date: selectedWorkingDay,
+      barberName: barberShop.name!,
+      customerName: currentUser!.name!,
+      createdAt: DateTime.now().toUtc().toIso8601String(),
+      updatedAt: DateTime.now().toUtc().toIso8601String(),
     );
     log("[s] Booking object: $booking");
     log(booking.toJson().toString());

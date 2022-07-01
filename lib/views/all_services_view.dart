@@ -38,7 +38,7 @@ class _ViewServicesState extends State<ViewServices> {
           );
         } else {
           return Scaffold(
-            appBar: appBar(
+            appBar: CustomAppBar(
                 bartitle: const Text(
                   "Barbershop Services",
                   style: TextStyle(

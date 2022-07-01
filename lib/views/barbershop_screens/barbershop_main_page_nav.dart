@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:razor_book/view_model/barber_noti_view_model.dart';
 
 import '../../helpers/colors.dart';
 import '../all_bookings_view.dart';
@@ -25,6 +27,8 @@ class _HomeViewState extends State<BarberMainPageNav> {
 
   @override
   void didChangeDependencies() {
+    var model = context.read<BarberNotificationProvider>();
+    model.getNotification();
     super.didChangeDependencies();
   }
 
@@ -32,6 +36,7 @@ class _HomeViewState extends State<BarberMainPageNav> {
   Widget build(BuildContext context) {
     // print(showFab);
     return Scaffold(
+      // appBar: CustomAppBar(bartitle: bartitle, onPressedFunctionForRightAction: onPressedFunctionForRightAction, appBarRightIcon: appBarRightIcon),
       extendBody: true,
       floatingActionButton: Visibility(
         visible: currentIndex != 2,

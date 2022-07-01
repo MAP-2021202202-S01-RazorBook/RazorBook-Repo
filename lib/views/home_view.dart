@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/models/user.dart';
+import 'package:razor_book/view_model/barber_noti_view_model.dart';
+import 'package:razor_book/view_model/cumster_noti_view_model.dart';
 import 'package:razor_book/view_model/shop_view_model.dart';
 // import 'package:razor_book/models/service.dart';
 import 'package:razor_book/views/barbershop_screens/barbershop_main_page_nav.dart';
@@ -42,12 +44,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => locator<BarberProfileViewModel>()),
 
-        ChangeNotifierProvider(create: (_) => locator<BookingsViewModel>()),
+        ChangeNotifierProvider(
+          create: (_) => locator<BookingsViewModel>(),
+        ),
         ChangeNotifierProvider(create: (_) => locator<ServicesViewModel>()),
         ChangeNotifierProvider(create: (_) => locator<LoginViewModel>()),
         ChangeNotifierProvider(
             create: (_) => locator<LocalStorageServiceProvider>()),
         ChangeNotifierProvider(create: (_) => locator<ShopViewModelProvider>()),
+        Provider<CustomerNotificationProvider>(
+          create: (_) => locator<CustomerNotificationProvider>(),
+          dispose: (ctx, p) => p.dispose(),
+        ),
+        Provider<BarberNotificationProvider>(
+          create: (_) => locator<BarberNotificationProvider>(),
+          dispose: (ctx, p) => p.dispose(),
+        ),
       ],
       child: const MaterialApp(
         home: Home(),

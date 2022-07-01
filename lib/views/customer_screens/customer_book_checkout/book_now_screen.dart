@@ -42,7 +42,7 @@ class _BookNowState extends State<BookNow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(
+        appBar: CustomAppBar(
           bartitle: const Text(
             "Book Now ",
             style: TextStyle(
