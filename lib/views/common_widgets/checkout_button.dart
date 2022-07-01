@@ -5,16 +5,17 @@ import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:flutter_paypal/flutter_paypal.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/checkout_button_sheet.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
 class CheckOutButton extends StatefulWidget {
-  final String barbershopId;
+  final User barbershop;
   const CheckOutButton({
     Key? key,
-    required this.barbershopId,
+    required this.barbershop,
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class _CheckOutButtonState extends State<CheckOutButton> {
         BookingsViewModel x = context.watch<BookingsViewModel>();  
        
         return FutureBuilder(
-        future: x.getPaymentMethod(widget.barbershopId),
+        future: x.getPaymentMethod(widget.barbershop.u_id),
         builder: (context, snapshot) {
           
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -73,32 +74,27 @@ class _CheckOutButtonState extends State<CheckOutButton> {
 
               
               try {
-                     await x
-                        .makeBooking(context, widget.barbershopId,
-                            selectedService, x.totalPrice,
-                            selectedDay: x.days[x.selectedColumn ?? 0],
-                            selectedTime: x.slots[x.selectedRow ?? 0],
-                            selectedWorkingDay:
-                                x.workingDays[x.selectedColumn ?? 0])
-                        .then((value) {
-                      x.slots = [];
-                      x.services = <Map<String, dynamic>>[];
-                      x.totalPrice = 0.0;
-                      x.selectedColumn = null;
-                      x.selectedRow = null;
-                      x.days = [];
-                    }).then((value) {showBottomSheet(
-                  context: context,
-                  builder: (ctx) {
-                    return const CheckOutButtonSheet();
-                  });});
-                  } catch (e) {
-                if(mounted){
-                setState((){
+                await x
+                    .makeBooking(context, widget.barbershop, selectedService,
+                        x.totalPrice,
+                        selectedDay: x.days[x.selectedColumn ?? 0],
+                        selectedTime: x.slots[x.selectedRow ?? 0],
+                        selectedWorkingDay:
+                            x.workingDays[x.selectedColumn ?? 0])
+                    .then((value) {
+                  x.slots = [];
+                  x.services = <Map<String, dynamic>>[];
+                  x.totalPrice = 0.0;
+                  x.selectedColumn = null;
+                  x.selectedRow = null;
+                  x.days = [];
+                });
+              } catch (e) {
+                setState(() {
                   loading = false;
                 });
               }
-            }},
+            },
             child: loading
                 ? const CircularProgressIndicator(
                     color: Colors.white,
@@ -135,7 +131,7 @@ class _CheckOutButtonState extends State<CheckOutButton> {
               
               try {
 
-                        await x.makePayPalBooking(context, widget.barbershopId,
+                        await x.makePayPalBooking(context, widget.barbershop,
                             selectedService, x.totalPrice,
                             selectedDay: x.days[x.selectedColumn ?? 0],
                             selectedTime: x.slots[x.selectedRow ?? 0],

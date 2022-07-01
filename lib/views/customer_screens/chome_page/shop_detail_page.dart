@@ -36,7 +36,7 @@ class BarberhopDetailView extends StatelessWidget {
             );
           } else {
             return Scaffold(
-                appBar: appBar(
+                appBar: CustomAppBar(
                     bartitle: const Text("Barbershops Details",
                         style: TextStyle(
                           fontFamily: "MetropolisExtra",
@@ -158,23 +158,33 @@ class BarberhopDetailView extends StatelessWidget {
                                                 ),
                                                 //here will be the barbershop address *fetched from User model
                                                 //that we got from the passed ID
-                                                Text(
-                                                  model.barbershopForCustomer![
-                                                      'address'],
-                                                  style: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'Metropolis',
-                                                      color: Helper
-                                                          .kTitleTextColor),
+                                                Container(
+                                                  width: 270,
+                                                  child: Text(
+                                                    model.barbershopForCustomer![
+                                                        'address'],
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily:
+                                                            'Metropolis',
+                                                        color: Helper
+                                                            .kTitleTextColor),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                             //here we should connect it we google maps since we will get the Latitude and Longitude
                                             //that we got from the passed ID
                                             InkWell(
-                                              onTap: () => log("tapped!"),
+                                              onTap: () async {
+                                                await model.openMap(
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lat"],
+                                                    model.barbershopForCustomer?[
+                                                        "location"]["lng"]);
+                                              },
                                               child: const Text(
                                                 "View On Map",
                                                 style: TextStyle(
@@ -214,30 +224,38 @@ class BarberhopDetailView extends StatelessWidget {
                                                 ),
                                                 //here we should use the ratings varaiable
                                                 //that we got from the passed ID
-                                                model.barbershopForCustomer!['rating']!=0 && model.barbershopForCustomer!['rating']!=null?
-                                                Text(
-                                                  "${model.barbershopForCustomer!['rating']}/5",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'Metropolis',
-                                                    color: Helper
-                                                        .kTitleTextColor
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                ):
-                                                Text(
-                                                  "no ratings yet",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'Metropolis',
-                                                    color: Helper
-                                                        .kTitleTextColor
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                )
-                                                ,
+                                                model.barbershopForCustomer![
+                                                                'rating'] !=
+                                                            0 &&
+                                                        model.barbershopForCustomer![
+                                                                'rating'] !=
+                                                            null
+                                                    ? Text(
+                                                        "${model.barbershopForCustomer!['rating']}/5",
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'Metropolis',
+                                                          color: Helper
+                                                              .kTitleTextColor
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        "no ratings yet",
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'Metropolis',
+                                                          color: Helper
+                                                              .kTitleTextColor
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                      ),
                                               ],
                                             )),
                                       ),

@@ -4,7 +4,16 @@ import 'package:razor_book/services/customer/customer_service_firebase.dart';
 import 'package:razor_book/services/file_upload_service/file_upload_service.dart';
 import 'package:razor_book/services/local_storage_service/local_storage_service.dart';
 import 'package:razor_book/services/local_storage_service/sharedpref_service.dart';
+import 'package:razor_book/services/map_services/map_services_google_map.dart';
+import 'package:razor_book/services/map_services/maps_services.dart';
+import 'package:razor_book/services/notification/barber/barber_notification_service.dart';
+import 'package:razor_book/services/notification/barber/barber_notification_service_firebase.dart';
+import 'package:razor_book/services/notification/customer_notification_service.dart';
+import 'package:razor_book/services/notification/customer_notification_service_firebase.dart';
+import 'package:razor_book/services/notification/notification_service.dart';
+import 'package:razor_book/view_model/barber_noti_view_model.dart';
 import 'package:razor_book/view_model/barber_profile_view_model.dart';
+import 'package:razor_book/view_model/cumster_noti_view_model.dart';
 import 'package:razor_book/view_model/customer_profile_view_model.dart';
 import 'package:razor_book/view_model/shop_view_model.dart';
 
@@ -47,6 +56,12 @@ Future<void> initializeServiceLocator() async {
   final serviceInitializer = locator<ServiceInitializer>();
   await serviceInitializer.init();
 
+  ///register notification and init it
+  locator
+      .registerLazySingleton<NotificationService>(() => NotificationService());
+  final notificationService = locator<NotificationService>();
+  await notificationService.initNotification();
+
   // Register Services
 
   locator.registerLazySingleton<AuthenticationService>(
@@ -63,6 +78,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<BarbershopService>(
       () => BarbershopServiceFirebase());
 
+  locator.registerLazySingleton<MapServices>(() => GoogleMap());
   locator.registerLazySingleton<FileUploadService>(
       () => FileUploadServiceFirebase());
 
@@ -97,4 +113,13 @@ Future<void> initializeServiceLocator() async {
 
   locator.registerLazySingleton<ShopViewModelProvider>(
       () => ShopViewModelProvider());
+
+  locator.registerLazySingleton<CustomerNotificationService>(
+      () => CustomerNotificationServiceFirebase());
+
+  locator.registerLazySingleton<BarberNotificationService>(
+      () => BarberNotificationServiceFirebase());
+  locator.registerLazySingleton(() => CustomerNotificationProvider());
+
+  locator.registerLazySingleton(() => BarberNotificationProvider());
 }

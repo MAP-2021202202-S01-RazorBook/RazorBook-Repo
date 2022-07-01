@@ -34,7 +34,7 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
             );
           } else {
             return Scaffold(
-              appBar: appBar(
+              appBar: CustomAppBar(
                 bartitle: const Text(
                   "Profile",
                   style: TextStyle(
@@ -131,7 +131,13 @@ class _BarbershopProfileViewState extends State<BarbershopProfileView> {
                             barberShopWrittenAddress:
                                 model.barbershopProfileForBarber?["address"] ??
                                     "Example Address",
-                            openLocationOnMap: () {},
+                            openLocationOnMap: () async {
+                              await model.openMap(
+                                  model.barbershopProfileForBarber?["location"]
+                                      ["lat"],
+                                  model.barbershopProfileForBarber?["location"]
+                                      ["lng"]);
+                            },
                           ),
                           const SizedBox(height: 40),
 

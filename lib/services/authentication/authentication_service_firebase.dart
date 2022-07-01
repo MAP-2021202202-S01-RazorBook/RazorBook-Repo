@@ -47,7 +47,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
           .saveUID(credential.user!.uid);
 
       await getUser(credential.user?.uid ?? '');
-      print("in sign in method" + _currentUser.toString());
+      print("in sign in method$_currentUser");
     } on FirebaseAuthException catch (e) {
       throw Failure(400,
           message: e.toString(),
@@ -91,7 +91,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        if (value != null && value.user != null) {
+        if (value.user != null) {
           //  userCollection.doc(value.user.uid).set({
           _usersCollection.add({
             'u_id': value.user?.uid,
@@ -228,7 +228,7 @@ class AuthenticationServiceFirebase extends AuthenticationService {
       user = userDoc.docs[0].data() as Map<String, dynamic>;
       // print("userDoc is " + user.toString());
       _currentUser = AppUser.User.fromJson(user);
-      log("getUser() > _currentUser is " + _currentUser.toString());
+      log("getUser() > _currentUser is $_currentUser");
       if (_currentUser != null) {
         /// save profile to local storage
         await locator<LocalStorageServiceProvider>().saveProfile(_currentUser!);
