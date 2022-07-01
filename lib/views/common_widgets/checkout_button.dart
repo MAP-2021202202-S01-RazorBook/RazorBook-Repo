@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/models/user.dart';
 import 'package:razor_book/view_model/bookings_view_model.dart';
 import 'package:razor_book/views/common_widgets/checkout_button_sheet.dart';
 
 class CheckOutButton extends StatefulWidget {
-  final String barbershopId;
+  final User barbershop;
   const CheckOutButton({
     Key? key,
-    required this.barbershopId,
+    required this.barbershop,
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class _CheckOutButtonState extends State<CheckOutButton> {
 
               try {
                 await x
-                    .makeBooking(context, widget.barbershopId, selectedService,
+                    .makeBooking(context, widget.barbershop, selectedService,
                         x.totalPrice,
                         selectedDay: x.days[x.selectedColumn ?? 0],
                         selectedTime: x.slots[x.selectedRow ?? 0],

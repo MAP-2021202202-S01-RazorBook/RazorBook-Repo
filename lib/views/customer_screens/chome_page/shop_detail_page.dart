@@ -36,7 +36,7 @@ class BarberhopDetailView extends StatelessWidget {
             );
           } else {
             return Scaffold(
-                appBar: appBar(
+                appBar: CustomAppBar(
                     bartitle: const Text("Barbershops Details",
                         style: TextStyle(
                           fontFamily: "MetropolisExtra",
@@ -214,30 +214,38 @@ class BarberhopDetailView extends StatelessWidget {
                                                 ),
                                                 //here we should use the ratings varaiable
                                                 //that we got from the passed ID
-                                                model.barbershopForCustomer!['rating']!=0 && model.barbershopForCustomer!['rating']!=null?
-                                                Text(
-                                                  "${model.barbershopForCustomer!['rating']}/5",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'Metropolis',
-                                                    color: Helper
-                                                        .kTitleTextColor
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                ):
-                                                Text(
-                                                  "no ratings yet",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'Metropolis',
-                                                    color: Helper
-                                                        .kTitleTextColor
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                )
-                                                ,
+                                                model.barbershopForCustomer![
+                                                                'rating'] !=
+                                                            0 &&
+                                                        model.barbershopForCustomer![
+                                                                'rating'] !=
+                                                            null
+                                                    ? Text(
+                                                        "${model.barbershopForCustomer!['rating']}/5",
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'Metropolis',
+                                                          color: Helper
+                                                              .kTitleTextColor
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        "no ratings yet",
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'Metropolis',
+                                                          color: Helper
+                                                              .kTitleTextColor
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                      ),
                                               ],
                                             )),
                                       ),

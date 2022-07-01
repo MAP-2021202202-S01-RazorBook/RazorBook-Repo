@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razor_book/helpers/colors.dart';
+import 'package:razor_book/views/barbershop_screens/notification_view.dart';
 
 import '../view_model/bookings_view_model.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -52,7 +53,7 @@ class _ViewBookingsState extends State<ViewBookings> {
     // model.getBookings();
 
     return Scaffold(
-      appBar: appBar(
+      appBar: CustomAppBar(
           bartitle: const Text(
             "Bookings",
             style: TextStyle(
@@ -62,8 +63,14 @@ class _ViewBookingsState extends State<ViewBookings> {
               color: Helper.kTitleTextColor,
             ),
           ),
-          onPressedFunctionForRightAction: () {},
-          appBarRightIcon: const Icon(null)),
+          onPressedFunctionForRightAction: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (ctx) => BarberNotificationView()));
+          },
+          appBarRightIcon: const Icon(
+            Icons.notifications,
+            color: Helper.kTitleTextColor,
+          )),
       body: FutureBuilder(
           future: model.getBookings(),
           builder: (context, snapshot) {
@@ -92,20 +99,17 @@ class _ViewBookingsState extends State<ViewBookings> {
                             : model.bookingsList![index].is_cancelled ==
                                         false &&
                                     model.bookingsList![index].is_completed ==
-                                        true
-                                        &&
-                                    model.bookingsList![index].rating ==
-                                        0
+                                        true &&
+                                    model.bookingsList![index].rating == 0
                                 ? Colors.amberAccent[200]
                                 : model.bookingsList![index].is_cancelled ==
-                                        false &&
-                                    model.bookingsList![index].is_completed ==
-                                        true
-                                        &&
-                                    model.bookingsList![index].rating !=
-                                        0
-                                ? Color.fromARGB(255, 52, 205, 121)
-                                : Helper.kFABColor,
+                                            false &&
+                                        model.bookingsList![index]
+                                                .is_completed ==
+                                            true &&
+                                        model.bookingsList![index].rating != 0
+                                    ? Color.fromARGB(255, 52, 205, 121)
+                                    : Helper.kFABColor,
                     child: ListTile(
                       //these are the icons on the leading of the card to indicate the stauts of the booking
                       //*DON'T MAKE THEM const OTHERWISE THERE WILL BE RENDERING ERROR
@@ -130,35 +134,35 @@ class _ViewBookingsState extends State<ViewBookings> {
                                           false &&
                                       model.bookingsList![index].is_completed ==
                                           true &&
-                                      model.bookingsList![index].rating ==
-                                          0
+                                      model.bookingsList![index].rating == 0
                                   ? Icon(
                                       size: 40,
                                       Icons.rate_review,
                                       color: Colors.white,
                                     )
-                              : model.bookingsList![index].is_cancelled ==
-                                          false &&
-                                      model.bookingsList![index].is_completed ==
-                                          true &&
-                                      model.bookingsList![index].rating !=
-                                          0
-                                  ? Icon(
-                                      size: 40,
-                                      Icons.done,
-                                      color: Colors.white,
-                                    )      
-                                  : Icon(
-                                      size: 40,
-                                      Icons.done,
-                                      color: Colors.white,
-                                    ),
+                                  : model.bookingsList![index].is_cancelled ==
+                                              false &&
+                                          model.bookingsList![index]
+                                                  .is_completed ==
+                                              true &&
+                                          model.bookingsList![index].rating != 0
+                                      ? Icon(
+                                          size: 40,
+                                          Icons.done,
+                                          color: Colors.white,
+                                        )
+                                      : Icon(
+                                          size: 40,
+                                          Icons.done,
+                                          color: Colors.white,
+                                        ),
                       title: Text(
                           "Booking Time: ${model.bookingsList![index].time} \nBooking Date: ${model.bookingsList![index].date}"),
-                      subtitle: 
-                          model.bookingsList![index].rating !=0 && model.bookingsList![index].rating !=null ?
-                          Text("Rating: ${model.bookingsList![index].rating}/5 \nComment: ${model.bookingsList![index].comment}")
-                          :Text(""),
+                      subtitle: model.bookingsList![index].rating != 0 &&
+                              model.bookingsList![index].rating != null
+                          ? Text(
+                              "Rating: ${model.bookingsList![index].rating}/5 \nComment: ${model.bookingsList![index].comment}")
+                          : Text(""),
                       trailing:
                           Text("${model.bookingsList![index].total_price}RM"),
                       enabled: true,
@@ -242,8 +246,7 @@ class _ViewBookingsState extends State<ViewBookings> {
                         if (model.currentUser?.user_type == "customer" &&
                             model.bookingsList![index].is_completed == true &&
                             model.bookingsList![index].is_cancelled != true &&
-                            model.bookingsList![index].rating == 0
-                            ) {
+                            model.bookingsList![index].rating == 0) {
                           showDialog(
                             context: context,
                             barrierDismissible:
@@ -269,8 +272,11 @@ class _ViewBookingsState extends State<ViewBookings> {
                                   //call the add rate function here
                                   //response.rating to access the stars
                                   //to access the comments response.comment
-                                  model.rateBooking(model.bookingsList![index].b_id!, model.bookingsList![index].id!, response.rating, response.comment);
-                                  
+                                  model.rateBooking(
+                                      model.bookingsList![index].b_id!,
+                                      model.bookingsList![index].id!,
+                                      response.rating,
+                                      response.comment);
 
                                   //change the vairables here since it's already rated and completed so the variables should
                                   //be ------- is_completed = true && is_canceled=true------------------

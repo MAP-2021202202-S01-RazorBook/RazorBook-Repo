@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:razor_book/view_model/cumster_noti_view_model.dart';
 
 import '../../helpers/colors.dart';
 
@@ -20,11 +22,15 @@ class _HomeViewState extends State<CustomerMainPageNav> {
   @override
   void initState() {
     _pageController = PageController(initialPage: 1, keepPage: true);
+
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    var model = context.read<CustomerNotificationProvider>();
+    model.getNotification();
+
     super.didChangeDependencies();
   }
 
