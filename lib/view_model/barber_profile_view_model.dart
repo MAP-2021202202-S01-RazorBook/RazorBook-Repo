@@ -98,7 +98,6 @@ class BarberProfileViewModel extends BaseModel {
     try {
       await _barberProfileService.getBarbershopsList();
       _barbershopList = _barberProfileService.barbershopsList;
-      log("barbershop list: $_barbershopList");
     } catch (e) {
       // setBusy(false);
       print(e);
@@ -110,6 +109,11 @@ class BarberProfileViewModel extends BaseModel {
       await _barberProfileService
           .getBarbershopDetailsForCustomer(barbershopID!);
       _barberProfileForCustomer = _barberProfileService.barbershopForCustomer;
+
+      var reviews =
+          await _barberProfileService.getBarbershopReviews(barbershopID);
+      _barberProfileForCustomer?.addAll({'reviews': reviews});
+      log("reviews $reviews");
     } catch (e) {
       // setBusy(false);
       print(e);

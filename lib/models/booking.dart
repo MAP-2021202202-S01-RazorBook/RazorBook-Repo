@@ -9,6 +9,8 @@ class Booking {
   num? total_price;
   num? rating;
   String? comment;
+  String? customer_name;
+  String? barber_name;
   String? date;
   String? time;
   bool is_cancelled = false;
@@ -28,6 +30,8 @@ class Booking {
     this.time,
     this.is_cancelled = false,
     this.is_completed,
+    this.customer_name,
+    this.barber_name,
     this.is_paid,
     this.services,
   });
@@ -54,6 +58,8 @@ class Booking {
       total_price: json['total_price'] as num,
       rating: json['rating'] as num,
       comment: json['comment'] as String,
+      customer_name: json['customer_name'] as String,
+      barber_name: json['barber_name'] as String,
       date: json['date'] as String,
       time: json['time'] as String,
       is_cancelled: json['is_cancelled'] as bool,
@@ -76,6 +82,8 @@ class Booking {
       total_price: data['total_price'] as num?,
       rating: data['rating'] as num?,
       comment: data['comment'] as String?,
+      customer_name: data['customer_name'] as String?,
+      barber_name: data['barber_name'] as String?,
       date: data['date'] as String?,
       time: data['time'] as String?,
       is_cancelled: data['is_cancelled'] as bool,
@@ -93,6 +101,8 @@ class Booking {
         "total_price": total_price,
         "date": date,
         "time": time,
+        "customer_name": customer_name,
+        "barber_name": barber_name,
         "is_cancelled": is_cancelled,
         "is_completed": is_completed,
         "is_paid": is_paid,

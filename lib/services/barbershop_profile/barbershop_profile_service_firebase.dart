@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razor_book/services/barbershop_profile/barbershop_profile_service.dart';
 import 'package:razor_book/models/user.dart';
 
+import '../../app/service_locator/service_locator.dart';
 import '../../models/user.dart';
+import '../booking/booking_service.dart';
 import '../failure.dart';
 
 import 'dart:io';
@@ -128,5 +132,36 @@ class BarbershopServiceFirebase extends BarbershopService {
           location:
               'CounterServiceFireStore.getBarbershopsList() on other exception');
     }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getBarbershopReviews(String uid) async {
+    // get the bookings of the barber
+    // get the comment and rating from each booking
+    // add the comment and rating to the list of reviews
+
+    List<Map<String, dynamic>> reviews = [];
+
+    var bookingsService = locator<BookingService>();
+
+    await bookingsService.getBarberBookings(userID: uid);
+
+    bookingsService.barberBookingsList?.forEach((e) {
+      if ((e.rating != null && e.rating != 0)) {
+        reviews.add({
+          'comment': e.comment ?? "No comment",
+          'rating': e.rating,
+          'customer': e.customer_name ?? "",
+          'barber': e.barber_name ?? "",
+          'date': e.date ?? "Date",
+          'time': e.time ?? "Time",
+        });
+      } else {
+        log("e is ${e.comment}");
+      }
+    });
+
+    log("reviess: $reviews");
+    return Future.value(reviews);
   }
 }
