@@ -100,7 +100,8 @@ class BarberProfileViewModel extends BaseModel {
       Map<String, dynamic>? payload = currentUser?.toJson();
       // print(payload);
       payload?.addAll(barberProfile ?? {});
-      log('updating payload $payload');
+
+      print('updating payload ${payload?["paypal_email"]}');
       // print(User.fromJson(payload ?? {}).toJson());
 
       /* i had to assign the new value collected after edting the profile details. 

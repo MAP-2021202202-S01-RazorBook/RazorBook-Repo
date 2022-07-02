@@ -29,6 +29,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
   final _descriptionTextFiledController = TextEditingController();
 
   final _emailTextFiledController = TextEditingController();
+  final _paypalEmailTextFiledController = TextEditingController();
   final _phoneTextFiledController = TextEditingController();
   final _slotLengthTextFiledController = TextEditingController();
 
@@ -133,6 +134,19 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                           const SizedBox(
                             height: 8,
                           ),
+
+                          const ProfileEditViewTextFieldTitle(label: "PayPal Email"),
+                          ProfileEditViewTextField(
+                            inputType: TextInputType.text,
+                            hintText:
+                                model.barbershopProfileForBarber?["paypal_email"] ??
+                                    "Your PayPal Account Email (Optional)",
+                            controller: _paypalEmailTextFiledController,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+
                           const ProfileEditViewTextFieldTitle(label: "Address"),
                           ProfileEditViewTextField(
                             inputType: TextInputType.text,
@@ -353,6 +367,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                               _slotLengthTextFiledController.clear();
                               _openTimeTextFiledController.clear();
                               _closeTimeTextFiledController.clear();
+                              _paypalEmailTextFiledController.clear();
                               _locationLatTextFiledController.clear();
                               _locationLngTextFiledController.clear();
 
@@ -374,6 +389,7 @@ class _BarbershopEditProfileState extends State<BarbershopEditProfile> {
                                 "description":
                                     _descriptionTextFiledController.text,
                                 "email": _emailTextFiledController.text,
+                                "paypal_email": _paypalEmailTextFiledController.text,
                                 "phone": _phoneTextFiledController.text,
                                 "slot_length":
                                     _slotLengthTextFiledController.text,

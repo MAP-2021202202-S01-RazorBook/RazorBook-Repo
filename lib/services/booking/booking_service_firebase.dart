@@ -1,5 +1,8 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_paypal/flutter_paypal.dart';
+
 import '../../helpers/helper_functions.dart';
 import '../../models/booking.dart';
 import '../../services/booking/booking_service.dart';
@@ -16,11 +19,15 @@ class BookingServiceFirebase extends BookingService {
 
   List<Booking>? _customerBookingsList = [];
   List<Booking>? _barberBookingsList = [];
+  bool _hasPayPalEmail = false;
 
   @override
   List<Booking>? get customerBookingsList => _customerBookingsList;
   @override
   List<Booking>? get barberBookingsList => _barberBookingsList;
+
+  @override
+  bool get hasPayPalEmail => _hasPayPalEmail;
 
   List<dynamic>? _slotsList;
 
@@ -197,4 +204,120 @@ class BookingServiceFirebase extends BookingService {
       );
     }
   }
+
+    @override
+  Future<void> makePayPalBooking(Booking booking, BuildContext ctx) async {
+    
+      // update the document with the booking id to cancelled equal to true
+    /// add booking data later
+    final userData = await _usersCollection
+    .where("u_id", isEqualTo: booking.b_id)
+    .get();
+
+    //print(booking.services!.first);
+
+    final serviceData = await _servicesCollection
+    .where("sh_id", isEqualTo: booking.services!.first)
+    .get();
+
+     final user = userData.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+     final service = serviceData.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+     //final paypalEmail = user.firstWhere((element) => element == "paypal_email");
+     //print("Heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: ${service.first['name']}");
+    
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (BuildContext context) => UsePaypal(
+            sandboxMode: true,
+            clientId:
+                "AdwSTeWJSFnq0J5a2xC_Ny9-yNFiDgQZRKOoMdZBvqkKKgWwC2PbxmVgDjtt7wgrCb5NnGBdcHCZwVox",
+            secretKey:
+                "ECNDDF5DKBFvH_z18ac9UqLI4xqeIabAXJA8du1I9gUAdnsWB_K4sg-91ZQ1kW3QP5gLDovF1x7ONA1M",
+            returnURL: "/",
+            cancelURL: "/",
+            transactions: [
+              {
+                "amount": {
+                  "total": booking.total_price,
+                  "currency": "MYR",
+                  "details": {
+                    "subtotal": booking.total_price,
+                  }
+                },
+                "payee": {
+                  "email": "${user.first['paypal_email']}"
+                },
+                "description": "The payment transaction description.",
+                // "payment_options": {
+                //   "allowed_payment_method":
+                //       "INSTANT_FUNDING_SOURCE"
+                // },
+
+                "item_list": {
+                  "items": [
+                    {
+                      "name": service.first['name'].toString(),
+                      "quantity": 1,
+                      "price": booking.total_price,
+                      "currency": "MYR"
+                    }
+                  ],
+                },
+              }
+            ],
+            note: "Contact us for any questions on your order.",
+            onSuccess: (Map params) async {
+              try {
+                await _bookingsCollection
+                    .add(booking.toJson())
+                    .then((value) => log(value.id));
+              } catch (e) {
+                throw Failure(101,
+                    message: e.toString(),
+                    location:
+                        'BookingServiceFirebase.makePayPalBooking() on other exception');
+              }
+            },
+            onError: (error) {
+              throw Failure(101,
+                    message: error.toString(),
+                    location:
+                        'BookingServiceFirebase.makePayPalBooking() on other exception');
+            },
+            onCancel: (params) {
+              throw Failure(101,
+                    message: params.toString(),
+                    location:
+                        'BookingServiceFirebase.makePayPalBooking() on other exception');
+            })));
+  }
+
+  @override
+  Future<void> getPaymentMethod(String? barbershopID) async {
+    try {
+
+    final userData = await _usersCollection
+    .where("u_id", isEqualTo: barbershopID)
+    .get();
+
+      var barbershop =
+          userData.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      
+      //print('Heeeeeeeeeeeeeeeeeeeeelhifkjhg: ${barbershop.first['paypal_email']}');
+      if(barbershop.first['paypal_email'] != null && barbershop.first['paypal_email'] != ""){
+        _hasPayPalEmail = true;
+      }
+      else{
+        _hasPayPalEmail = false;
+      }
+      //print('22222222222222222222222: $_hasPayPalEmail');
+    } catch (e) {
+      log(e.toString());
+      throw Failure(
+        22222,
+        message: e.toString(),
+        location: 'BookingServiceFirebase.getPaymentMethod()',
+      );
+    }
+  }
 }
+

@@ -1,10 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
     package="com.example.razor_book">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
         android:label="razor_book"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        tools:replace="android:label"
+        >
          <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyAldHS5x0MGL_4LqVZmqDQ3lPbnGCSosik"/>
         <activity
@@ -23,6 +26,7 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+              
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

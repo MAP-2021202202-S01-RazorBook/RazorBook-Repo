@@ -80,6 +80,7 @@ class BarbershopServiceFirebase extends BarbershopService {
       // String dId = updatedBarberShop.docId ?? 'UYEgMC6G36VJBntvn99r';
 
       // update document whose u_id is equal to updatedBarberShop u_id
+      print("Hiiiiiiiiiiiiiiiiiiiiiiiiii ${updatedBarberShop.toJson()}");
 
       final doc = await _usersCollection
           .where("u_id", isEqualTo: updatedBarberShop.u_id)

@@ -10,6 +10,7 @@ class User {
   ///
   String u_id;
   String email;
+  String? paypal_email;
   String? user_type;
   String? name;
   String? address;
@@ -30,6 +31,7 @@ class User {
   User({
     required this.u_id,
     required this.email,
+    this.paypal_email,
     this.user_type,
     this.name,
     this.address,
@@ -53,6 +55,7 @@ class User {
     required this.u_id,
     required this.email,
     required this.user_type,
+    this.paypal_email,
     this.name,
     this.address,
     this.location,
@@ -103,6 +106,7 @@ class User {
       return User.barber(
         u_id: data['u_id'],
         email: data['email'],
+        paypal_email: data['paypal_email'],
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
@@ -146,6 +150,7 @@ class User {
       return User.barber(
         u_id: data['u_id'],
         email: data['email'],
+        paypal_email: data['paypal_email'],
         user_type: data['user_type'],
         name: data['name'],
         address: data['address'],
@@ -189,6 +194,7 @@ class User {
       'u_id': u_id,
       'email': email,
       'user_type': user_type,
+      'paypal_email': paypal_email,
       'name': name,
       'address': address,
       'location': location,
